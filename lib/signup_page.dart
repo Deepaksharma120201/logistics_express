@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/customtextfield.dart';
+import 'package:logistics_express/header.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -11,71 +12,105 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      body: Column(
-        children: [
-          const Expanded(
-            flex: 2,
-            child: SizedBox(
-                child: Column(
-                  children: [
-                    Text('Sign Up', style: TextStyle(),),
-                    Text('Into your account'),
-                  ],
-                )),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(35),
-                  topRight: Radius.circular(35),
-                ),
-              ),
-              child: Form(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Customtextfield(
-                      hintText: 'Name',
-                      label: 'Enter Full Name',
-                      icon: Icon(Icons.supervised_user_circle_sharp),
-                      keyboardType: TextInputType.text,
-                    ),
-                    const SizedBox(height: 15),
-                    const Customtextfield(
-                      hintText: 'Enter Phone',
-                      label: 'Phone Number',
-                      icon: Icon(Icons.phone),
-                      keyboardType: TextInputType.phone,
-                    ),
-                    const SizedBox(height: 15),
-                    const Customtextfield(
-                      hintText: 'Email',
-                      label: 'Enter Email',
-                      icon: Icon(Icons.email),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    const SizedBox(height: 25),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onSecondary),
-                      onPressed: () {},
-                      child: const Text('Verify E-mail'),
-                    )
-                  ],
-                ),
-              ),
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            const Expanded(
+              flex: 2,
+              child: Header(),
             ),
-          )
-        ],
+            Expanded(
+              flex: 5,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(35),
+                    topRight: Radius.circular(35),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0,
+                            vertical: 5,
+                          ),
+                        ),
+                        CustomTextField(
+                          hintText: 'Enter Name',
+                          label: 'Full Name',
+                          icon: Icon(
+                            Icons.supervised_user_circle_sharp,
+                            color: Colors.blue[900],
+                            size: 30,
+                          ),
+                          keyboardType: TextInputType.text,
+                        ),
+                        const SizedBox(height: 15),
+                        CustomTextField(
+                          hintText: 'Enter Phone no.',
+                          label: 'Phone Number',
+                          icon: Icon(
+                            Icons.phone,
+                            color: Colors.blue[900],
+                            size: 30,
+                          ),
+                          keyboardType: TextInputType.phone,
+                        ),
+                        const SizedBox(height: 15),
+                        CustomTextField(
+                          hintText: 'Enter Email',
+                          label: 'Email',
+                          icon: Icon(
+                            Icons.email,
+                            color: Colors.blue[900],
+                            size: 30,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 25),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Verify E-mail',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Don\'t have an account?  ',
+                              style: TextStyle(
+                                  color: Colors.black87, fontSize: 20),
+                            ),
+                            GestureDetector(
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                    color: Colors.blue[900], fontSize: 20),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
