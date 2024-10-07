@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/Theme/theme.dart';
 import 'package:logistics_express/customtextfield.dart';
 import 'package:logistics_express/header.dart';
 
@@ -38,7 +39,7 @@ class _SignupPageState extends State<SignupPage> {
                       children: [
                         const Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 0,
+                            // horizontal: 0,
                             vertical: 5,
                           ),
                         ),
@@ -47,8 +48,8 @@ class _SignupPageState extends State<SignupPage> {
                           label: 'Full Name',
                           icon: Icon(
                             Icons.supervised_user_circle_sharp,
-                            color: Colors.blue[900],
-                            size: 30,
+                            color: kColorScheme.primary,
+                            size: 32,
                           ),
                           keyboardType: TextInputType.text,
                         ),
@@ -58,8 +59,8 @@ class _SignupPageState extends State<SignupPage> {
                           label: 'Phone Number',
                           icon: Icon(
                             Icons.phone,
-                            color: Colors.blue[900],
-                            size: 30,
+                            color: kColorScheme.primary,
+                            size: 32,
                           ),
                           keyboardType: TextInputType.phone,
                         ),
@@ -69,8 +70,8 @@ class _SignupPageState extends State<SignupPage> {
                           label: 'Email',
                           icon: Icon(
                             Icons.email,
-                            color: Colors.blue[900],
-                            size: 30,
+                            color: kColorScheme.primary,
+                            size: 32,
                           ),
                           keyboardType: TextInputType.emailAddress,
                         ),
