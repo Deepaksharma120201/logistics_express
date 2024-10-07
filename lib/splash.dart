@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/home_screen.dart';
 import 'dart:async';
-
-import 'package:logistics_express/signup_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -33,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate to home screen after 3 seconds
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => SignupPage()));
+          .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
     });
   }
 
@@ -52,8 +51,8 @@ class _SplashScreenState extends State<SplashScreen>
           scale: _animation,
           child: Image.asset(
             'assets/images/mainLogo.png', // logo in the assets folder
-            width: 300, // Logo size
-            height: 250,
+            width: 250, // Logo size
+            height: 200,
             color: Colors.white,
           ),
         ),

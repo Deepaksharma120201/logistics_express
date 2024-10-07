@@ -17,9 +17,13 @@ class _SignupPageState extends State<SignupPage> {
       child: Scaffold(
         body: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 2,
-              child: Header(),
+              child: Header(
+                text: 'Create Your Account',
+                currentLogo: "logo",
+                imageSize: 110,
+              ),
             ),
             Expanded(
               flex: 5,
