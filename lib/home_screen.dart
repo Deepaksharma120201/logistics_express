@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/header.dart';
+import 'package:logistics_express/login_page.dart';
 // import 'package:logistics_express/Theme/theme.dart';
-import 'package:logistics_express/signup_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,8 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignupPage()),
+                                          builder: (context) =>
+                                              const LoginPage(),
+                                        ),
                                       );
                                     },
                                     child: Text("Customer"),
@@ -84,8 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.fromLTRB(12, 18, 12, 0),
                               decoration: const BoxDecoration(
                                 color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(80)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(80),
+                                ),
                               ),
                               child: Column(
                                 children: [
@@ -99,8 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignupPage()),
+                                          builder: (context) =>
+                                              const LoginPage(),
+                                        ),
                                       );
                                     },
                                     child: Text("Delivery Agent"),

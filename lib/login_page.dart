@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/Theme/theme.dart';
 import 'package:logistics_express/customtextfield.dart';
 import 'package:logistics_express/header.dart';
-import 'package:logistics_express/login_page.dart';
+import 'package:logistics_express/signup_page.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
-            Expanded(
+            const Expanded(
               flex: 2,
               child: Header(
-                text: 'Create Your Account',
-                currentLogo: "logo",
+                currentLogo: 'logo',
                 imageSize: 110,
+                text: 'Login to your account',
               ),
             ),
             Expanded(
@@ -48,27 +48,6 @@ class _SignupPageState extends State<SignupPage> {
                             vertical: 5,
                           ),
                         ),
-                        CustomTextField(
-                          hintText: 'Enter Name',
-                          label: 'Full Name',
-                          icon: Icon(
-                            Icons.supervised_user_circle_sharp,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
-                          keyboardType: TextInputType.text,
-                        ),
-                        const SizedBox(height: 15),
-                        CustomTextField(
-                          hintText: 'Enter Phone no.',
-                          label: 'Phone Number',
-                          icon: Icon(
-                            Icons.phone,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
-                          keyboardType: TextInputType.phone,
-                        ),
                         const SizedBox(height: 15),
                         CustomTextField(
                           hintText: 'Enter Email',
@@ -80,11 +59,22 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           keyboardType: TextInputType.emailAddress,
                         ),
+                        const SizedBox(height: 15),
+                        CustomTextField(
+                          hintText: 'Enter Password',
+                          label: 'Password',
+                          icon: Icon(
+                            Icons.password,
+                            color: kColorScheme.primary,
+                            size: 32,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
                         const SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () {},
                           child: const Text(
-                            'Verify E-mail',
+                            'Login',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
@@ -96,14 +86,14 @@ class _SignupPageState extends State<SignupPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Already have an account?  ',
+                              'Don\'t have an account?  ',
                               style: TextStyle(
                                   color: Colors.black87, fontSize: 20),
                             ),
                             GestureDetector(
-                              onTap: () => LoginPage,
+                              onTap: () => SignupPage,
                               child: Text(
-                                'Login',
+                                'Sign up',
                                 style: TextStyle(
                                     color: Colors.blue[900], fontSize: 20),
                               ),
