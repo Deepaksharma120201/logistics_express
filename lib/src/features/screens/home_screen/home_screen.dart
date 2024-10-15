@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/header.dart';
-import 'package:logistics_express/login_page.dart';
+import 'package:logistics_express/src/common_widgets/form/form_header.dart';
+import 'package:logistics_express/src/features/screens/login/login_screen.dart';
 // import 'package:logistics_express/Theme/theme.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Header(
+                  child: FormHeader(
                     currentLogo: "mainLogo",
                     imageSize: 150,
                   ),

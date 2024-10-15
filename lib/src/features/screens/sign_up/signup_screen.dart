@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/Theme/theme.dart';
-import 'package:logistics_express/customtextfield.dart';
-import 'package:logistics_express/header.dart';
-import 'package:logistics_express/signup_page.dart';
+import 'package:logistics_express/src/common_widgets/form/form_header.dart';
+import 'package:logistics_express/src/common_widgets/form/form_textfield.dart';
+import 'package:logistics_express/src/features/screens/email_verification/verify_email_screen.dart';
+import 'package:logistics_express/src/features/screens/login/login_screen.dart';
+import 'package:logistics_express/src/theme/theme.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 2,
-              child: Header(
-                currentLogo: 'logo',
+              child: FormHeader(
+                text: 'Create Your Account',
+                currentLogo: "logo",
                 imageSize: 110,
-                text: 'Login to your account',
               ),
             ),
             Expanded(
@@ -48,8 +49,29 @@ class _LoginPageState extends State<LoginPage> {
                             vertical: 5,
                           ),
                         ),
+                        FormTextfield(
+                          hintText: 'Enter Name',
+                          label: 'Full Name',
+                          icon: Icon(
+                            Icons.person,
+                            color: kColorScheme.primary,
+                            size: 32,
+                          ),
+                          keyboardType: TextInputType.text,
+                        ),
                         const SizedBox(height: 15),
-                        CustomTextField(
+                        FormTextfield(
+                          hintText: 'Enter Phone no.',
+                          label: 'Phone Number',
+                          icon: Icon(
+                            Icons.phone,
+                            color: kColorScheme.primary,
+                            size: 32,
+                          ),
+                          keyboardType: TextInputType.phone,
+                        ),
+                        const SizedBox(height: 15),
+                        FormTextfield(
                           hintText: 'Enter Email',
                           label: 'Email',
                           icon: Icon(
@@ -59,22 +81,18 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        const SizedBox(height: 15),
-                        CustomTextField(
-                          hintText: 'Enter Password',
-                          label: 'Password',
-                          icon: Icon(
-                            Icons.password,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                        ),
                         const SizedBox(height: 25),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const VerifyEmail(),
+                                  ),
+                                );
+                              },
                           child: const Text(
-                            'Login',
+                            'Verify E-mail',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
@@ -86,14 +104,21 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Don\'t have an account?  ',
+                              'Already have an account?  ',
                               style: TextStyle(
                                   color: Colors.black87, fontSize: 20),
                             ),
                             GestureDetector(
-                              onTap: () => SignupPage,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginPage(),
+                                  ),
+                                );
+                              },
                               child: Text(
-                                'Sign up',
+                                'Login',
                                 style: TextStyle(
                                     color: Colors.blue[900], fontSize: 20),
                               ),

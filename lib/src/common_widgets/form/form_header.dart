@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Header extends StatelessWidget {
-  const Header({
+class FormHeader extends StatelessWidget {
+  const FormHeader({
     super.key,
     this.text,
     required this.currentLogo,
