@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/common_widgets/form/form_textfield.dart';
+import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/features/screens/email_verification/verify_email_screen.dart';
 import 'package:logistics_express/src/features/screens/login/login_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
@@ -84,13 +84,13 @@ class _SignupPageState extends State<SignupPage> {
                         const SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const VerifyEmail(),
-                                  ),
-                                );
-                              },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const VerifyEmail(),
+                              ),
+                            );
+                          },
                           child: const Text(
                             'Verify E-mail',
                             style: TextStyle(

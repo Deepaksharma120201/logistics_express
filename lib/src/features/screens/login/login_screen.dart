@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/common_widgets/form/form_textfield.dart';
-import 'package:logistics_express/src/features/screens/otp_verification/otp_screen.dart';
+import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
+import 'package:logistics_express/src/features/screens/forgot_password/forgot_password.dart';
 import 'package:logistics_express/src/features/screens/sign_up/signup_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
 
@@ -83,7 +83,8 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const OtpScreen(),
+                                  builder: (context) =>
+                                      const ForgotPasswordScreen(),
                                 ),
                               );
                             },
