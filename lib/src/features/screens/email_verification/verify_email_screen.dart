@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/common_widgets/form/form_textfield.dart';
+import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/theme/theme.dart';
+
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
 
