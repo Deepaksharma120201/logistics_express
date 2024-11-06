@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
+import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/email_verification/verify_email_screen.dart';
 import 'package:logistics_express/src/features/screens/login/login_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
@@ -13,6 +14,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,6 +42,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 child: SingleChildScrollView(
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -50,6 +53,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         FormTextfield(
+                          validator: (val) => Validators.validateName(val!),
                           hintText: 'Enter Name',
                           label: 'Full Name',
                           icon: Icon(
@@ -63,6 +67,7 @@ class _SignupPageState extends State<SignupPage> {
                         FormTextfield(
                           hintText: 'Enter Phone no.',
                           label: 'Phone Number',
+                          validator: (val) => Validators.validatePhone(val!),
                           icon: Icon(
                             Icons.phone,
                             color: kColorScheme.primary,
@@ -74,6 +79,7 @@ class _SignupPageState extends State<SignupPage> {
                         FormTextfield(
                           hintText: 'Enter Email',
                           label: 'Email',
+                          validator: (val) => Validators.validateEmail(val!),
                           icon: Icon(
                             Icons.email,
                             color: kColorScheme.primary,
@@ -84,12 +90,14 @@ class _SignupPageState extends State<SignupPage> {
                         const SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const VerifyEmail(),
-                              ),
-                            );
+                            if (_formKey.currentState?.validate() ?? false) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const VerifyEmail(),
+                                ),
+                              );
+                            }
                           },
                           child: const Text(
                             'Verify E-mail',

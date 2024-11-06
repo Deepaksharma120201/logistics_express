@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
+import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/theme/theme.dart';
 
 class VerifyEmail extends StatefulWidget {
@@ -74,6 +75,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         const SizedBox(height: 25),
                         FormTextfield(
                           hintText: 'Enter Password',
+                          validator: Validators.validatePassword,
                           label: 'Password',
                           icon: Icon(
                             Icons.fingerprint_rounded,
@@ -86,6 +88,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         FormTextfield(
                           hintText: 'Confirm Password',
                           label: 'Confirm Password',
+                          // validator: Validators.validateConfirmPassword(value, password),
                           icon: Icon(
                             Icons.password,
                             color: kColorScheme.primary,

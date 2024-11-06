@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
+import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/otp_verification/otp_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
 // import 'package:logistics_express/src/common_widgets/form/form_footer.dart';
@@ -61,6 +62,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         FormTextfield(
                           label: 'Email',
                           hintText: 'Enter Email',
+                          validator: Validators.validateEmail,
                           icon: Icon(
                             Icons.email,
                             color: kColorScheme.primary,

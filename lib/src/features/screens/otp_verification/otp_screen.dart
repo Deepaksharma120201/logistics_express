@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/common_widgets/form/form_footer.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
+import 'package:logistics_express/src/features/screens/reset_password/reset_password_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -71,7 +71,23 @@ class _OtpScreenState extends State<OtpScreen> {
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 35),
-                        FormFooter(),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ResetPassword(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'verify',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

@@ -8,6 +8,8 @@ class FormTextfield extends StatelessWidget {
     this.icon,
     required this.keyboardType,
     this.suffixIcon,
+    this.validator,
+    this.controller,
   });
 
   final String label;
@@ -15,6 +17,8 @@ class FormTextfield extends StatelessWidget {
   final String hintText;
   final Icon? icon;
   final IconButton? suffixIcon;
+  final FormFieldValidator<String>? validator;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,8 @@ class FormTextfield extends StatelessWidget {
           ),
         Expanded(
           child: TextFormField(
+            controller: controller,
+            validator: validator,
             keyboardType: keyboardType,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 22),
