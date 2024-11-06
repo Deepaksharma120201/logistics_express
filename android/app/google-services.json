@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1042848646924",
+    "project_id": "logistics-express-c5c03",
+    "storage_bucket": "logistics-express-c5c03.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042848646924:android:cb1e1cc7d843141f5f6b29",
+        "android_client_info": {
+          "package_name": "com.example.logistics_express"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL8o45C6gq16HmyKZ2hlS23Q8uOP93xUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
