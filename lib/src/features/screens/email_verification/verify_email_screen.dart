@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
+import 'package:logistics_express/src/features/screens/home_screen/home_screen.dart';
 // import 'package:logistics_express/src/theme/theme.dart';
 
 class VerifyEmail extends StatefulWidget {
@@ -14,6 +15,8 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmailState extends State<VerifyEmail> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,6 +44,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 ),
                 child: SingleChildScrollView(
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -65,7 +69,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         const SizedBox(height: 25),
                         FormTextfield(
                           hintText: 'Enter Password',
-                          validator: Validators.validatePassword,
+                          validator: (val) => Validators.validatePassword(val!),
                           label: 'Password',
                           icon: Icon(Icons.lock),
                           keyboardType: TextInputType.visiblePassword,
@@ -74,16 +78,23 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         FormTextfield(
                           hintText: 'Confirm Password',
                           label: 'Confirm Password',
-                          // validator: Validators.validateConfirmPassword(value, password),
+                          // validator: (val) => Validators.validateConfirmPassword(val, ),
                           icon: Icon(Icons.fingerprint_outlined),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 25),
                         ElevatedButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Sign up',
-                          ),
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              );
+                            }
+                          },
+                          child: const Text('Sign up'),
                         ),
                       ],
                     ),
