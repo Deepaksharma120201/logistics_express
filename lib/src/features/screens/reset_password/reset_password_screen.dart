@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
-import 'package:logistics_express/src/theme/theme.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -53,11 +52,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           hintText: 'New Password',
                           label: 'New Password',
                           validator: Validators.validatePassword,
-                          icon: Icon(
-                            Icons.fingerprint_rounded,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.lock_outlined),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 15),
@@ -65,23 +60,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                           hintText: 'Confirm Password',
                           label: 'Confirm Password',
                           // validator: Validators.validateConfirmPassword(value, password),
-                          icon: Icon(
-                            Icons.password,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.fingerprint_outlined),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 35),
                         ElevatedButton(
                           onPressed: () {},
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          child: const Text('Submit'),
                         ),
                       ],
                     ),

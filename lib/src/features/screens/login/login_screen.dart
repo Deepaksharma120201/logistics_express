@@ -4,7 +4,6 @@ import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/forgot_password/forgot_password.dart';
 import 'package:logistics_express/src/features/screens/sign_up/signup_screen.dart';
-import 'package:logistics_express/src/theme/theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,7 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-   
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -57,27 +56,21 @@ class _LoginPageState extends State<LoginPage> {
                         FormTextfield(
                           hintText: 'Enter Email',
                           label: 'Email',
-                          validator: (val) =>Validators.validateEmail(val!),
-                          icon: Icon(
-                            Icons.email,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          validator: (val) => Validators.validateEmail(val!),
+                          icon: Icon(Icons.email),
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 15),
                         FormTextfield(
                           hintText: 'Enter Password',
                           label: 'Password',
-                          validator: (val) =>Validators.validatePassword(val),
+                          validator: (val) => Validators.validatePassword(val),
                           suffixIcon: IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.remove_red_eye_sharp),
                           ),
                           icon: Icon(
-                            Icons.fingerprint_rounded,
-                            color: kColorScheme.primary,
-                            size: 32,
+                            Icons.lock_outline,
                           ),
                           keyboardType: TextInputType.emailAddress,
                         ),
@@ -100,13 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {},
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          child: const Text('Login'),
                         ),
                         const SizedBox(height: 20),
                         Row(

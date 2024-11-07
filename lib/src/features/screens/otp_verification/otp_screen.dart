@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/features/screens/reset_password/reset_password_screen.dart';
-import 'package:logistics_express/src/theme/theme.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -63,11 +62,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         FormTextfield(
                           hintText: 'Enter OTP',
                           label: 'OTP',
-                          icon: Icon(
-                            Icons.mobile_friendly,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.mobile_friendly),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 35),
@@ -80,13 +75,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               ),
                             );
                           },
-                          child: const Text(
-                            'verify',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          child: const Text('verify'),
                         ),
                       ],
                     ),

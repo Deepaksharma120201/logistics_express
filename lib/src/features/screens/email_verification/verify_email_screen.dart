@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
-import 'package:logistics_express/src/theme/theme.dart';
+// import 'package:logistics_express/src/theme/theme.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -54,34 +54,20 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         FormTextfield(
                           hintText: 'Enter OTP',
                           label: 'OTP',
-                          icon: Icon(
-                            Icons.mobile_friendly,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.mobile_friendly),
                           keyboardType: TextInputType.number,
                         ),
                         const SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () {},
-                          child: const Text(
-                            'Verify',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          child: const Text('Verify'),
                         ),
                         const SizedBox(height: 25),
                         FormTextfield(
                           hintText: 'Enter Password',
                           validator: Validators.validatePassword,
                           label: 'Password',
-                          icon: Icon(
-                            Icons.fingerprint_rounded,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.lock),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 15),
@@ -89,11 +75,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           hintText: 'Confirm Password',
                           label: 'Confirm Password',
                           // validator: Validators.validateConfirmPassword(value, password),
-                          icon: Icon(
-                            Icons.password,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.fingerprint_outlined),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 25),
@@ -101,10 +83,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           onPressed: () {},
                           child: const Text(
                             'Sign up',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
                           ),
                         ),
                       ],
