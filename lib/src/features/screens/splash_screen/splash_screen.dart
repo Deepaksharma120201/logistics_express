@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
           // Scale transition for the icon
           scale: _animation,
           child: Image.asset(
-            'assets/images/mainLogo.png', // logo in the assets folder
+            'assets/images/main_logo.png', // logo in the assets folder
             width: 250, // Logo size
             height: 200,
             color: Colors.white,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/features/screens/login/login_screen.dart';
-// import 'package:logistics_express/Theme/theme.dart';
+
+import '../login/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,14 +27,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   flex: 2,
                   child: FormHeader(
-                    currentLogo: "mainLogo",
+                    currentLogo: "main_logo",
                     imageSize: 150,
                   ),
                 ),
                 Expanded(
                   flex: 5,
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                    // padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 164, 118, 220),
                       borderRadius: BorderRadius.only(
@@ -46,11 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const SizedBox(height: 275),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
                               width: 160,
                               height: 160,
-                              padding: const EdgeInsets.fromLTRB(12, 18, 10, 0),
+                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                               decoration: const BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
@@ -60,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Image.asset(
                                     "assets/images/customer.png",
-                                    width: 90,
-                                    height: 82,
+                                    width: 130,
+                                    height: 100,
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -78,11 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 46),
+                            // const SizedBox(width: 46),
                             Container(
                               width: 160,
                               height: 160,
-                              padding: const EdgeInsets.fromLTRB(12, 18, 12, 0),
+                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                               decoration: const BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.all(
@@ -93,8 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Image.asset(
                                     "assets/images/deliveryAgent.png",
-                                    width: 80,
-                                    height: 80,
+                                    width: 130,
+                                    height: 100,
                                   ),
                                   TextButton(
                                     onPressed: () {
