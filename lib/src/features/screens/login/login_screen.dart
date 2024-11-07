@@ -4,6 +4,8 @@ import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/forgot_password/forgot_password.dart';
 import 'package:logistics_express/src/features/screens/sign_up/signup_screen.dart';
+import 'package:logistics_express/src/features/screens/user_screen/user_home_screen.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -58,13 +60,14 @@ class _LoginPageState extends State<LoginPage> {
                           label: 'Email',
                           validator: (val) => Validators.validateEmail(val!),
                           icon: Icon(Icons.email),
+
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 15),
                         FormTextfield(
                           hintText: 'Enter Password',
                           label: 'Password',
-                          validator: (val) => Validators.validatePassword(val),
+                          validator: (val) => Validators.validatePassword(val!),
                           suffixIcon: IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.remove_red_eye_sharp),
@@ -92,7 +95,16 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const UserHomeScreen(),
+                                ),
+                              );
+                            }
+                          },
                           child: const Text('Login'),
                         ),
                         const SizedBox(height: 20),
