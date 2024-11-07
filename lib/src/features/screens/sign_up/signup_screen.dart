@@ -4,7 +4,6 @@ import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/email_verification/verify_email_screen.dart';
 import 'package:logistics_express/src/features/screens/login/login_screen.dart';
-import 'package:logistics_express/src/theme/theme.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -15,6 +14,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,11 +56,7 @@ class _SignupPageState extends State<SignupPage> {
                           validator: (val) => Validators.validateName(val!),
                           hintText: 'Enter Name',
                           label: 'Full Name',
-                          icon: Icon(
-                            Icons.person,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.person),
                           keyboardType: TextInputType.text,
                         ),
                         const SizedBox(height: 15),
@@ -68,11 +64,7 @@ class _SignupPageState extends State<SignupPage> {
                           hintText: 'Enter Phone no.',
                           label: 'Phone Number',
                           validator: (val) => Validators.validatePhone(val!),
-                          icon: Icon(
-                            Icons.phone,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.phone),
                           keyboardType: TextInputType.phone,
                         ),
                         const SizedBox(height: 15),
@@ -80,11 +72,7 @@ class _SignupPageState extends State<SignupPage> {
                           hintText: 'Enter Email',
                           label: 'Email',
                           validator: (val) => Validators.validateEmail(val!),
-                          icon: Icon(
-                            Icons.email,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.email),
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 25),
@@ -99,13 +87,7 @@ class _SignupPageState extends State<SignupPage> {
                               );
                             }
                           },
-                          child: const Text(
-                            'Verify E-mail',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          child: const Text('Verify E-mail'),
                         ),
                         const SizedBox(height: 20),
                         Row(
@@ -128,7 +110,9 @@ class _SignupPageState extends State<SignupPage> {
                               child: Text(
                                 'Login',
                                 style: TextStyle(
-                                    color: Colors.blue[900], fontSize: 20),
+                                  color: Colors.blue[900],
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                           ],

@@ -3,7 +3,7 @@ import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/otp_verification/otp_screen.dart';
-import 'package:logistics_express/src/theme/theme.dart';
+
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -54,8 +54,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           padding: EdgeInsets.all(30),
                           child: Text(
                             'Don\'t worry!! it happens, Please enter the Email address associated with your account',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.black87),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black87,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -63,12 +65,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         FormTextfield(
                           label: 'Email',
                           hintText: 'Enter Email',
+
                           validator: (val) => Validators.validateEmail(val!),
-                          icon: Icon(
-                            Icons.email,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          icon: Icon(Icons.email),
+
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 35),
@@ -83,13 +83,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               );
                             }
                           },
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          child: const Text('Submit'),
                         )
                       ],
                     ),
