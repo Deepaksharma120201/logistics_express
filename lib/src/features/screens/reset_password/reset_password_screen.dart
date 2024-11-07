@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
+import 'package:logistics_express/src/features/screens/home_screen/home_screen.dart';
+import 'package:logistics_express/src/theme/theme.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -11,6 +13,8 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+  final _formKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,6 +42,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
                 child: SingleChildScrollView(
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -65,6 +70,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                         ),
                         const SizedBox(height: 35),
                         ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              );
+                            
+                          }
+                          },
                           onPressed: () {},
                           child: const Text('Submit'),
                         ),
