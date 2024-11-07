@@ -4,7 +4,6 @@ import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/otp_verification/otp_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
-// import 'package:logistics_express/src/common_widgets/form/form_footer.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -15,6 +14,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,6 +41,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     )),
                 child: SingleChildScrollView(
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -62,7 +63,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         FormTextfield(
                           label: 'Email',
                           hintText: 'Enter Email',
-                          validator: Validators.validateEmail,
+                          validator: (val) => Validators.validateEmail(val!),
                           icon: Icon(
                             Icons.email,
                             color: kColorScheme.primary,
@@ -73,12 +74,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         const SizedBox(height: 35),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const OtpScreen(),
-                              ),
-                            );
+                            if (_formKey.currentState?.validate() ?? false) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const OtpScreen(),
+                                ),
+                              );
+                            }
                           },
                           child: const Text(
                             'Submit',
