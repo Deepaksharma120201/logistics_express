@@ -56,23 +56,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                         FormTextfield(
                           hintText: 'New Password',
                           label: 'New Password',
-                          validator: (val) => Validators.validatePassword(val!),
-                          icon: Icon(
-                            Icons.fingerprint_rounded,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          validator: Validators.validatePassword,
+                          icon: Icon(Icons.lock_outlined),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 15),
                         FormTextfield(
                           hintText: 'Confirm Password',
                           label: 'Confirm Password',
-                          icon: Icon(
-                            Icons.password,
-                            color: kColorScheme.primary,
-                            size: 32,
-                          ),
+                          // validator: Validators.validateConfirmPassword(value, password),
+                          icon: Icon(Icons.fingerprint_outlined),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 35),
@@ -88,13 +81,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                             
                           }
                           },
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          onPressed: () {},
+                          child: const Text('Submit'),
                         ),
                       ],
                     ),
