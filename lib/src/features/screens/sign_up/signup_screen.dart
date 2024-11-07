@@ -52,7 +52,7 @@ class _SignupPageState extends State<SignupPage> {
                             vertical: 5,
                           ),
                         ),
-                        FormTextfield(
+                        FormTextField(
                           validator: (val) => Validators.validateName(val!),
                           hintText: 'Enter Name',
                           label: 'Full Name',
@@ -60,7 +60,7 @@ class _SignupPageState extends State<SignupPage> {
                           keyboardType: TextInputType.text,
                         ),
                         const SizedBox(height: 15),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Enter Phone no.',
                           label: 'Phone Number',
                           validator: (val) => Validators.validatePhone(val!),
@@ -68,7 +68,7 @@ class _SignupPageState extends State<SignupPage> {
                           keyboardType: TextInputType.phone,
                         ),
                         const SizedBox(height: 15),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Enter Email',
                           label: 'Email',
                           validator: (val) => Validators.validateEmail(val!),

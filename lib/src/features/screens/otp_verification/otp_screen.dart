@@ -61,7 +61,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                         ),
                         const SizedBox(height: 25),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Enter OTP',
                           label: 'OTP',
                           icon: Icon(Icons.mobile_friendly),

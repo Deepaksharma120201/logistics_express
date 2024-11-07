@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FormTextfield extends StatelessWidget {
-  const FormTextfield({
+class FormTextField extends StatelessWidget {
+  const FormTextField({
     super.key,
     required this.label,
     required this.hintText,
@@ -10,6 +10,7 @@ class FormTextfield extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.controller,
+    this.obscureText,
   });
 
   final String label;
@@ -19,6 +20,7 @@ class FormTextfield extends StatelessWidget {
   final IconButton? suffixIcon;
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
+  final bool? obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class FormTextfield extends StatelessWidget {
           ),
         Expanded(
           child: TextFormField(
+            obscureText: obscureText ?? false,
             controller: controller,
             validator: validator,
             keyboardType: keyboardType,

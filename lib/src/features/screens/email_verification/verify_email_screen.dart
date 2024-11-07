@@ -3,7 +3,6 @@ import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/home_screen/home_screen.dart';
-// import 'package:logistics_express/src/theme/theme.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -55,7 +54,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Enter OTP',
                           label: 'OTP',
                           icon: Icon(Icons.mobile_friendly),
@@ -67,15 +66,16 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           child: const Text('Verify'),
                         ),
                         const SizedBox(height: 25),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Enter Password',
                           validator: (val) => Validators.validatePassword(val!),
                           label: 'Password',
+                          obscureText: false,
                           icon: Icon(Icons.lock),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 15),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Confirm Password',
                           label: 'Confirm Password',
                           // validator: (val) => Validators.validateConfirmPassword(val, ),
