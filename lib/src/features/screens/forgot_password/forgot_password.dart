@@ -4,7 +4,6 @@ import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/otp_verification/otp_screen.dart';
 
-
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
   @override
@@ -62,13 +61,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ),
                         ),
                         const SizedBox(height: 25),
-                        FormTextfield(
+                        FormTextField(
                           label: 'Email',
                           hintText: 'Enter Email',
-
                           validator: (val) => Validators.validateEmail(val!),
                           icon: Icon(Icons.email),
-
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 35),

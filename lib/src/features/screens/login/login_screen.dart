@@ -6,7 +6,6 @@ import 'package:logistics_express/src/features/screens/forgot_password/forgot_pa
 import 'package:logistics_express/src/features/screens/sign_up/signup_screen.dart';
 import 'package:logistics_express/src/features/screens/user_screen/user_home_screen.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -55,18 +54,18 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Enter Email',
                           label: 'Email',
                           validator: (val) => Validators.validateEmail(val!),
                           icon: Icon(Icons.email),
-
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 15),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Enter Password',
                           label: 'Password',
+                          obscureText: false,
                           validator: (val) => Validators.validatePassword(val!),
                           suffixIcon: IconButton(
                             onPressed: () {},

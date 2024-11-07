@@ -3,7 +3,6 @@ import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/home_screen/home_screen.dart';
-import 'package:logistics_express/src/theme/theme.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -14,7 +13,7 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   final _formKey = GlobalKey<FormState>();
-  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,15 +52,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                           ),
                         ),
                         const SizedBox(height: 25),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'New Password',
                           label: 'New Password',
+                          obscureText: false,
                           validator: Validators.validatePassword,
                           icon: Icon(Icons.lock_outlined),
                           keyboardType: TextInputType.visiblePassword,
                         ),
                         const SizedBox(height: 15),
-                        FormTextfield(
+                        FormTextField(
                           hintText: 'Confirm Password',
                           label: 'Confirm Password',
                           // validator: Validators.validateConfirmPassword(value, password),
@@ -78,10 +78,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   builder: (context) => const HomeScreen(),
                                 ),
                               );
-                            
-                          }
+                            }
                           },
-                          onPressed: () {},
                           child: const Text('Submit'),
                         ),
                       ],
