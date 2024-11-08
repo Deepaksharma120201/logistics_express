@@ -76,7 +76,7 @@ var theme = ThemeData(
     style: TextButton.styleFrom(
       foregroundColor: kColorScheme.secondary,
       textStyle: GoogleFonts.roboto(
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: FontWeight.w500,
       ),
     ),

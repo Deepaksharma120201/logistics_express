@@ -23,8 +23,10 @@ class Validators {
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please fill this field!';
-    } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Please enter a valid email';
+    }
+    final validEmailPattern = RegExp(r'^[\w-\.]+@([\w-]+\.)+com$');
+    if (!validEmailPattern.hasMatch(value)) {
+      return 'Please enter a valid email ending with .com';
     }
     return null;
   }

@@ -11,6 +11,7 @@ class FormTextField extends StatelessWidget {
     this.validator,
     this.controller,
     this.obscureText,
+    this.onChanged,
   });
 
   final String label;
@@ -21,6 +22,7 @@ class FormTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
   final bool? obscureText;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class FormTextField extends StatelessWidget {
             controller: controller,
             validator: validator,
             keyboardType: keyboardType,
+            onChanged: onChanged,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 22),
               labelText: label,

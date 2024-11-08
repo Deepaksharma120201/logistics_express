@@ -46,23 +46,14 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         padding: EdgeInsets.symmetric(vertical: 5),
                       ),
                       const Text(
-                        'We have just sent an email verification link to your email. Please check your email and click on that link to verify your Email address.',
+                        'Verification E-mail link sent to your Email',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black87,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'If not auto-redirected after verification, click on the Continue button.',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black87,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 35),
+                      const SizedBox(height: 50),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(

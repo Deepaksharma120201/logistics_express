@@ -18,6 +18,8 @@ class FirebaseExceptions {
         return 'Too many attempts. Please try again later.';
       case 'network-request-failed':
         return 'Network error. Please check your internet connection.';
+      case 'invalid-credential':
+        return 'Email or Password is incorrect.';
       default:
         return 'An unknown error occurred. Please try again.';
     }
