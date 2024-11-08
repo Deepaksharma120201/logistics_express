@@ -8,6 +8,7 @@ import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/email_verification/verify_email_screen.dart';
 import 'package:logistics_express/src/features/screens/login/login_screen.dart';
+import 'package:logistics_express/src/features/screens/user_screen/user_home_screen.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -95,8 +96,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscurePassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -144,8 +145,11 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const VerifyEmail(),
+                                          builder: (context) => VerifyEmail(
+                                            nextScreen: () => UserHomeScreen(),
+                                            message:
+                                                'Account successfully created!',
+                                          ),
                                         ),
                                       );
                                     }

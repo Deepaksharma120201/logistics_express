@@ -3,11 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/features/screens/login/login_screen.dart';
-import 'package:logistics_express/src/features/screens/user_screen/user_home_screen.dart';
 import '../../../authentication/auth_service.dart';
 
 class VerifyEmail extends ConsumerWidget {
-  const VerifyEmail({super.key});
+  const VerifyEmail({
+    super.key,
+    required this.nextScreen,
+    required this.message,
+  });
+
+  final String message;
+  final Widget Function() nextScreen;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,7 +65,7 @@ class VerifyEmail extends ConsumerWidget {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  "Account created Successfully",
+                                  message,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 backgroundColor: Colors.green,
@@ -69,12 +75,14 @@ class VerifyEmail extends ConsumerWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const UserHomeScreen(),
+                                builder: (context) => nextScreen(),
                               ),
                             );
                           } else {
                             showErrorSnackBar(
-                                context, "Email not verified yet!");
+                              context,
+                              "Email not verified yet!",
+                            );
                           }
                         },
                         child: Row(

@@ -26,7 +26,7 @@ class Validators {
     }
     final validEmailPattern = RegExp(r'^[\w-\.]+@([\w-]+\.)+com$');
     if (!validEmailPattern.hasMatch(value)) {
-      return 'Please enter a valid email ending with .com';
+      return 'Please enter a valid email.';
     }
     return null;
   }
