@@ -75,6 +75,23 @@ class _SignupPageState extends State<SignupPage> {
                           icon: Icon(Icons.email),
                           keyboardType: TextInputType.emailAddress,
                         ),
+                        const SizedBox(height: 15),
+                        FormTextField(
+                          hintText: 'Enter Password',
+                          validator: (val) => Validators.validatePassword(val!),
+                          label: 'Password',
+                          obscureText: false,
+                          icon: Icon(Icons.lock),
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
+                        const SizedBox(height: 15),
+                        FormTextField(
+                          hintText: 'Confirm Password',
+                          label: 'Confirm Password',
+                          // validator: (val) => Validators.validateConfirmPassword(val, ),
+                          icon: Icon(Icons.fingerprint_outlined),
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
                         const SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () {

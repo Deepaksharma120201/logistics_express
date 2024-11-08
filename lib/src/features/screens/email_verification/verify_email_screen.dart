@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
-import 'package:logistics_express/src/common_widgets/form/validators.dart';
-import 'package:logistics_express/src/features/screens/home_screen/home_screen.dart';
+import 'package:logistics_express/src/features/screens/login/login_screen.dart';
+import 'package:logistics_express/src/features/screens/user_screen/user_home_screen.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -14,8 +13,6 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmailState extends State<VerifyEmail> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,66 +39,69 @@ class _VerifyEmailState extends State<VerifyEmail> {
                   ),
                 ),
                 child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                            // horizontal: 0,
-                            vertical: 5,
-                          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                      ),
+                      const Text(
+                        'We have just sent an email verification link to your email. Please check your email and click on that link to verify your Email address.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black87,
                         ),
-                        const SizedBox(height: 15),
-                        FormTextField(
-                          hintText: 'Enter OTP',
-                          label: 'OTP',
-                          icon: Icon(Icons.mobile_friendly),
-                          keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'If not auto-redirected after verification, click on the Continue button.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black87,
                         ),
-                        const SizedBox(height: 25),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Verify'),
-                        ),
-                        const SizedBox(height: 25),
-                        FormTextField(
-                          hintText: 'Enter Password',
-                          validator: (val) => Validators.validatePassword(val!),
-                          label: 'Password',
-                          obscureText: false,
-                          icon: Icon(Icons.lock),
-                          keyboardType: TextInputType.visiblePassword,
-                        ),
-                        const SizedBox(height: 15),
-                        FormTextField(
-                          hintText: 'Confirm Password',
-                          label: 'Confirm Password',
-                          // validator: (val) => Validators.validateConfirmPassword(val, ),
-                          icon: Icon(Icons.fingerprint_outlined),
-                          keyboardType: TextInputType.visiblePassword,
-                        ),
-                        const SizedBox(height: 25),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
-                                ),
-                              );
-                            }
-                          },
-                          child: const Text('Sign up'),
-                        ),
-                      ],
-                    ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 35),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UserHomeScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('Continue'),
+                      ),
+                      const SizedBox(height: 15),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const VerifyEmail(),
+                            ),
+                          );
+                        },
+                        child: const Text('Resend Email Link'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                          );
+                        },
+                        child: const Text('Back to login'),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
