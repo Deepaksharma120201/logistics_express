@@ -26,11 +26,21 @@ class AuthService {
 
   Future<String?> loginWithEmail(String email, String password) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return null;
+
+      User? user = userCredential.user;
+
+      if (user != null && user.emailVerified) {
+        return null;
+      } else {
+        // Email is not verified, sign out the user and return a message
+        await _firebaseAuth.signOut();
+        return 'Please verify your email before logging in.';
+      }
     } on FirebaseAuthException catch (e) {
       return FirebaseExceptions.getErrorMessage(e);
     }
