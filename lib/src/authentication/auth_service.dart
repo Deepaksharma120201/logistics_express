@@ -8,11 +8,17 @@ class AuthService {
   Future<String?> signUpWithEmail(
       String name, String email, String phoneNo, String password) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return null;
+      User? user = userCredential.user;
+
+      // Send verification email
+      await user?.sendEmailVerification();
+
+      return null; // No error
     } on FirebaseAuthException catch (e) {
       return FirebaseExceptions.getErrorMessage(e);
     }
@@ -28,6 +34,25 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       return FirebaseExceptions.getErrorMessage(e);
     }
+  }
+
+  // Check if the user's email is verified
+  Future<bool> checkEmailVerified() async {
+    User? user = _firebaseAuth.currentUser;
+    await user?.reload();
+    return user?.emailVerified ?? false;
+  }
+
+  Future<void> sendEmailVerification() async {
+    User? user = _firebaseAuth.currentUser;
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+  }
+
+  String getCurrentUserEmail() {
+    User? user = _firebaseAuth.currentUser;
+    return user?.email ?? 'No email available';
   }
 }
 

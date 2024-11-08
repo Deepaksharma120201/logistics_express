@@ -153,7 +153,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 }
                               }
                             },
-                            child: const Text('Verify E-mail'),
+                            child: const Text('Login'),
                           ),
                           const SizedBox(height: 20),
                           Row(
