@@ -14,6 +14,7 @@ class VerifyEmail extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         body: FutureBuilder<bool>(
+          //check this work or not
           future: authService.checkEmailVerified(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
