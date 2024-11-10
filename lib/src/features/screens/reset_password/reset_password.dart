@@ -3,21 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/authentication/auth_controller.dart';
 import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/features/screens/user_screen/user_home_screen.dart';
-import '../../../authentication/auth_service.dart';
+import 'package:logistics_express/src/features/screens/login/login_screen.dart';
 
-class VerifyEmail extends ConsumerWidget {
-  const VerifyEmail({
+class ResetPassword extends ConsumerWidget {
+  const ResetPassword({
     super.key,
     required this.email,
   });
-  
+
   final String email;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authController = ref.watch(authControllerProvider);
-    final authService = ref.watch(authServiceProvider);
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -27,7 +26,7 @@ class VerifyEmail extends ConsumerWidget {
               child: FormHeader(
                 currentLogo: 'logo',
                 imageSize: 110,
-                text: 'Verifying... E-mail',
+                text: 'Resetting... password',
               ),
             ),
             Expanded(
@@ -50,7 +49,7 @@ class VerifyEmail extends ConsumerWidget {
                         padding: EdgeInsets.symmetric(vertical: 5),
                       ),
                       Text(
-                        'Verification link has been sent to $email',
+                        'Reset password link has been sent to $email',
                         style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black87,
@@ -59,17 +58,12 @@ class VerifyEmail extends ConsumerWidget {
                       ),
                       const SizedBox(height: 50),
                       TextButton(
-                        onPressed: () async {
-                          if (await authService.checkEmailVerified() &&
-                              context.mounted) {
-                            showSuccessSnackBar(
-                              context,
-                              'Account created successfully!',
-                            );
+                        onPressed: () {
+                          if (context.mounted) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UserHomeScreen(),
+                                builder: (context) => LoginPage(),
                               ),
                             );
                             authController.clearAll();

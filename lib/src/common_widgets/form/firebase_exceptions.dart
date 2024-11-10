@@ -24,7 +24,7 @@ class FirebaseExceptions {
         return 'An unknown error occurred. Please try again.';
     }
   }
-  
+
   // Generic error handler for non-FirebaseAuthException errors
   static String handleError(Exception e) {
     if (e is FirebaseAuthException) {
@@ -42,6 +42,19 @@ void showErrorSnackBar(BuildContext context, String message) {
         style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Colors.red,
+      duration: const Duration(seconds: 3),
+    ),
+  );
+}
+
+void showSuccessSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.green,
       duration: const Duration(seconds: 3),
     ),
   );

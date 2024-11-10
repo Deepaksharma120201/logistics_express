@@ -53,17 +53,32 @@ class AuthService {
     return user?.emailVerified ?? false;
   }
 
-  Future<void> sendEmailVerification() async {
+  Future<String?> sendEmailVerification() async {
     User? user = _firebaseAuth.currentUser;
     if (user != null && !user.emailVerified) {
       await user.sendEmailVerification();
+      return 'Verification email sent!';
+    } else if (user != null && user.emailVerified) {
+      return 'Email already verified!';
     }
+    return null;
   }
 
-  String getCurrentUserEmail() {
-    User? user = _firebaseAuth.currentUser;
-    return user?.email ?? 'No email available';
+  // String getCurrentUserEmail() {
+  //   User? user = _firebaseAuth.currentUser;
+  //   return user?.email ?? 'No email available';
+  // }
+
+  // New reset password function
+  Future<String?> resetPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return FirebaseExceptions.getErrorMessage(e);
+    }
   }
+  
 }
 
 // Provider for AuthService
