@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logistics_express/src/authentication/models/user_model.dart';
+import 'package:logistics_express/src/authentication/services/user_services.dart';
 import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<String?> signUpWithEmail(
-      String name, String email, String phoneNo, String password) async {
+  Future<String?> signUpWithEmail(String email, String password) async {
     try {
       UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
@@ -17,7 +18,6 @@ class AuthService {
 
       // Send verification email
       await user?.sendEmailVerification();
-
       return null; // No error
     } on FirebaseAuthException catch (e) {
       return FirebaseExceptions.getErrorMessage(e);
@@ -78,7 +78,6 @@ class AuthService {
       return FirebaseExceptions.getErrorMessage(e);
     }
   }
-  
 }
 
 // Provider for AuthService

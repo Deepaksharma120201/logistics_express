@@ -10,6 +10,8 @@ import 'package:logistics_express/src/common_widgets/form/validators.dart';
 import 'package:logistics_express/src/features/screens/email_verification/verify_email_screen.dart';
 import 'package:logistics_express/src/features/screens/login/login_screen.dart';
 
+import '../../../authentication/models/user_model.dart';
+
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
 
@@ -141,20 +143,27 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                               _isLoading = true;
                                             });
                                             final email = authController
-                                                .emailController.text;
+                                                .emailController.text
+                                                .trim();
                                             final password = authController
-                                                .passwordController.text;
+                                                .passwordController.text
+                                                .trim();
                                             final name = authController
-                                                .nameController.text;
+                                                .nameController.text
+                                                .trim();
                                             final phone = authController
-                                                .phoneController.text;
+                                                .phoneController.text
+                                                .trim();
+                                            final userDetails = UserModel(
+                                                name: name,
+                                                phoneNo: phone,
+                                                password: password,
+                                                email: email);
                                             try {
                                               String? response =
                                                   await authService
                                                       .signUpWithEmail(
-                                                name,
                                                 email,
-                                                phone,
                                                 password,
                                               );
                                               if (response == null) {
@@ -164,9 +173,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           VerifyEmail(
-                                                        email: authController
-                                                            .emailController
-                                                            .text,
+                                                        email: email,
+                                                        user: userDetails,
                                                       ),
                                                     ),
                                                   );
