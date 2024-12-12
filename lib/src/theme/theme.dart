@@ -41,12 +41,12 @@ var theme = ThemeData(
 
   // AppBar theme customization
   appBarTheme: AppBarTheme(
-    backgroundColor: kColorScheme.primary,
-    foregroundColor: kColorScheme.onPrimary,
+    backgroundColor: kColorScheme.onPrimaryContainer,
+    foregroundColor: kColorScheme.primaryContainer,
     elevation: 0,
     titleTextStyle: GoogleFonts.montserrat(
       fontSize: 20,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w500,
       color: kColorScheme.onPrimary,
     ),
   ),
@@ -74,7 +74,7 @@ var theme = ThemeData(
   // TextButton customization
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: kColorScheme.secondary,
+      foregroundColor: kColorScheme.primary,
       textStyle: GoogleFonts.roboto(
         fontSize: 16,
         fontWeight: FontWeight.w500,

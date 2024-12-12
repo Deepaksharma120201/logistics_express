@@ -7,9 +7,9 @@ import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.da
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
-import 'package:logistics_express/src/features/screens/forgot_password/forgot_password.dart';
-import 'package:logistics_express/src/features/screens/sign_up/signup_screen.dart';
-import 'package:logistics_express/src/features/screens/user_screen/user_home_screen.dart';
+import 'package:logistics_express/src/features/screens/customer/user_auth/forgot_password.dart';
+import 'package:logistics_express/src/features/screens/customer/user_auth/signup_screen.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -43,7 +43,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       child: FormHeader(
                         currentLogo: 'logo',
                         imageSize: 110,
-                        text: 'Login to your account',
+                        text: 'Login as a Customer',
                       ),
                     ),
                     Expanded(
@@ -60,6 +60,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         child: SingleChildScrollView(
                           child: Form(
                             key: _formKey,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -70,7 +72,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 FormTextField(
                                   hintText: 'Enter Email',
                                   label: 'Email',
-                                  validator: (val) => Validators.validateEmail(val!),
+                                  validator: (val) =>
+                                      Validators.validateEmail(val!),
                                   icon: Icon(Icons.email),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: authController.emailController,
@@ -118,52 +121,58 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 ),
                                 const SizedBox(height: 20),
                                 ElevatedButton(
-                                  onPressed: _isLoading ? null : () async {
-                                    FocusScope.of(context).unfocus();
-                                    if (_formKey.currentState?.validate() ?? false) {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-                                      final email =
-                                          authController.emailController.text;
-                                      final password =
-                                          authController.passwordController.text;
-                                      try {
-                                        String? response =
-                                            await authService.loginWithEmail(
-                                          email,
-                                          password,
-                                        );
-                                        if (response == null) {
-                                          if (context.mounted) {
-                                            authController.clearAll();
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const UserHomeScreen(),
-                                              ),
-                                            );
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () async {
+                                          FocusScope.of(context).unfocus();
+                                          if (_formKey.currentState
+                                                  ?.validate() ??
+                                              false) {
+                                            setState(() {
+                                              _isLoading = true;
+                                            });
+                                            final email = authController
+                                                .emailController.text;
+                                            final password = authController
+                                                .passwordController.text;
+                                            try {
+                                              String? response =
+                                                  await authService
+                                                      .loginWithEmail(
+                                                email,
+                                                password,
+                                              );
+                                              if (response == null) {
+                                                if (context.mounted) {
+                                                  authController.clearAll();
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const UserHomeScreen(),
+                                                    ),
+                                                  );
+                                                }
+                                              } else {
+                                                if (context.mounted) {
+                                                  showErrorSnackBar(
+                                                      context, response);
+                                                }
+                                              }
+                                            } catch (e) {
+                                              if (context.mounted) {
+                                                showErrorSnackBar(
+                                                  context,
+                                                  'An error occurred: $e',
+                                                );
+                                              }
+                                            } finally {
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                            }
                                           }
-                                        } else {
-                                          if (context.mounted) {
-                                            showErrorSnackBar(context, response);
-                                          }
-                                        }
-                                      } catch (e) {
-                                        if (context.mounted) {
-                                          showErrorSnackBar(
-                                            context,
-                                            'An error occurred: $e',
-                                          );
-                                        }
-                                      } finally {
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-                                      }
-                                    }
-                                  },
+                                        },
                                   child: const Text('Login'),
                                 ),
                                 const SizedBox(height: 20),
@@ -182,7 +191,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => const SignupPage(),
+                                            builder: (context) =>
+                                                const SignupPage(),
                                           ),
                                         );
                                       },

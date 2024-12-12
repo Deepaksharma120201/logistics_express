@@ -7,7 +7,7 @@ import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.da
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
 import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
 import 'package:logistics_express/src/common_widgets/form/validators.dart';
-import 'package:logistics_express/src/features/screens/reset_password/reset_password.dart';
+import 'package:logistics_express/src/features/screens/customer/user_auth/reset_password.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -58,6 +58,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         child: SingleChildScrollView(
                           child: Form(
                             key: _formKey,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [

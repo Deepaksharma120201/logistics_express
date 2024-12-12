@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/authentication/auth_controller.dart';
 import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.dart';
 import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/features/screens/login/login_screen.dart';
+import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 
 class ResetPassword extends ConsumerWidget {
   const ResetPassword({

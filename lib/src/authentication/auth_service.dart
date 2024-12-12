@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/authentication/models/user_model.dart';
-import 'package:logistics_express/src/authentication/services/user_services.dart';
 import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.dart';
 
 class AuthService {

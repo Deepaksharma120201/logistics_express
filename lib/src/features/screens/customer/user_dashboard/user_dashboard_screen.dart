@@ -13,19 +13,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Dashboard'),
+      ),
       backgroundColor: Colors.white,
       body: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Text(
-              'user dash board',
-              textAlign: TextAlign.center,
-            ),
-          ],
+          children: [],
         ),
       ),
     );
