@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/common_widgets/form/form_header.dart';
+import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/login.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -123,27 +124,37 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned(
               left: 70,
               bottom: 430,
-              child: Container(
-                height: 200,
-                width: 270,
-                padding: const EdgeInsets.fromLTRB(12, 18, 12, 0),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(35)),
-                ),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      "assets/images/bothU&D.png",
-                      width: 250,
-                      height: 115,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserHomeScreen(),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text("Transport services for"),
-                    const Text("quick delivery of your goods."),
-                  ],
+                  );
+                },
+                child: Container(
+                  height: 200,
+                  width: 270,
+                  padding: const EdgeInsets.fromLTRB(12, 18, 12, 0),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(35)),
+                  ),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        "assets/images/bothU&D.png",
+                        width: 250,
+                        height: 115,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text("Transport services for"),
+                      const Text("quick delivery of your goods."),
+                    ],
+                  ),
                 ),
               ),
             ),

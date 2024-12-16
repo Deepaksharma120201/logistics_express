@@ -4,9 +4,9 @@ import 'package:logistics_express/src/authentication/auth_controller.dart';
 import 'package:logistics_express/src/authentication/auth_service.dart';
 import 'package:logistics_express/src/authentication/models/user_model.dart';
 import 'package:logistics_express/src/authentication/services/user_services.dart';
-import 'package:logistics_express/src/common_widgets/form/custom_loader.dart';
-import 'package:logistics_express/src/common_widgets/form/firebase_exceptions.dart';
-import 'package:logistics_express/src/common_widgets/form/form_header.dart';
+import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
+import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 
 class VerifyEmail extends ConsumerStatefulWidget {
@@ -77,13 +77,15 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                               onPressed: _isLoading
                                   ? null
                                   : () async {
-                                      if (await authService.checkEmailVerified() &&
+                                      if (await authService
+                                              .checkEmailVerified() &&
                                           context.mounted) {
                                         setState(() {
                                           _isLoading = true;
                                         });
                                         final userServices = UserServices();
-                                        await userServices.createUser(widget.user);
+                                        await userServices
+                                            .createUser(widget.user);
                                         authController.clearAll();
                                         if (context.mounted) {
                                           showSuccessSnackBar(
@@ -93,7 +95,8 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => UserHomeScreen(),
+                                              builder: (context) =>
+                                                  UserHomeScreen(),
                                             ),
                                           );
                                         }

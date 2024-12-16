@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/driving_licence.dart';
 import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/profile_info.dart';
 import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/vehicle_rc.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/profile_details/driving_licence.dart';
 
 class DetailsFillup extends StatelessWidget {
   const DetailsFillup({super.key});
@@ -11,7 +11,13 @@ class DetailsFillup extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
-        title: Text('data'),
+        title: Text('Complete Profile'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: GridView(
         padding: EdgeInsets.all(20),

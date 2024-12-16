@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/authentication/auth_controller.dart';
-import 'package:logistics_express/src/common_widgets/form/form_header.dart';
-import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
-import 'package:logistics_express/src/common_widgets/form/validators.dart';
+import 'package:logistics_express/src/custom_widgets/form_header.dart';
+import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
+import 'package:logistics_express/src/custom_widgets/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/forgot_password.dart';
 import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/details_fillup.dart';
 import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/sign_up.dart';

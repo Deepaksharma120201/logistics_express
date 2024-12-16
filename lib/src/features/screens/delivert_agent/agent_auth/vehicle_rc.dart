@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/common_widgets/form/form_text_field.dart';
-import 'package:logistics_express/src/common_widgets/form/take_image.dart';
+import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
+import 'package:logistics_express/src/custom_widgets/take_image.dart';
 import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/profile_info.dart';
 
 class VehicleRc extends StatelessWidget {
@@ -14,12 +14,6 @@ class VehicleRc extends StatelessWidget {
         backgroundColor: Theme.of(context).cardColor,
         appBar: AppBar(
           title: const Text('Vehicle RC'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.help_outline),
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
