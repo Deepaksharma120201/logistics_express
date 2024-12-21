@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/available_rides.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/address_filled.dart';
 
 class SearchRide extends StatefulWidget {
