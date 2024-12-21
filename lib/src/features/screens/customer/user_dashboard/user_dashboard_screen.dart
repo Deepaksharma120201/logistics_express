@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/slide_drawer.dart';
 
@@ -15,7 +16,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).indicatorColor.withOpacity(0.6),
+      backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
         title: Text('Dashboard'),
         actions: [
@@ -40,7 +41,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           _containerButton(context, 'See Requested Rides', SearchRide()),
           _containerButton(context, 'Track Delivery', SearchRide()),
           _containerButton(context, 'View Payment History', SearchRide()),
-          _containerButton(context, 'Price Estimation', SearchRide()),
+          _containerButton(context, 'Price Estimation', PriceEstimation()),
         ],
       ),
     );
