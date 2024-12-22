@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/available_rides.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/address_filled.dart';
 
 class SearchRide extends StatefulWidget {
@@ -28,7 +29,17 @@ class _SearchRideState extends State<SearchRide> {
               height: 30,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AvailableRides(
+                      source: 'Kurukshetra',
+                      destination: 'Delhi',
+                    ),
+                  ),
+                );
+              },
               child: const Text('Search Ride'),
             ),
           ],
