@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/slide_drawer.dart';
+import 'package:logistics_express/src/features/utils/customer_faq.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -21,12 +22,16 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         title: Text('Dashboard'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (ctx) => CustomerFaq()),
+              );
+            },
             icon: const Icon(Icons.help_outline),
           ),
         ],
       ),
-      drawer: SideDrawer(),
+      drawer: SlideDrawer(),
       body: GridView(
         padding: EdgeInsets.all(20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

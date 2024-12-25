@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/authentication/auth_controller.dart';
-import 'package:logistics_express/src/authentication/auth_service.dart';
-import 'package:logistics_express/src/authentication/models/user_model.dart';
-import 'package:logistics_express/src/authentication/services/user_services.dart';
+import 'package:logistics_express/src/services/auth_controller.dart';
+import 'package:logistics_express/src/services/auth_service.dart';
+import 'package:logistics_express/src/models/user_model.dart';
+import 'package:logistics_express/src/services/authentication/user_services.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';

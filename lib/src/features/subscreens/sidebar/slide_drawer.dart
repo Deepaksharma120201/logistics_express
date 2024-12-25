@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/custom_list_tile.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/custom_text_button.dart';
 
-class SideDrawer extends StatelessWidget {
-  const SideDrawer({super.key});
+class SlideDrawer extends StatelessWidget {
+  const SlideDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +71,16 @@ class SideDrawer extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.info,
                     text: 'About',
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: Icons.contact_page,
+                    text: 'Contact Support',
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: Icons.settings,
+                    text: 'Settings',
                     onTap: () {},
                   ),
                 ],

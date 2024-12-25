@@ -14,14 +14,12 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return TextButton.icon(
+    return IconButton(
       onPressed: onPressed,
       icon: Icon(
         icon,
         color: theme.colorScheme.onPrimary,
-        size: 30,
       ),
-      label: const SizedBox.shrink(),
     );
   }
 }
