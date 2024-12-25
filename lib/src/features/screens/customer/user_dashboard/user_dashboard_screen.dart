@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/track_delivery_screen.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/slide_drawer.dart';
 import 'package:logistics_express/src/features/utils/customer_faq.dart';
 
@@ -44,7 +45,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           _containerButton(context, 'Search Ride', SearchRide()),
           _containerButton(context, 'Make Request', SearchRide()),
           _containerButton(context, 'See Requested Rides', SearchRide()),
-          _containerButton(context, 'Track Delivery', SearchRide()),
+          _containerButton(context, 'Track Delivery', TrackDeliveryScreen()),
           _containerButton(context, 'View Payment History', SearchRide()),
           _containerButton(context, 'Price Estimation', PriceEstimation()),
         ],
