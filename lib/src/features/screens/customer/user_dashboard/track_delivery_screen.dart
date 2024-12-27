@@ -33,7 +33,7 @@ class _TrackDeliveryScreenState extends State<TrackDeliveryScreen> {
           ? DeliveryList(rides: activeRides)
           : DeliveryList(rides: completedRides),
       bottomNavigationBar: NavigationBar(
-        indicatorColor: Theme.of(context).primaryColor,
+        indicatorColor: Theme.of(context).focusColor,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.local_shipping),
@@ -61,28 +61,29 @@ class DeliveryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: rides.length,
-        itemBuilder: (context, index) {
-          final delivery = rides[index];
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: ListTile(
-              title: Text('Ride id - ${delivery['rideId']}'),
-              subtitle: Text('Ride date - ${delivery['rideDate']}'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RideInformationScreen(
-                      rideId: delivery['rideId']!,
-                      rideDate: delivery['rideDate']!,
-                    ),
+      itemCount: rides.length,
+      itemBuilder: (context, index) {
+        final delivery = rides[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: ListTile(
+            title: Text('Ride id - ${delivery['rideId']}'),
+            subtitle: Text('Ride date - ${delivery['rideDate']}'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RideInformationScreen(
+                    rideId: delivery['rideId']!,
+                    rideDate: delivery['rideDate']!,
                   ),
-                );
-              },
-            ),
-          );
-        });
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
