@@ -4,14 +4,13 @@ import 'package:logistics_express/src/services/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
 
 class ResetPassword extends ConsumerWidget {
-  const ResetPassword({
-    super.key,
-    required this.email,
-  });
+  const ResetPassword({super.key, required this.email, required this.role});
 
   final String email;
+  final String role;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,12 +59,21 @@ class ResetPassword extends ConsumerWidget {
                       TextButton(
                         onPressed: () {
                           if (context.mounted) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
-                            );
+                            if (role == 'user') {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                ),
+                              );
+                            } else if (role == 'delivery_agent') {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
+                                ),
+                              );
+                            }
                             authController.clearAll();
                           } else {
                             showErrorSnackBar(
