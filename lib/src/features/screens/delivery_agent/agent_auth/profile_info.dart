@@ -1,13 +1,100 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/driving_licence.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/driving_licence.dart';
 
-class ProfileInfo extends StatelessWidget {
+class ProfileInfo extends StatefulWidget {
   const ProfileInfo({super.key});
 
   @override
+  State<ProfileInfo> createState() => _ProfileInfoState();
+}
+
+class _ProfileInfoState extends State<ProfileInfo> {
+  File? _selectedImage;
+
+  void _takePicture() async {
+    final imagePicker = ImagePicker();
+
+    // Show bottom sheet modal to choose image source
+    await showModalBottomSheet(
+      context: context,
+      builder: (ctx) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt_rounded),
+                title: const Text('Take Picture'),
+                onTap: () async {
+                  Navigator.of(ctx).pop(); // Close the modal
+
+                  // Pick image from camera
+                  final pickedImage = await imagePicker.pickImage(
+                    source: ImageSource.camera,
+                    maxWidth: 600,
+                  );
+
+                  if (pickedImage != null) {
+                    setState(() {
+                      _selectedImage = File(pickedImage.path);
+                    });
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library_rounded),
+                title: const Text('Choose from Gallery'),
+                onTap: () async {
+                  Navigator.of(ctx).pop(); // Close the modal
+
+                  // Pick image from gallery
+                  final pickedImage = await imagePicker.pickImage(
+                    source: ImageSource.gallery,
+                    maxWidth: 600,
+                  );
+
+                  if (pickedImage != null) {
+                    setState(() {
+                      _selectedImage = File(pickedImage.path);
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Widget content = const Icon(
+      Icons.person,
+      size: 180,
+    );
+
+    if (_selectedImage != null) {
+      content = GestureDetector(
+        onTap: _takePicture,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: ClipOval(
+            child: Image.file(
+              _selectedImage!,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+        ),
+      );
+    }
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -28,19 +115,17 @@ class ProfileInfo extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(width: 1, color: Colors.black),
                     ),
-                    child: Icon(
-                      Icons.person,
-                      size: 180,
-                    ),
+                    child: content,
                   ),
-                  Positioned(
-                    bottom: 5,
-                    right: 20,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.edit),
+                  if (_selectedImage == null)
+                    Positioned(
+                      bottom: 5,
+                      right: 20,
+                      child: IconButton(
+                        onPressed: _takePicture,
+                        icon: Icon(Icons.edit),
+                      ),
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 25),
