@@ -4,7 +4,7 @@ import 'package:logistics_express/src/services/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/login.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});

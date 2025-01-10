@@ -5,8 +5,8 @@ import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/forgot_password.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/details_fillup.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/sign_up.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/details_fillup.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/sign_up.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
