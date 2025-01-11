@@ -106,7 +106,8 @@ class _LoginState extends ConsumerState<Login> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const ForgotPasswordScreen(),
+                                            const ForgotPasswordScreen(
+                                                role: 'delivery_agent'),
                                       ),
                                     );
                                   },

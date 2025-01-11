@@ -14,6 +14,8 @@ class ProfileInfo extends StatefulWidget {
 
 class _ProfileInfoState extends State<ProfileInfo> {
   File? _selectedImage;
+  String? _selectedGender;
+  final TextEditingController _dobController = TextEditingController();
 
   void _takePicture() async {
     final imagePicker = ImagePicker();
@@ -69,6 +71,22 @@ class _ProfileInfoState extends State<ProfileInfo> {
         );
       },
     );
+  }
+
+  void _pickDateOfBirth() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _dobController.text =
+            '${pickedDate.day}/${pickedDate.month}/${pickedDate.year}'; // Format date as DD/MM/YYYY
+      });
+    }
   }
 
   @override
@@ -150,9 +168,10 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 hintText: 'DD/MM/YYYY',
                 label: 'Date of Birth',
                 icon: const Icon(Icons.calendar_month),
+                controller: _dobController,
                 keyboardType: TextInputType.datetime,
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: _pickDateOfBirth,
                   icon: Icon(Icons.calendar_month),
                 ),
               ),
@@ -174,6 +193,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                         Theme.of(context).colorScheme.primaryContainer,
                     isExpanded: true,
                     hint: Text('Select Gender'),
+                    value: _selectedGender,
                     items: [
                       DropdownMenuItem(
                         value: 'Male',
@@ -184,7 +204,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
                         child: Text('Female'),
                       ),
                     ],
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedGender = value;
+                      });
+                    },
                   ),
                 ),
               ),

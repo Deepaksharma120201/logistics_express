@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logistics_express/src/models/agent_model.dart';
 import 'package:logistics_express/src/services/auth_controller.dart';
 import 'package:logistics_express/src/services/auth_service.dart';
 import 'package:logistics_express/src/models/user_model.dart';
@@ -10,11 +11,11 @@ import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 
 class VerifyEmail extends ConsumerStatefulWidget {
-  const VerifyEmail({super.key, required this.email, required this.user});
+  const VerifyEmail({super.key, required this.email, this.user, this.agent});
 
   final String email;
-  final UserModel user;
-
+  final UserModel? user;
+  final AgentModel? agent;
   @override
   ConsumerState<VerifyEmail> createState() {
     return _VerifyEmailState();
@@ -84,8 +85,8 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                                           _isLoading = true;
                                         });
                                         final userServices = UserServices();
-                                        await userServices
-                                            .createUser(widget.user);
+                                        await userServices.createUser(widget
+                                            .user!); //i add here to be resolved for delivery agent
                                         authController.clearAll();
                                         if (context.mounted) {
                                           showSuccessSnackBar(
