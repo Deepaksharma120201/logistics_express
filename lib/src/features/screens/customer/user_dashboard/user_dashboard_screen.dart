@@ -45,7 +45,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         ),
         children: [
           _containerButton(context, 'Search Ride', SearchRide()),
-          _containerButton(context, 'Make Request', Makerequest()),
+          _containerButton(context, 'Make Request', MakeRequest()),
           _containerButton(context, 'See Requested Rides', SearchRide()),
           _containerButton(context, 'Track Delivery', TrackDeliveryScreen()),
           _containerButton(context, 'View Payment History', PaymentHistory()),
