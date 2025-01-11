@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/login.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

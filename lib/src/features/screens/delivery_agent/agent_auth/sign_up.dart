@@ -4,7 +4,11 @@ import 'package:logistics_express/src/services/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/login.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
+import 'package:logistics_express/src/services/auth_service.dart';
+import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
+import 'package:logistics_express/src/features/screens/customer/user_auth/verify_email_screen.dart';
+import 'package:logistics_express/src/models/agent_model.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -16,12 +20,12 @@ class SignUp extends ConsumerStatefulWidget {
 class _SignUpState extends ConsumerState<SignUp> {
   final _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
-  // bool _isLoading = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     final authController = ref.watch(authControllerProvider);
-    // final authService = ref.watch(authServiceProvider);
+    final authService = ref.watch(authServiceProvider);
 
     return SafeArea(
       child: GestureDetector(
@@ -111,7 +115,65 @@ class _SignUpState extends ConsumerState<SignUp> {
                               ),
                               const SizedBox(height: 20),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: _isLoading
+                                    ? null
+                                    : () async {
+                                        FocusScope.of(context).unfocus();
+                                        if (_formKey.currentState?.validate() ??
+                                            false) {
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+                                          final email = authController
+                                              .emailController.text
+                                              .trim();
+                                          final password = authController
+                                              .passwordController.text
+                                              .trim();
+                                          final agentDetails = AgentModel(
+                                            password: password,
+                                            email: email,
+                                          );
+                                          try {
+                                            String? response = await authService
+                                                .signUpWithEmail(
+                                              email,
+                                              password,
+                                            );
+                                            if (response == null) {
+                                              if (context.mounted) {
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VerifyEmail(
+                                                      agent: agentDetails,
+                                                      email: email,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            } else {
+                                              if (context.mounted) {
+                                                showErrorSnackBar(
+                                                    context, response);
+                                              }
+                                            }
+                                          } catch (e) {
+                                            if (context.mounted) {
+                                              // Check if the context is still mounted
+                                              showErrorSnackBar(
+                                                context,
+                                                'An error occurred: $e',
+                                              );
+                                            }
+                                          } finally {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                          }
+                                        }
+                                      },
                                 child: const Text('Verify Email'),
                               ),
                               const SizedBox(height: 20),

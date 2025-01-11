@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/take_image.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/profile_info.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/profile_info.dart';
 
 class VehicleRc extends StatelessWidget {
   const VehicleRc({super.key});

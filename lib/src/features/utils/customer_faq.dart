@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/src/custom_widgets/faq_list_view.dart';
 import 'package:logistics_express/src/models/faq_model.dart';
 
 class CustomerFaq extends StatelessWidget {
@@ -64,29 +65,7 @@ class CustomerFaq extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FAQs'),
       ),
-      body: ListView.builder(
-        itemCount: faqList.length,
-        itemBuilder: (context, index) {
-          final faq = faqList[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
-            child: Card(
-              child: ExpansionTile(
-                title: Text(
-                  faq.question,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(faq.answer),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+      body: FaqListView(faqList: faqList),
     );
   }
 }

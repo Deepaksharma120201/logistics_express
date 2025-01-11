@@ -10,8 +10,9 @@ import 'package:logistics_express/src/custom_widgets/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/reset_password.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
-  const ForgotPasswordScreen({super.key});
+  const ForgotPasswordScreen({super.key, required this.role});
 
+  final String role;
   @override
   ConsumerState<ForgotPasswordScreen> createState() {
     return _ForgotPasswordScreenState();
@@ -58,7 +59,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         child: SingleChildScrollView(
                           child: Form(
                             key: _formKey,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -112,6 +114,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       ResetPassword(
+                                                    role: widget.role,
                                                     email: authController
                                                         .emailController.text,
                                                   ),
