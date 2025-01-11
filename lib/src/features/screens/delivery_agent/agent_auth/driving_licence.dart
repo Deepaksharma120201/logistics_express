@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/take_image.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/vehicle_rc.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/vehicle_rc.dart';
 
 class DrivingLicence extends StatelessWidget {
   const DrivingLicence({super.key});
