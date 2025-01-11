@@ -97,17 +97,14 @@ class _ProfileInfoState extends State<ProfileInfo> {
     );
 
     if (_selectedImage != null) {
-      content = GestureDetector(
-        onTap: _takePicture,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: ClipOval(
-            child: Image.file(
-              _selectedImage!,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            ),
+      content = ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: ClipOval(
+          child: Image.file(
+            _selectedImage!,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
         ),
       );
@@ -135,18 +132,21 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     ),
                     child: content,
                   ),
-                  if (_selectedImage == null)
-                    Positioned(
-                      bottom: 5,
-                      right: 20,
-                      child: IconButton(
-                        onPressed: _takePicture,
-                        icon: Icon(Icons.edit),
+                  Positioned(
+                    bottom: 0,
+                    right: 15,
+                    child: IconButton(
+                      onPressed: _takePicture,
+                      icon: Icon(
+                        Icons.camera_alt,
+                        color: Theme.of(context).primaryColorDark,
                       ),
+                      tooltip: 'Edit Image',
                     ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 30),
               FormTextField(
                 validator: (val) => Validators.validateName(val!),
                 hintText: 'Enter Name',

@@ -11,6 +11,7 @@ class TakeImage extends StatefulWidget {
 
   final String text;
   final void Function()? toggle;
+
   @override
   State<TakeImage> createState() => _TakeImageState();
 }
@@ -83,17 +84,24 @@ class _TakeImageState extends State<TakeImage> {
     );
 
     if (_selectedImage != null) {
-      content = GestureDetector(
-        onTap: _takePicture,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.file(
-            _selectedImage!,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+      content = Stack(
+        alignment: Alignment.topRight,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.file(
+              _selectedImage!,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
           ),
-        ),
+          IconButton(
+            icon: Icon(Icons.edit, color: Colors.white),
+            onPressed: _takePicture,
+            tooltip: 'Edit Image',
+          ),
+        ],
       );
     }
 
