@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/authentication/auth_controller.dart';
-import 'package:logistics_express/src/authentication/auth_service.dart';
+import 'package:logistics_express/src/services/auth_controller.dart';
+import 'package:logistics_express/src/services/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
@@ -75,7 +74,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   label: 'Email',
                                   validator: (val) =>
                                       Validators.validateEmail(val!),
-                                  icon: Icon(FontAwesomeIcons.envelope),
+                                  icon: Icon(Icons.email),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: authController.emailController,
                                 ),
@@ -90,8 +89,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscurePassword
-                                          ? FontAwesomeIcons.eyeSlash
-                                          : FontAwesomeIcons.eye,
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -100,7 +99,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     },
                                   ),
                                   icon: Icon(
-                                    FontAwesomeIcons.lock,
+                                    Icons.lock_outline,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                 ),
@@ -113,7 +112,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ForgotPasswordScreen(),
+                                              const ForgotPasswordScreen(
+                                            role: 'user',
+                                          ),
                                         ),
                                       );
                                     },

@@ -13,10 +13,10 @@ class RideInformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
         title: const Text('Ride Information'),
       ),
-      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -27,11 +27,13 @@ class RideInformationScreen extends StatelessWidget {
               children: [
                 Text(
                   'Order id: $rideId',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 Text(
                   'Order date: $rideDate',
-                  style: const TextStyle(fontSize: 18),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
@@ -42,46 +44,54 @@ class RideInformationScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.red.shade100,
+                    color: Theme.of(context).colorScheme.errorContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
+                  child: Text(
                     'From: Kurukshetra',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.green.shade100,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
+                  child: Text(
                     'To: Delhi',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Status: In transit/Completed',
-              style: TextStyle(fontSize: 18),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Driver Information:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Driver Name: Akash',
-              style: TextStyle(fontSize: 18),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Driver Contact: 9440123456',
-              style: TextStyle(fontSize: 18),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),

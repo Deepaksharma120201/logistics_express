@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/forgot_password.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/details_fillup.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/sign_up.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/details_fillup.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/sign_up.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -106,7 +106,8 @@ class _LoginState extends ConsumerState<Login> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const ForgotPasswordScreen(),
+                                            const ForgotPasswordScreen(
+                                                role: 'delivery_agent'),
                                       ),
                                     );
                                   },

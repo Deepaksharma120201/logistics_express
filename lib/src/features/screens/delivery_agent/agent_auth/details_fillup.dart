@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/driving_licence.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/profile_info.dart';
-import 'package:logistics_express/src/features/screens/delivert_agent/agent_auth/vehicle_rc.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/driving_licence.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/profile_info.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/vehicle_rc.dart';
+import 'package:logistics_express/src/features/utils/delivery_agent_faq.dart';
 
 class DetailsFillup extends StatelessWidget {
   const DetailsFillup({super.key});
@@ -14,7 +15,11 @@ class DetailsFillup extends StatelessWidget {
         title: Text('Complete Profile'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (ctx) => DeliveryAgentFaq()),
+              );
+            },
             icon: const Icon(Icons.help_outline),
           ),
         ],
