@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/slide_drawer.dart';
@@ -23,7 +24,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.help_outline),
+            icon: const Icon(FontAwesomeIcons.circleQuestion),
           ),
         ],
       ),

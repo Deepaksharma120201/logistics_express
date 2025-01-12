@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/custom_list_tile.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/custom_text_button.dart';
 
@@ -31,7 +32,7 @@ class SideDrawer extends StatelessWidget {
                 radius: 50,
                 backgroundColor: theme.colorScheme.onPrimaryContainer,
                 child: Icon(
-                  Icons.person,
+                  FontAwesomeIcons.user,
                   size: 50,
                   color: theme.colorScheme.primary,
                 ),
@@ -64,15 +65,23 @@ class SideDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   CustomListTile(
-                    icon: Icons.edit,
+                    icon: FontAwesomeIcons.penToSquare,
                     text: 'Edit Profile',
                     onTap: () {},
                   ),
                   CustomListTile(
-                    icon: Icons.info,
+                    icon: FontAwesomeIcons.circleInfo,
                     text: 'About',
                     onTap: () {},
                   ),
+                  CustomListTile(
+                      icon: FontAwesomeIcons.headset,
+                      text: 'Contact Support',
+                      onTap: () {}),
+                  CustomListTile(
+                      icon: FontAwesomeIcons.gear,
+                      text: 'Settings',
+                      onTap: () {}),
                 ],
               ),
             ),
@@ -82,7 +91,7 @@ class SideDrawer extends StatelessWidget {
               thickness: 1,
             ),
             CustomListTile(
-              icon: Icons.logout,
+              icon: FontAwesomeIcons.rightFromBracket,
               text: 'Log Out',
               onTap: () {},
             ),
@@ -91,15 +100,15 @@ class SideDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomTextButton(
-                  icon: Icons.mail,
+                  icon: FontAwesomeIcons.envelope,
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: Icons.info,
+                  icon: FontAwesomeIcons.circleInfo,
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: Icons.image,
+                  icon: FontAwesomeIcons.instagram,
                   onPressed: () {},
                 ),
               ],

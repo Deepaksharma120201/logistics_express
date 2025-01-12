@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/authentication/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
@@ -85,7 +86,7 @@ class ResetPassword extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(width: 5),
-                            Icon(Icons.arrow_forward),
+                            Icon(FontAwesomeIcons.arrowRight),
                           ],
                         ),
                       ),

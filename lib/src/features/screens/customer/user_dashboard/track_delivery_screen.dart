@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/ride_information_screen.dart';
 
 class TrackDeliveryScreen extends StatefulWidget {
@@ -37,9 +38,9 @@ class _TrackDeliveryScreenState extends State<TrackDeliveryScreen> {
         //indicatorShape: Border.symmetric(horizontal:BorderSide(style: ),vertical:  ),
         destinations: const [
           NavigationDestination(
-              icon: Icon(Icons.local_shipping), label: 'Active',),
+              icon: Icon(FontAwesomeIcons.truck), label: 'Active',),
           NavigationDestination(
-              icon: Icon(Icons.check_circle), label: 'Completed'),
+              icon: Icon(FontAwesomeIcons.listCheck), label: 'Completed'),
         ],
         selectedIndex: selectedTabIndex,
         onDestinationSelected: (index) {
@@ -70,7 +71,7 @@ class DeliveryList extends StatelessWidget {
             child: ListTile(
               title: Text('Ride id - ${delivery['rideId']}'),
               subtitle: Text('Ride date - ${delivery['rideDate']}'),
-              trailing: const Icon(Icons.arrow_forward_ios),
+              trailing: const Icon(FontAwesomeIcons.angleRight),
               onTap: () {
                 Navigator.push(context,
                   MaterialPageRoute(

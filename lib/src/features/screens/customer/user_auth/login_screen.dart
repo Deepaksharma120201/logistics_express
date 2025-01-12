@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/authentication/auth_controller.dart';
 import 'package:logistics_express/src/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
@@ -74,7 +75,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   label: 'Email',
                                   validator: (val) =>
                                       Validators.validateEmail(val!),
-                                  icon: Icon(Icons.email),
+                                  icon: Icon(FontAwesomeIcons.envelope),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: authController.emailController,
                                 ),
@@ -89,8 +90,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
+                                          ? FontAwesomeIcons.eyeSlash
+                                          : FontAwesomeIcons.eye,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -99,7 +100,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     },
                                   ),
                                   icon: Icon(
-                                    Icons.lock_outline,
+                                    FontAwesomeIcons.lock,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                 ),
