@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/services/auth_controller.dart';
-import 'package:logistics_express/src/services/auth_service.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
@@ -10,9 +10,8 @@ import 'package:logistics_express/src/custom_widgets/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/reset_password.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
-  const ForgotPasswordScreen({super.key, required this.role});
+  const ForgotPasswordScreen({super.key});
 
-  final String role;
   @override
   ConsumerState<ForgotPasswordScreen> createState() {
     return _ForgotPasswordScreenState();
@@ -114,7 +113,6 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       ResetPassword(
-                                                    role: widget.role,
                                                     email: authController
                                                         .emailController.text,
                                                   ),

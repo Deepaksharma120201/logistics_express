@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/services/auth_controller.dart';
+import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
-import 'package:logistics_express/src/services/auth_service.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
-import 'package:logistics_express/src/features/screens/customer/user_auth/verify_email_screen.dart';
-import 'package:logistics_express/src/models/agent_model.dart';
+import '../../../../models/user_auth_model.dart';
+import '../../customer/user_auth/verify_email_screen.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -26,6 +26,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   Widget build(BuildContext context) {
     final authController = ref.watch(authControllerProvider);
     final authService = ref.watch(authServiceProvider);
+    final role = ref.watch(roleProvider);
 
     return SafeArea(
       child: GestureDetector(
@@ -130,9 +131,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                                           final password = authController
                                               .passwordController.text
                                               .trim();
-                                          final agentDetails = AgentModel(
-                                            password: password,
+                                          final userAuthDetails = UserAuthModel(
                                             email: email,
+                                            role: role!,
                                           );
                                           try {
                                             String? response = await authService
@@ -147,8 +148,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         VerifyEmail(
-                                                      agent: agentDetails,
                                                       email: email,
+                                                      userAuthModel:
+                                                          userAuthDetails,
                                                     ),
                                                   ),
                                                 );
@@ -192,7 +194,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const Login(),
+                                          builder: (context) =>
+                                              const LoginPage(),
                                         ),
                                       );
                                     },
