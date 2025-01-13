@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/services/auth_controller.dart';
-import 'package:logistics_express/src/services/auth_service.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/sign_up.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
@@ -27,6 +28,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final authController = ref.watch(authControllerProvider);
     final authService = ref.watch(authServiceProvider);
+    final role = ref.watch(roleProvider);
 
     return SafeArea(
       child: GestureDetector(
@@ -38,12 +40,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 absorbing: _isLoading,
                 child: Column(
                   children: [
-                    const Expanded(
+                    Expanded(
                       flex: 2,
                       child: FormHeader(
                         currentLogo: 'logo',
                         imageSize: 110,
-                        text: 'Login as a Customer',
+                        text: 'Login as a $role',
                       ),
                     ),
                     Expanded(
@@ -112,9 +114,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ForgotPasswordScreen(
-                                            role: 'user',
-                                          ),
+                                              const ForgotPasswordScreen(),
                                         ),
                                       );
                                     },
@@ -190,13 +190,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignupPage(),
-                                          ),
-                                        );
+                                        if (role == "Customer") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignupPage(), // Customer Signup Page
+                                            ),
+                                          );
+                                        } else if (role == "Delivery Agent") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignUp(), // Delivery Agent Signup Page
+                                            ),
+                                          );
+                                        }
                                       },
                                       child: Text(
                                         'Sign up',

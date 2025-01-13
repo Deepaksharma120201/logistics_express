@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/services/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
 
 class ResetPassword extends ConsumerWidget {
-  const ResetPassword({super.key, required this.email, required this.role});
+  const ResetPassword({super.key, required this.email});
 
   final String email;
-  final String role;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,21 +57,12 @@ class ResetPassword extends ConsumerWidget {
                       TextButton(
                         onPressed: () {
                           if (context.mounted) {
-                            if (role == 'user') {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                ),
-                              );
-                            } else if (role == 'delivery_agent') {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Login(),
-                                ),
-                              );
-                            }
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ),
+                            );
                             authController.clearAll();
                           } else {
                             showErrorSnackBar(

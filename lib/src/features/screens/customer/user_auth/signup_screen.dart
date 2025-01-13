@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/src/services/auth_controller.dart';
-import 'package:logistics_express/src/services/auth_service.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/models/user_model.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
@@ -10,6 +10,7 @@ import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/verify_email_screen.dart';
+import '../../../../models/user_auth_model.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -27,6 +28,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   Widget build(BuildContext context) {
     final authController = ref.watch(authControllerProvider);
     final authService = ref.watch(authServiceProvider);
+    final role = ref.watch(roleProvider);
 
     return SafeArea(
       child: GestureDetector(
@@ -155,6 +157,11 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                             final phone = authController
                                                 .phoneController.text
                                                 .trim();
+                                            final userAuthDetails =
+                                                UserAuthModel(
+                                              email: email,
+                                              role: role!,
+                                            );
                                             final userDetails = UserModel(
                                               name: name,
                                               phoneNo: phone,
@@ -177,6 +184,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                                           VerifyEmail(
                                                         email: email,
                                                         user: userDetails,
+                                                        userAuthModel:
+                                                            userAuthDetails,
                                                       ),
                                                     ),
                                                   );

@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() {
-    return _HomeScreenState();
-  }
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -51,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
+                                ref.read(roleProvider.notifier).state =
+                                    "Customer";
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -83,10 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             // const SizedBox(width: 46),
                             GestureDetector(
                               onTap: () {
+                                ref.read(roleProvider.notifier).state =
+                                    "Delivery Agent";
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Login(),
+                                    builder: (context) => const LoginPage(),
                                   ),
                                 );
                               },
