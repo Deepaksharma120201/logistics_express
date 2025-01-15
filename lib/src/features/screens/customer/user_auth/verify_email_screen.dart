@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/authentication/auth_controller.dart';
-import 'package:logistics_express/src/authentication/auth_service.dart';
-import 'package:logistics_express/src/authentication/models/user_model.dart';
-import 'package:logistics_express/src/authentication/services/user_services.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/details_fillup.dart';
+import 'package:logistics_express/src/models/user_auth_model.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
+import 'package:logistics_express/src/models/user_model.dart';
+import 'package:logistics_express/src/services/authentication/user_services.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 
 class VerifyEmail extends ConsumerStatefulWidget {
-  const VerifyEmail({super.key, required this.email, required this.user});
+  const VerifyEmail(
+      {super.key, required this.email, this.user, required this.userAuthModel});
 
   final String email;
-  final UserModel user;
-
+  final UserAuthModel userAuthModel;
+  final UserModel? user;
   @override
   ConsumerState<VerifyEmail> createState() {
     return _VerifyEmailState();
@@ -29,6 +31,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
   Widget build(BuildContext context) {
     final authController = ref.watch(authControllerProvider);
     final authService = ref.watch(authServiceProvider);
+    final role = ref.watch(roleProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -85,21 +88,35 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                                           _isLoading = true;
                                         });
                                         final userServices = UserServices();
-                                        await userServices
-                                            .createUser(widget.user);
+                                        await userServices.createAuthUser(
+                                            widget.userAuthModel);
+                                        if (widget.user != null) {
+                                          await userServices
+                                              .createUser(widget.user!);
+                                        }
                                         authController.clearAll();
                                         if (context.mounted) {
                                           showSuccessSnackBar(
                                             context,
-                                            'Account created successfully!',
+                                            'Email Verified!',
                                           );
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserHomeScreen(),
-                                            ),
-                                          );
+                                          if (role == 'Customer') {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UserHomeScreen(),
+                                              ),
+                                            );
+                                          } else {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailsFillup(),
+                                              ),
+                                            );
+                                          }
                                         }
                                       } else {
                                         showErrorSnackBar(
@@ -122,7 +139,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                                     ),
                                   ),
                                   SizedBox(width: 5),
-                                  Icon(FontAwesomeIcons.arrowRight),
+                                  Icon(Icons.arrow_forward),
                                 ],
                               ),
                             ),

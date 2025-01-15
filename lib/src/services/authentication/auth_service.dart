@@ -82,3 +82,5 @@ class AuthService {
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
 });
+
+final roleProvider = StateProvider<String?>((ref) => null);

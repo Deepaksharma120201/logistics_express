@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 
 class ResetPassword extends ConsumerWidget {
-  const ResetPassword({
-    super.key,
-    required this.email,
-  });
+  const ResetPassword({super.key, required this.email});
 
   final String email;
 
@@ -86,7 +82,7 @@ class ResetPassword extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(width: 5),
-                            Icon(FontAwesomeIcons.arrowRight),
+                            Icon(Icons.arrow_forward),
                           ],
                         ),
                       ),

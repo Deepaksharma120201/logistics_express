@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/login.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
-
   @override
-  State<HomeScreen> createState() {
-    return _HomeScreenState();
-  }
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context, WidgetRef ref) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -35,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   flex: 5,
                   child: Container(
-                    // padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 164, 118, 220),
                       borderRadius: BorderRadius.only(
@@ -45,12 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Column(
                       children: [
-                        const SizedBox(height: 275),
+                        const Spacer(), // Add spacer to ensure elements are pushed up
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             GestureDetector(
                               onTap: () {
+                                ref.read(roleProvider.notifier).state =
+                                    "Customer";
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -80,13 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            // const SizedBox(width: 46),
                             GestureDetector(
                               onTap: () {
+                                ref.read(roleProvider.notifier).state =
+                                    "Delivery Agent";
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Login(),
+                                    builder: (context) => const LoginPage(),
                                   ),
                                 );
                               },
@@ -115,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             )
                           ],
                         ),
+                        const Spacer(), // Add spacer at the bottom
                       ],
                     ),
                   ),
@@ -122,8 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Positioned(
-              left: 70,
-              bottom: 430,
+              left: MediaQuery.of(context).size.width * 0.17,
+              bottom: screenHeight * 0.5,
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(

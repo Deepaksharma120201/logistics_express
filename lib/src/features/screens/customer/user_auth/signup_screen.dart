@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/authentication/auth_controller.dart';
-import 'package:logistics_express/src/authentication/auth_service.dart';
-import 'package:logistics_express/src/authentication/models/user_model.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
+import 'package:logistics_express/src/models/user_model.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
@@ -11,6 +10,7 @@ import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/verify_email_screen.dart';
+import '../../../../models/user_auth_model.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -28,6 +28,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   Widget build(BuildContext context) {
     final authController = ref.watch(authControllerProvider);
     final authService = ref.watch(authServiceProvider);
+    final role = ref.watch(roleProvider);
 
     return SafeArea(
       child: GestureDetector(
@@ -71,7 +72,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                       Validators.validateName(val!),
                                   hintText: 'Enter Name',
                                   label: 'Full Name',
-                                  icon: const Icon(FontAwesomeIcons.user),
+                                  icon: const Icon(Icons.person),
                                   keyboardType: TextInputType.text,
                                   controller: authController.nameController,
                                 ),
@@ -81,7 +82,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                   label: 'Phone Number',
                                   validator: (val) =>
                                       Validators.validatePhone(val!),
-                                  icon: const Icon(FontAwesomeIcons.phone),
+                                  icon: const Icon(Icons.phone),
                                   keyboardType: TextInputType.phone,
                                   controller: authController.phoneController,
                                 ),
@@ -91,7 +92,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                   label: 'Email',
                                   validator: (val) =>
                                       Validators.validateEmail(val!),
-                                  icon: const Icon(FontAwesomeIcons.envelope),
+                                  icon: const Icon(Icons.email),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: authController.emailController,
                                 ),
@@ -102,14 +103,14 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                       Validators.validatePassword(val!),
                                   label: 'Password',
                                   obscureText: _obscurePassword,
-                                  icon: const Icon(FontAwesomeIcons.lock),
+                                  icon: const Icon(Icons.lock),
                                   keyboardType: TextInputType.visiblePassword,
                                   controller: authController.passwordController,
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscurePassword
-                                          ? FontAwesomeIcons.eyeSlash
-                                          : FontAwesomeIcons.eye,
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -127,7 +128,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                     val,
                                     authController.passwordController.text,
                                   ),
-                                  icon: const Icon(FontAwesomeIcons.fingerprint),
+                                  icon: const Icon(Icons.fingerprint_outlined),
                                   keyboardType: TextInputType.visiblePassword,
                                   controller:
                                       authController.confirmPasswordController,
@@ -156,11 +157,17 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                             final phone = authController
                                                 .phoneController.text
                                                 .trim();
+                                            final userAuthDetails =
+                                                UserAuthModel(
+                                              email: email,
+                                              role: role!,
+                                            );
                                             final userDetails = UserModel(
-                                                name: name,
-                                                phoneNo: phone,
-                                                password: password,
-                                                email: email);
+                                              name: name,
+                                              phoneNo: phone,
+                                              password: password,
+                                              email: email,
+                                            );
                                             try {
                                               String? response =
                                                   await authService
@@ -177,6 +184,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                                           VerifyEmail(
                                                         email: email,
                                                         user: userDetails,
+                                                        userAuthModel:
+                                                            userAuthDetails,
                                                       ),
                                                     ),
                                                   );
