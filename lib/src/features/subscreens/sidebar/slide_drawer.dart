@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
 class SlideDrawer extends StatelessWidget {
   const SlideDrawer({super.key});
@@ -7,6 +8,7 @@ class SlideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final AuthService authService = AuthService();
 
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.7,
@@ -100,7 +102,7 @@ class SlideDrawer extends StatelessWidget {
             CustomListTile(
               icon: Icons.logout,
               text: 'Log Out',
-              onTap: () {},
+              onTap: () => authService.signOut(context),
             ),
             const SizedBox(height: 20),
             Row(

@@ -13,12 +13,23 @@ class UserModel {
     required this.email,
   });
 
-  toJson() {
+  Map<String, dynamic> toMap() {
     return {
       "Name": name,
       "Email": email,
       "Phone": phoneNo,
       "Password": password,
     };
+  }
+
+  // Create an instance from a Firestore document
+  factory UserModel.fromMap(Map<String, dynamic> map, {String? id}) {
+    return UserModel(
+      id: id,
+      name: map['Name'] ?? '',
+      phoneNo: map['Phone'] ?? '',
+      password: map['Password'] ?? '',
+      email: map['Email'] ?? '',
+    );
   }
 }

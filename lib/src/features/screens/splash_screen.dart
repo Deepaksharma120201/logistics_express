@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:logistics_express/src/features/screens/home_screen.dart';
+import 'package:logistics_express/src/services/authentication/auth_gate.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate to home screen after 3 seconds
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+          .pushReplacement(MaterialPageRoute(builder: (_) => AuthGate()));
     });
   }
 
