@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
@@ -85,7 +86,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                                   hintText: 'Enter Email',
                                   validator: (val) =>
                                       Validators.validateEmail(val!),
-                                  icon: Icon(Icons.email),
+                                  icon: Icon(FontAwesomeIcons.envelope),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: authController.emailController,
                                 ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/validators.dart';
@@ -29,7 +30,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt_rounded),
+                leading: const Icon(FontAwesomeIcons.camera),
                 title: const Text('Take Picture'),
                 onTap: () async {
                   Navigator.of(ctx).pop(); // Close the modal
@@ -48,7 +49,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library_rounded),
+                leading: const Icon(FontAwesomeIcons.images),
                 title: const Text('Choose from Gallery'),
                 onTap: () async {
                   Navigator.of(ctx).pop(); // Close the modal
@@ -92,7 +93,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
   @override
   Widget build(BuildContext context) {
     Widget content = const Icon(
-      Icons.person,
+      FontAwesomeIcons.user,
       size: 180,
     );
 
@@ -138,7 +139,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     child: IconButton(
                       onPressed: _takePicture,
                       icon: Icon(
-                        Icons.camera_alt,
+                        FontAwesomeIcons.camera,
                         color: Theme.of(context).primaryColorDark,
                       ),
                       tooltip: 'Edit Image',
@@ -151,7 +152,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 validator: (val) => Validators.validateName(val!),
                 hintText: 'Enter Name',
                 label: 'Full Name',
-                icon: const Icon(Icons.person),
+                icon: const Icon(FontAwesomeIcons.user),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 20),
@@ -159,7 +160,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 validator: (val) => Validators.validatePhone(val!),
                 hintText: 'Enter Phone No.',
                 label: 'Phone Number',
-                icon: const Icon(Icons.phone),
+                icon: const Icon(FontAwesomeIcons.phone),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
@@ -167,12 +168,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 // validator: (val) => Validators.validateName(val!),
                 hintText: 'DD/MM/YYYY',
                 label: 'Date of Birth',
-                icon: const Icon(Icons.calendar_month),
+                icon: const Icon(FontAwesomeIcons.calendarDays),
                 controller: _dobController,
                 keyboardType: TextInputType.datetime,
                 suffixIcon: IconButton(
                   onPressed: _pickDateOfBirth,
-                  icon: Icon(Icons.calendar_month),
+                  icon: Icon(FontAwesomeIcons.calendarDays),
                 ),
               ),
               const SizedBox(height: 20),
@@ -180,7 +181,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 // validator: (val) => Validators.validateName(val!),
                 hintText: 'Aadhar card No.',
                 label: 'Enter Aadhar card No.',
-                icon: const Icon(Icons.perm_identity),
+                icon: const Icon(FontAwesomeIcons.user),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),

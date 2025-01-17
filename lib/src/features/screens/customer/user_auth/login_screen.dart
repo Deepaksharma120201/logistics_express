@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/sign_up.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/authentication/auth_gate.dart';
@@ -77,7 +78,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   label: 'Email',
                                   validator: (val) =>
                                       Validators.validateEmail(val!),
-                                  icon: Icon(Icons.email),
+                                  icon: Icon(FontAwesomeIcons.envelope),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: authController.emailController,
                                 ),
@@ -92,8 +93,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
+                                          ? FontAwesomeIcons.eyeSlash
+                                          : FontAwesomeIcons.eye,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -102,7 +103,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     },
                                   ),
                                   icon: Icon(
-                                    Icons.lock_outline,
+                                    FontAwesomeIcons.lock,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                 ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
-class SlideDrawer extends StatelessWidget {
-  const SlideDrawer({super.key});
+class SideDrawer extends StatelessWidget {
+  const SideDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class SlideDrawer extends StatelessWidget {
                 radius: 50,
                 backgroundColor: theme.colorScheme.onPrimaryContainer,
                 child: Icon(
-                  Icons.person,
+                  FontAwesomeIcons.user,
                   size: 50,
                   color: theme.colorScheme.primary,
                 ),
@@ -65,7 +66,7 @@ class SlideDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   CustomListTile(
-                    icon: Icons.edit,
+                    icon: FontAwesomeIcons.penToSquare,
                     text: 'Edit Profile',
                     onTap: () {
                       Navigator.push(
@@ -77,20 +78,18 @@ class SlideDrawer extends StatelessWidget {
                     },
                   ),
                   CustomListTile(
-                    icon: Icons.info,
+                    icon: FontAwesomeIcons.circleInfo,
                     text: 'About',
                     onTap: () {},
                   ),
                   CustomListTile(
-                    icon: Icons.contact_page,
-                    text: 'Contact Support',
-                    onTap: () {},
-                  ),
+                      icon: FontAwesomeIcons.headset,
+                      text: 'Contact Support',
+                      onTap: () {}),
                   CustomListTile(
-                    icon: Icons.settings,
-                    text: 'Settings',
-                    onTap: () {},
-                  ),
+                      icon: FontAwesomeIcons.gear,
+                      text: 'Settings',
+                      onTap: () {}),
                 ],
               ),
             ),
@@ -100,7 +99,7 @@ class SlideDrawer extends StatelessWidget {
               thickness: 1,
             ),
             CustomListTile(
-              icon: Icons.logout,
+              icon: FontAwesomeIcons.rightFromBracket,
               text: 'Log Out',
               onTap: () => authService.signOut(context),
             ),
@@ -109,15 +108,15 @@ class SlideDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomTextButton(
-                  icon: Icons.mail,
+                  icon: FontAwesomeIcons.envelope,
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: Icons.info,
+                  icon: FontAwesomeIcons.circleInfo,
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: Icons.image,
+                  icon: FontAwesomeIcons.instagram,
                   onPressed: () {},
                 ),
               ],
@@ -138,7 +137,6 @@ class SlideDrawer extends StatelessWidget {
     );
   }
 }
-
 class CustomListTile extends StatelessWidget {
   final IconData icon;
   final String text;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddressFilled extends StatefulWidget {
   const AddressFilled({super.key});
@@ -28,7 +29,7 @@ class _AddressFilledState extends State<AddressFilled> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.my_location_rounded),
+              const Icon(FontAwesomeIcons.locationCrosshairs),
               const SizedBox(width: 6),
               Expanded(
                 child: TextField(
@@ -43,7 +44,7 @@ class _AddressFilledState extends State<AddressFilled> {
               ),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.map_rounded, color: Colors.purple),
+                icon: const Icon(FontAwesomeIcons.map, color: Colors.purple),
               ),
             ],
           ),
@@ -71,7 +72,7 @@ class _AddressFilledState extends State<AddressFilled> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.location_on_rounded),
+              const Icon(FontAwesomeIcons.locationDot),
               const SizedBox(width: 6),
               Expanded(
                 child: TextField(
@@ -86,7 +87,7 @@ class _AddressFilledState extends State<AddressFilled> {
               ),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.map_rounded, color: Colors.purple),
+                icon: const Icon(FontAwesomeIcons.map, color: Colors.purple),
               ),
             ],
           ),

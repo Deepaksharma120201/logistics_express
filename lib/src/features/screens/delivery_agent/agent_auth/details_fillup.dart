@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/driving_licence.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/profile_info.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/vehicle_rc.dart';
@@ -20,7 +21,7 @@ class DetailsFillup extends StatelessWidget {
                 MaterialPageRoute(builder: (ctx) => DeliveryAgentFaq()),
               );
             },
-            icon: const Icon(Icons.help_outline),
+            icon: const Icon(FontAwesomeIcons.circleQuestion),
           ),
         ],
       ),
@@ -79,7 +80,7 @@ class DetailsFillup extends StatelessWidget {
             ),
             SizedBox(width: 8),
             Icon(
-              Icons.arrow_forward,
+              FontAwesomeIcons.arrowRight,
               color: Colors.white,
             ),
           ],

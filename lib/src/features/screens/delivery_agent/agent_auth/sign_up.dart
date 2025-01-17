@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
@@ -71,7 +72,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 label: 'Email',
                                 validator: (val) =>
                                     Validators.validateEmail(val!),
-                                icon: Icon(Icons.email),
+                                icon: Icon(FontAwesomeIcons.envelope),
                                 keyboardType: TextInputType.emailAddress,
                                 controller: authController.emailController,
                               ),
@@ -86,8 +87,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePassword
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
+                                        ? FontAwesomeIcons.eyeSlash
+                                        : FontAwesomeIcons.eye,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -96,7 +97,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                   },
                                 ),
                                 icon: Icon(
-                                  Icons.lock_outline,
+                                  FontAwesomeIcons.lock,
                                 ),
                                 keyboardType: TextInputType.visiblePassword,
                               ),
@@ -105,7 +106,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 label: 'Confirm Password',
                                 hintText: 'Confirm Password',
                                 icon: Icon(
-                                  Icons.fingerprint_outlined,
+                                  FontAwesomeIcons.fingerprint,
                                 ),
                                 validator: (val) =>
                                     Validators.validateConfirmPassword(

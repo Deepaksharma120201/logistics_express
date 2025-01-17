@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/details_fillup.dart';
 import 'package:logistics_express/src/models/user_auth_model.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
@@ -139,7 +140,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                                     ),
                                   ),
                                   SizedBox(width: 5),
-                                  Icon(Icons.arrow_forward),
+                                  Icon(FontAwesomeIcons.arrowRight),
                                 ],
                               ),
                             ),

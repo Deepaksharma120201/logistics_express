@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
-import 'package:logistics_express/src/features/screens/customer/user_dashboard/track_delivery_screen.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/slide_drawer.dart';
-import 'package:logistics_express/src/features/utils/customer_faq.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/track_delivery_screen.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -23,16 +23,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         title: Text('Dashboard'),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (ctx) => CustomerFaq()),
-              );
-            },
-            icon: const Icon(Icons.help_outline),
+            onPressed: () {},
+            icon: const Icon(FontAwesomeIcons.circleQuestion),
           ),
         ],
       ),
-      drawer: SlideDrawer(),
+      drawer: SideDrawer(),
       body: GridView(
         padding: EdgeInsets.all(20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
