@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/custom_list_tile.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/custom_text_button.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
@@ -67,7 +66,14 @@ class SideDrawer extends StatelessWidget {
                   CustomListTile(
                     icon: FontAwesomeIcons.penToSquare,
                     text: 'Edit Profile',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfile(),
+                        ),
+                      );
+                    },
                   ),
                   CustomListTile(
                     icon: FontAwesomeIcons.circleInfo,
@@ -125,6 +131,61 @@ class SideDrawer extends StatelessWidget {
             const SizedBox(height: 40),
           ],
         ),
+      ),
+    );
+  }
+}
+class CustomListTile extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final VoidCallback onTap;
+
+  const CustomListTile({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: theme.colorScheme.onPrimary,
+      ),
+      title: Text(
+        text,
+        style: theme.textTheme.bodyLarge?.copyWith(
+          color: theme.colorScheme.onPrimary,
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
+}
+
+class CustomTextButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const CustomTextButton({
+    super.key,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        color: theme.colorScheme.onPrimary,
       ),
     );
   }

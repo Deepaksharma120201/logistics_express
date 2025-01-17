@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class TakeImage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _TakeImageState extends State<TakeImage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt_rounded),
+                leading: const Icon(FontAwesomeIcons.camera),
                 title: const Text('Take Picture'),
                 onTap: () async {
                   Navigator.of(ctx).pop(); // Close the modal
@@ -50,7 +51,7 @@ class _TakeImageState extends State<TakeImage> {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library_rounded),
+                leading: const Icon(FontAwesomeIcons.images),
                 title: const Text('Choose from Gallery'),
                 onTap: () async {
                   Navigator.of(ctx).pop(); // Close the modal
@@ -78,7 +79,7 @@ class _TakeImageState extends State<TakeImage> {
   @override
   Widget build(BuildContext context) {
     Widget content = ElevatedButton.icon(
-      icon: Icon(Icons.image_rounded),
+      icon: Icon(FontAwesomeIcons.image),
       onPressed: _takePicture,
       label: Text(widget.text),
     );
@@ -97,7 +98,7 @@ class _TakeImageState extends State<TakeImage> {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.edit, color: Colors.white),
+            icon: Icon(FontAwesomeIcons.pen, color: Colors.white),
             onPressed: _takePicture,
             tooltip: 'Edit Image',
           ),

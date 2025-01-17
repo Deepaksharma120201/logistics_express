@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
 import 'package:logistics_express/src/custom_widgets/take_image.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/profile_info.dart';
@@ -30,7 +31,7 @@ class VehicleRc extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 suffixIcon: IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.error_outline),
+                  icon: Icon(FontAwesomeIcons.circleExclamation),
                 ),
               ),
               const SizedBox(height: 25),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/models/user_model.dart';
@@ -72,7 +73,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                       Validators.validateName(val!),
                                   hintText: 'Enter Name',
                                   label: 'Full Name',
-                                  icon: const Icon(Icons.person),
+                                  icon: const Icon(FontAwesomeIcons.user),
                                   keyboardType: TextInputType.text,
                                   controller: authController.nameController,
                                 ),
@@ -82,7 +83,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                   label: 'Phone Number',
                                   validator: (val) =>
                                       Validators.validatePhone(val!),
-                                  icon: const Icon(Icons.phone),
+                                  icon: const Icon(FontAwesomeIcons.phone),
                                   keyboardType: TextInputType.phone,
                                   controller: authController.phoneController,
                                 ),
@@ -92,7 +93,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                   label: 'Email',
                                   validator: (val) =>
                                       Validators.validateEmail(val!),
-                                  icon: const Icon(Icons.email),
+                                  icon: const Icon(FontAwesomeIcons.envelope),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: authController.emailController,
                                 ),
@@ -103,14 +104,14 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                       Validators.validatePassword(val!),
                                   label: 'Password',
                                   obscureText: _obscurePassword,
-                                  icon: const Icon(Icons.lock),
+                                  icon: const Icon(FontAwesomeIcons.lock),
                                   keyboardType: TextInputType.visiblePassword,
                                   controller: authController.passwordController,
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
+                                          ? FontAwesomeIcons.eyeSlash
+                                          : FontAwesomeIcons.eye,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -128,7 +129,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                     val,
                                     authController.passwordController.text,
                                   ),
-                                  icon: const Icon(Icons.fingerprint_outlined),
+                                  icon: const Icon(FontAwesomeIcons.fingerprint),
                                   keyboardType: TextInputType.visiblePassword,
                                   controller:
                                       authController.confirmPasswordController,
