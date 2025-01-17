@@ -7,9 +7,11 @@ import 'package:logistics_express/src/services/authentication/auth_service.dart'
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
+
   @override
- Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final screenHeight = MediaQuery.of(context).size.height;
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -56,6 +58,7 @@ class HomeScreen extends ConsumerWidget {
                               child: Container(
                                 width: 160,
                                 height: 160,
+                                margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
@@ -89,6 +92,7 @@ class HomeScreen extends ConsumerWidget {
                               child: Container(
                                 width: 160,
                                 height: 160,
+                                margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
@@ -119,7 +123,7 @@ class HomeScreen extends ConsumerWidget {
               ],
             ),
             Positioned(
-              left: MediaQuery.of(context).size.width * 0.17,
+              left: MediaQuery.of(context).size.width * 0.15,
               bottom: screenHeight * 0.5,
               child: GestureDetector(
                 onTap: () {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
@@ -8,6 +9,7 @@ class SideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final AuthService authService = AuthService();
 
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.7,
@@ -99,7 +101,7 @@ class SideDrawer extends StatelessWidget {
             CustomListTile(
               icon: FontAwesomeIcons.rightFromBracket,
               text: 'Log Out',
-              onTap: () {},
+              onTap: () => authService.signOut(context),
             ),
             const SizedBox(height: 20),
             Row(

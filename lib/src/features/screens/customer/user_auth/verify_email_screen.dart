@@ -6,7 +6,7 @@ import 'package:logistics_express/src/models/user_auth_model.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/models/user_model.dart';
-import 'package:logistics_express/src/services/authentication/user_services.dart';
+import 'package:logistics_express/src/services/user_services.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';

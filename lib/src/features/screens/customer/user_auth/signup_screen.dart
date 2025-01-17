@@ -194,7 +194,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                               } else {
                                                 if (context.mounted) {
                                                   showErrorSnackBar(
-                                                      context, response);
+                                                    context,
+                                                    response,
+                                                  );
                                                 }
                                               }
                                             } catch (e) {

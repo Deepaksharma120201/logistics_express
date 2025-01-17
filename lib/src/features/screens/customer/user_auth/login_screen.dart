@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/sign_up.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/authentication/auth_gate.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
@@ -145,21 +146,42 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                                 email,
                                                 password,
                                               );
-                                              if (response == null) {
+                                              if (response != null) {
                                                 if (context.mounted) {
                                                   authController.clearAll();
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const UserHomeScreen(),
-                                                    ),
-                                                  );
+                                                  if (response == role &&
+                                                      role == 'Customer') {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const UserHomeScreen(),
+                                                      ),
+                                                    );
+                                                  } else if (response == role &&
+                                                      role ==
+                                                          'Delivery Agent') {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const AuthGate(),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    // Handle unexpected response values
+                                                    showErrorSnackBar(
+                                                      context,
+                                                      'Unknown Role: $response',
+                                                    );
+                                                  }
                                                 }
                                               } else {
                                                 if (context.mounted) {
                                                   showErrorSnackBar(
-                                                      context, response);
+                                                    context,
+                                                    response!,
+                                                  );
                                                 }
                                               }
                                             } catch (e) {
@@ -196,7 +218,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  const SignupPage(), // Customer Signup Page
+                                                  const SignupPage(),
                                             ),
                                           );
                                         } else if (role == "Delivery Agent") {
