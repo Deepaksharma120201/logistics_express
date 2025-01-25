@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/contact_support.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/settings.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
 class SideDrawer extends StatelessWidget {
@@ -85,11 +87,23 @@ class SideDrawer extends StatelessWidget {
                   CustomListTile(
                       icon: FontAwesomeIcons.headset,
                       text: 'Contact Support',
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=> ContactSupport(),
+                          )
+                        );
+                      }),
                   CustomListTile(
                       icon: FontAwesomeIcons.gear,
                       text: 'Settings',
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context)=> Settings(),
+                            )
+                        );
+                      }),
                 ],
               ),
             ),
@@ -112,11 +126,11 @@ class SideDrawer extends StatelessWidget {
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: FontAwesomeIcons.github,
+                  icon: FontAwesomeIcons.circleInfo,
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: FontAwesomeIcons.linkedin,
+                  icon: FontAwesomeIcons.instagram,
                   onPressed: () {},
                 ),
               ],
@@ -137,7 +151,6 @@ class SideDrawer extends StatelessWidget {
     );
   }
 }
-
 class CustomListTile extends StatelessWidget {
   final IconData icon;
   final String text;
