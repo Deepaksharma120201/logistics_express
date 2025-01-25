@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
-import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/details_fillup.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -130,7 +130,7 @@ class HomeScreen extends ConsumerWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UserHomeScreen(),
+                      builder: (context) => const DetailsFillup(),
                     ),
                   );
                 },

@@ -7,11 +7,11 @@ class TakeImage extends StatefulWidget {
   const TakeImage({
     super.key,
     required this.text,
-    this.toggle,
+    required this.onImageSelected,
   });
 
   final String text;
-  final void Function()? toggle;
+  final void Function(File) onImageSelected;
 
   @override
   State<TakeImage> createState() => _TakeImageState();
@@ -20,10 +20,9 @@ class TakeImage extends StatefulWidget {
 class _TakeImageState extends State<TakeImage> {
   File? _selectedImage;
 
-  void _takePicture() async {
+  Future<void> _takePicture() async {
     final imagePicker = ImagePicker();
 
-    // Show bottom sheet modal to choose image source
     await showModalBottomSheet(
       context: context,
       builder: (ctx) {
@@ -35,7 +34,7 @@ class _TakeImageState extends State<TakeImage> {
                 leading: const Icon(FontAwesomeIcons.camera),
                 title: const Text('Take Picture'),
                 onTap: () async {
-                  Navigator.of(ctx).pop(); // Close the modal
+                  Navigator.of(ctx).pop();
 
                   // Pick image from camera
                   final pickedImage = await imagePicker.pickImage(
@@ -44,9 +43,11 @@ class _TakeImageState extends State<TakeImage> {
                   );
 
                   if (pickedImage != null) {
+                    final file = File(pickedImage.path);
                     setState(() {
-                      _selectedImage = File(pickedImage.path);
+                      _selectedImage = file;
                     });
+                    widget.onImageSelected(file); // Return image
                   }
                 },
               ),
@@ -54,7 +55,7 @@ class _TakeImageState extends State<TakeImage> {
                 leading: const Icon(FontAwesomeIcons.images),
                 title: const Text('Choose from Gallery'),
                 onTap: () async {
-                  Navigator.of(ctx).pop(); // Close the modal
+                  Navigator.of(ctx).pop();
 
                   // Pick image from gallery
                   final pickedImage = await imagePicker.pickImage(
@@ -63,9 +64,11 @@ class _TakeImageState extends State<TakeImage> {
                   );
 
                   if (pickedImage != null) {
+                    final file = File(pickedImage.path);
                     setState(() {
-                      _selectedImage = File(pickedImage.path);
+                      _selectedImage = file;
                     });
+                    widget.onImageSelected(file); // Return image
                   }
                 },
               ),
@@ -79,7 +82,7 @@ class _TakeImageState extends State<TakeImage> {
   @override
   Widget build(BuildContext context) {
     Widget content = ElevatedButton.icon(
-      icon: Icon(FontAwesomeIcons.image),
+      icon: const Icon(FontAwesomeIcons.image),
       onPressed: _takePicture,
       label: Text(widget.text),
     );
@@ -98,7 +101,7 @@ class _TakeImageState extends State<TakeImage> {
             ),
           ),
           IconButton(
-            icon: Icon(FontAwesomeIcons.pen, color: Colors.white),
+            icon: const Icon(FontAwesomeIcons.pencil, color: Colors.white),
             onPressed: _takePicture,
             tooltip: 'Edit Image',
           ),

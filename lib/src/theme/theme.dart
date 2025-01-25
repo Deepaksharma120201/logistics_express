@@ -68,7 +68,7 @@ var theme = ThemeData(
   ),
   iconTheme: IconThemeData(
     color: kColorScheme.primary,
-    size: 32,
+    size: 28,
   ),
 
   // TextButton customization

@@ -112,11 +112,11 @@ class SideDrawer extends StatelessWidget {
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: FontAwesomeIcons.circleInfo,
+                  icon: FontAwesomeIcons.github,
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: FontAwesomeIcons.instagram,
+                  icon: FontAwesomeIcons.linkedin,
                   onPressed: () {},
                 ),
               ],
@@ -137,6 +137,7 @@ class SideDrawer extends StatelessWidget {
     );
   }
 }
+
 class CustomListTile extends StatelessWidget {
   final IconData icon;
   final String text;

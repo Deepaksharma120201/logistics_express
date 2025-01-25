@@ -4,6 +4,7 @@ import 'package:logistics_express/src/features/screens/customer/user_dashboard/p
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/slide_drawer.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/track_delivery_screen.dart';
+import 'package:logistics_express/src/features/utils/customer_faq.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -23,7 +24,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         title: Text('Dashboard'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (ctx) => CustomerFaq()),
+              );
+            },
             icon: const Icon(FontAwesomeIcons.circleQuestion),
           ),
         ],

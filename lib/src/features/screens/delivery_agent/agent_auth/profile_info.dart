@@ -94,7 +94,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
   Widget build(BuildContext context) {
     Widget content = const Icon(
       FontAwesomeIcons.user,
-      size: 180,
+      size: 130,
     );
 
     if (_selectedImage != null) {
@@ -140,7 +140,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                       onPressed: _takePicture,
                       icon: Icon(
                         FontAwesomeIcons.camera,
-                        color: Theme.of(context).primaryColorDark,
+                        color: Theme.of(context).shadowColor,
                       ),
                       tooltip: 'Edit Image',
                     ),
@@ -168,12 +168,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 // validator: (val) => Validators.validateName(val!),
                 hintText: 'DD/MM/YYYY',
                 label: 'Date of Birth',
-                icon: const Icon(FontAwesomeIcons.calendarDays),
+                icon: const Icon(FontAwesomeIcons.solidCalendarDays),
                 controller: _dobController,
                 keyboardType: TextInputType.datetime,
                 suffixIcon: IconButton(
                   onPressed: _pickDateOfBirth,
-                  icon: Icon(FontAwesomeIcons.calendarDays),
+                  icon: Icon(FontAwesomeIcons.calendarDay),
                 ),
               ),
               const SizedBox(height: 20),
@@ -181,7 +181,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 // validator: (val) => Validators.validateName(val!),
                 hintText: 'Aadhar card No.',
                 label: 'Enter Aadhar card No.',
-                icon: const Icon(FontAwesomeIcons.user),
+                icon: const Icon(FontAwesomeIcons.idCard),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
