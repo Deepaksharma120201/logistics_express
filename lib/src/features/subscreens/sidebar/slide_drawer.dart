@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/about.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/contact_support.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/settings.dart';
@@ -82,7 +83,14 @@ class SideDrawer extends StatelessWidget {
                   CustomListTile(
                     icon: FontAwesomeIcons.circleInfo,
                     text: 'About',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => About(),
+                        ),
+                      );
+                    },
                   ),
                   CustomListTile(
                     icon: FontAwesomeIcons.headset,
