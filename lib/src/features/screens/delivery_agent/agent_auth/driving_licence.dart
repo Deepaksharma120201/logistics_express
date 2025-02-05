@@ -1,131 +1,152 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
-import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
-import 'package:logistics_express/src/custom_widgets/take_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logistics_express/src/custom_widgets/image_picker.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/vehicle_rc.dart';
+import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
+import 'package:logistics_express/src/features/utils/validators.dart';
+import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/cloudinary/cloudinary_service.dart';
 
-class DrivingLicence extends StatefulWidget {
+class DrivingLicence extends ConsumerStatefulWidget {
   const DrivingLicence({super.key});
 
   @override
-  State<DrivingLicence> createState() => _DrivingLicenceState();
+  ConsumerState<DrivingLicence> createState() => _DrivingLicenceState();
 }
 
-class _DrivingLicenceState extends State<DrivingLicence> {
+class _DrivingLicenceState extends ConsumerState<DrivingLicence> {
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+
   File? _frontImage;
   File? _backImage;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        backgroundColor: Theme.of(context).cardColor,
-        appBar: AppBar(
-          title: const Text('Driving Licence'),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TakeImage(
-                text: 'Upload Front-side',
-                onImageSelected: (File image) {
-                  setState(() {
-                    _frontImage = image;
-                  });
-                },
-              ),
-              const SizedBox(height: 14),
-              TakeImage(
-                text: 'Upload Back-side',
-                onImageSelected: (File image) {
-                  setState(() {
-                    _backImage = image;
-                  });
-                },
-              ),
-              const SizedBox(height: 25),
-              FormTextField(
-                label: 'Driving Licence No.',
-                hintText: 'Enter here',
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 15),
-              const Text('Eg: KA12345677899029'),
-              const SizedBox(height: 5),
-              const Text('Special characters are not allowed'),
-              const SizedBox(height: 25),
-              Center(
-                child: SubmitImage(
-                  frontImage: _frontImage,
-                  backImage: _backImage,
-                  route: (ctx) => const VehicleRc(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+    final authController = ref.watch(authControllerProvider);
 
-class SubmitImage extends StatelessWidget {
-  const SubmitImage({
-    super.key,
-    required File? frontImage,
-    required File? backImage,
-    required this.route,
-  })  : _frontImage = frontImage,
-        _backImage = backImage;
-
-  final File? _frontImage;
-  final File? _backImage;
-  final Widget Function(BuildContext) route;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
+    void submitForm() async {
+      try {
         if (_frontImage != null && _backImage != null) {
-          try {
-            bool response1 = await uploadToCloudinary(context, _frontImage!);
-            bool response2 = await uploadToCloudinary(context, _backImage!);
+          setState(() => _isLoading = true);
+          String? response1 = await uploadToCloudinary(context, _frontImage!);
+          String? response2 = await uploadToCloudinary(context, _backImage!);
 
-            if (response1 && response2 && context.mounted) {
+          if (response1 != null && response2 != null) {
+            User? user = FirebaseAuth.instance.currentUser;
+            await FirebaseFirestore.instance
+                .collection('agents')
+                .doc(user!.uid)
+                .update({
+              'DLFrontImageUrl': response1,
+              'DLBackImageUrl': response2,
+              'DLNumber': authController.drivingLicenceController.text.trim(),
+            });
+
+            if (context.mounted) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: route,
+                  builder: (ctx) => const VehicleRc(),
                 ),
-              );
-            } else {
-              if (context.mounted) {
-                showErrorSnackBar(
-                  context,
-                  "Failed to upload images. Please try again.",
-                );
-              }
-            }
-          } catch (e) {
-            if (context.mounted) {
-              showErrorSnackBar(
-                context,
-                "An error occurred. Please try again.",
               );
             }
           }
         } else {
-          showErrorSnackBar(
-            context,
-            "Please every required field!",
-          );
+          showErrorSnackBar(context, 'Please fill all required fields.');
         }
-      },
-      child: const Text('Submit'),
+      } catch (error) {
+        if (context.mounted) {
+          showErrorSnackBar(context, 'Error: ${error.toString()}');
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
+    }
+
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            backgroundColor: Theme.of(context).cardColor,
+            appBar: AppBar(
+              title: const Text('Driving Licence'),
+            ),
+            body: AbsorbPointer(
+              absorbing: _isLoading, // Prevents interaction while loading
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TakeImage(
+                        text: 'Upload Front-side',
+                        onImageSelected: (File image) {
+                          setState(() {
+                            _frontImage = image;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 14),
+                      TakeImage(
+                        text: 'Upload Back-side',
+                        onImageSelected: (File image) {
+                          setState(() {
+                            _backImage = image;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 25),
+                      FormTextField(
+                        label: 'Enter Driving Licence no.',
+                        hintText: 'e.g: DL-12-1234567',
+                        keyboardType: TextInputType.number,
+                        controller: authController.drivingLicenceController,
+                        validator: (val) =>
+                            Validators.validateDrivingLicence(val!),
+                      ),
+                      const SizedBox(height: 25),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              submitForm();
+                            } else {
+                              showErrorSnackBar(
+                                context,
+                                'Please fill all required fields.',
+                              );
+                            }
+                          },
+                          child: const Text('Submit'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (_isLoading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CustomLoader(),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Create a ChangeNotifier to manage TextEditingControllers
+// AuthController to manage input fields
 class AuthController extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController aadharController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
+  final TextEditingController drivingLicenceController =
+      TextEditingController();
+  final TextEditingController vehicleRcController = TextEditingController();
 
-  // Clear controllers
+  // Clear all controllers
   void clearAll() {
     nameController.clear();
     phoneController.clear();
     emailController.clear();
     passwordController.clear();
     confirmPasswordController.clear();
+    aadharController.clear();
+    dobController.clear();
+    drivingLicenceController.clear();
+    vehicleRcController.clear();
     notifyListeners();
   }
 
@@ -26,6 +36,10 @@ class AuthController extends ChangeNotifier {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    aadharController.dispose();
+    dobController.dispose();
+    drivingLicenceController.dispose();
+    vehicleRcController.dispose();
     super.dispose();
   }
 }

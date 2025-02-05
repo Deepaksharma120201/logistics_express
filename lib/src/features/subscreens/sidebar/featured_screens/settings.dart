@@ -22,7 +22,7 @@ class Settings extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -46,9 +46,10 @@ class Settings extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return Dialog(
-                                      insetPadding: EdgeInsets.zero,
+                                      insetPadding: EdgeInsets.all(8),
                                       child: Container(
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         padding: const EdgeInsets.all(16),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -69,7 +70,7 @@ class Settings extends StatelessWidget {
                                             const SizedBox(height: 24),
                                             Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                                  MainAxisAlignment.spaceAround,
                                               children: [
                                                 TextButton(
                                                   onPressed: () {
@@ -81,7 +82,7 @@ class Settings extends StatelessWidget {
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                     ScaffoldMessenger.of(
-                                                        context)
+                                                            context)
                                                         .showSnackBar(
                                                       const SnackBar(
                                                         content: Text(

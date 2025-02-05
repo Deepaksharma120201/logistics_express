@@ -85,25 +85,29 @@ class SideDrawer extends StatelessWidget {
                     onTap: () {},
                   ),
                   CustomListTile(
-                      icon: FontAwesomeIcons.headset,
-                      text: 'Contact Support',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context)=> ContactSupport(),
-                          )
-                        );
-                      }),
+                    icon: FontAwesomeIcons.headset,
+                    text: 'Contact Support',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ContactSupport(),
+                        ),
+                      );
+                    },
+                  ),
                   CustomListTile(
-                      icon: FontAwesomeIcons.gear,
-                      text: 'Settings',
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context)=> Settings(),
-                            )
-                        );
-                      }),
+                    icon: FontAwesomeIcons.gear,
+                    text: 'Settings',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Settings(),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -126,11 +130,11 @@ class SideDrawer extends StatelessWidget {
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: FontAwesomeIcons.circleInfo,
+                  icon: FontAwesomeIcons.github,
                   onPressed: () {},
                 ),
                 CustomTextButton(
-                  icon: FontAwesomeIcons.instagram,
+                  icon: FontAwesomeIcons.linkedin,
                   onPressed: () {},
                 ),
               ],
@@ -151,6 +155,7 @@ class SideDrawer extends StatelessWidget {
     );
   }
 }
+
 class CustomListTile extends StatelessWidget {
   final IconData icon;
   final String text;

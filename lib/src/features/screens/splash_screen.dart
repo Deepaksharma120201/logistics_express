@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Initialize the animation controller and define the animation
     _controller = AnimationController(
         vsync: this,
-        duration: const Duration(seconds: 2)); // Animation duration
+        duration: const Duration(seconds: 4)); // Animation duration
 
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 

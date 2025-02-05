@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import "package:http/http.dart" as http;
-import 'package:logistics_express/src/custom_widgets/firebase_exceptions.dart';
+import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
 
-Future<bool> uploadToCloudinary(BuildContext context, File file) async {
-  // Retrieve Cloudinary cloud name and preset from environment variables
+Future<String?> uploadToCloudinary(BuildContext context, File file) async {
+  // Retrieve Cloudinary cloud name from environment variables
   String cloudName = dotenv.env['CLOUDINARY_CLOUD_NAME'] ?? '';
 
   try {
@@ -29,38 +29,25 @@ Future<bool> uploadToCloudinary(BuildContext context, File file) async {
 
     // Send the request and await the response
     var response = await request.send();
-
-    // Read the response as a string
     var responseBody = await response.stream.bytesToString();
 
     if (response.statusCode == 200) {
-      // Parse the JSON response
       var jsonResponse = jsonDecode(responseBody);
-      Map<String, String> requiredData = {
-        "name": file.path.split("/").last,
-        "id": jsonResponse["public_id"],
-        "extension": file.path.split(".").last,
-        "size": jsonResponse["bytes"].toString(),
-        "url": jsonResponse["secure_url"],
-        "created_at": jsonResponse["created_at"],
-      };
-
-      // await DbService().saveUploadedFilesData(requiredData);
-      if (context.mounted) {
-        showSuccessSnackBar(context, "Upload successful!");
-      }
-      return true;
+      String imageUrl = jsonResponse["secure_url"];
+      // await DbService().updateProfileUrl(imageUrl);
+      
+      return imageUrl;
     } else {
       if (context.mounted) {
         showErrorSnackBar(
             context, "Upload failed with status: ${response.statusCode}");
       }
-      return false;
+      return null;
     }
   } catch (e) {
     if (context.mounted) {
       showErrorSnackBar(context, "Error occurred during upload: $e");
     }
-    return false;
+    return null;
   }
 }

@@ -1,5 +1,5 @@
 class AgentModel {
-  final String? id;
+  final String id;
   final String name;
   final String phoneNo;
   final String date;
@@ -14,7 +14,7 @@ class AgentModel {
   final String? rcNumber;
 
   const AgentModel({
-    this.id,
+    required this.id,
     required this.date,
     required this.name,
     required this.phoneNo,
@@ -48,9 +48,9 @@ class AgentModel {
   }
 
   // Create an instance from a Firestore document
-  factory AgentModel.fromMap(Map<String, dynamic> map, {String? id}) {
+  factory AgentModel.fromMap(Map<String, dynamic> map) {
     return AgentModel(
-      id: id ?? map['id'], // Default to map['id'] if id is null
+      id: map['id'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',
       date: map['Date'] ?? '',

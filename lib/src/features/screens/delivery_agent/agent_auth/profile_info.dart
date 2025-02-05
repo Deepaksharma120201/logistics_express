@@ -1,22 +1,32 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/custom_widgets/date_picker.dart';
+import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
-import 'package:logistics_express/src/custom_widgets/validators.dart';
+import 'package:logistics_express/src/features/utils/validators.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/driving_licence.dart';
+import 'package:logistics_express/src/models/agent_model.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/cloudinary/cloudinary_service.dart';
+import 'package:logistics_express/src/services/user_services.dart';
 
-class ProfileInfo extends StatefulWidget {
+class ProfileInfo extends ConsumerStatefulWidget {
   const ProfileInfo({super.key});
 
   @override
-  State<ProfileInfo> createState() => _ProfileInfoState();
+  ConsumerState<ProfileInfo> createState() => _ProfileInfoState();
 }
 
-class _ProfileInfoState extends State<ProfileInfo> {
+class _ProfileInfoState extends ConsumerState<ProfileInfo> {
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
   File? _selectedImage;
   String? _selectedGender;
-  final TextEditingController _dobController = TextEditingController();
 
   void _takePicture() async {
     final imagePicker = ImagePicker();
@@ -33,9 +43,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 leading: const Icon(FontAwesomeIcons.camera),
                 title: const Text('Take Picture'),
                 onTap: () async {
-                  Navigator.of(ctx).pop(); // Close the modal
-
-                  // Pick image from camera
+                  Navigator.of(ctx).pop();
                   final pickedImage = await imagePicker.pickImage(
                     source: ImageSource.camera,
                     maxWidth: 600,
@@ -52,9 +60,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 leading: const Icon(FontAwesomeIcons.images),
                 title: const Text('Choose from Gallery'),
                 onTap: () async {
-                  Navigator.of(ctx).pop(); // Close the modal
-
-                  // Pick image from gallery
+                  Navigator.of(ctx).pop();
                   final pickedImage = await imagePicker.pickImage(
                     source: ImageSource.gallery,
                     maxWidth: 600,
@@ -74,24 +80,56 @@ class _ProfileInfoState extends State<ProfileInfo> {
     );
   }
 
-  void _pickDateOfBirth() async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1950),
-      lastDate: DateTime.now(),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _dobController.text =
-            '${pickedDate.day}/${pickedDate.month}/${pickedDate.year}'; // Format date as DD/MM/YYYY
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final authController = ref.watch(authControllerProvider);
+
+    void submitForm() async {
+      if (_selectedImage == null || _selectedGender == null) {
+        showErrorSnackBar(context, 'Please fill all required fields.');
+        return;
+      }
+      setState(() => _isLoading = true);
+
+      try {
+        String? response = await uploadToCloudinary(context, _selectedImage!);
+        if (response == null && context.mounted) {
+          showErrorSnackBar(
+              context, 'Failed to upload image. Please try again.');
+          return;
+        }
+
+        User? user = FirebaseAuth.instance.currentUser;
+        AgentModel agent = AgentModel(
+          id: user!.uid,
+          name: authController.nameController.text.trim(),
+          phoneNo: authController.phoneController.text.trim(),
+          date: authController.dobController.text.trim(),
+          aadhar: authController.aadharController.text.trim(),
+          gender: _selectedGender!,
+          profileImageUrl: response!,
+        );
+
+        final userServices = UserServices();
+        await userServices.createAgent(agent);
+        authController.clearAll();
+
+        if (context.mounted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (ctx) => const DrivingLicence()),
+          );
+        }
+      } catch (error) {
+        if (context.mounted) {
+          showErrorSnackBar(context, 'Error: ${error.toString()}');
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
+    }
+
     Widget content = const Icon(
       FontAwesomeIcons.user,
       size: 130,
@@ -111,125 +149,153 @@ class _ProfileInfoState extends State<ProfileInfo> {
       );
     }
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        backgroundColor: Theme.of(context).cardColor,
-        appBar: AppBar(
-          title: const Text('Profile Info'),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(width: 1, color: Colors.black),
-                    ),
-                    child: content,
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 15,
-                    child: IconButton(
-                      onPressed: _takePicture,
-                      icon: Icon(
-                        FontAwesomeIcons.camera,
-                        color: Theme.of(context).shadowColor,
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            backgroundColor: Theme.of(context).cardColor,
+            appBar: AppBar(
+              title: const Text('Profile Info'),
+            ),
+            body: AbsorbPointer(
+              absorbing: _isLoading,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(15),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            width: 200,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 1, color: Colors.black),
+                            ),
+                            child: content,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 15,
+                            child: IconButton(
+                              onPressed: _takePicture,
+                              icon: Icon(
+                                FontAwesomeIcons.camera,
+                                color: Theme.of(context).shadowColor,
+                              ),
+                              tooltip: 'Edit Image',
+                            ),
+                          ),
+                        ],
                       ),
-                      tooltip: 'Edit Image',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              FormTextField(
-                validator: (val) => Validators.validateName(val!),
-                hintText: 'Enter Name',
-                label: 'Full Name',
-                icon: const Icon(FontAwesomeIcons.user),
-                keyboardType: TextInputType.text,
-              ),
-              const SizedBox(height: 20),
-              FormTextField(
-                validator: (val) => Validators.validatePhone(val!),
-                hintText: 'Enter Phone No.',
-                label: 'Phone Number',
-                icon: const Icon(FontAwesomeIcons.phone),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 20),
-              FormTextField(
-                // validator: (val) => Validators.validateName(val!),
-                hintText: 'DD/MM/YYYY',
-                label: 'Date of Birth',
-                icon: const Icon(FontAwesomeIcons.solidCalendarDays),
-                controller: _dobController,
-                keyboardType: TextInputType.datetime,
-                suffixIcon: IconButton(
-                  onPressed: _pickDateOfBirth,
-                  icon: Icon(FontAwesomeIcons.calendarDay),
-                ),
-              ),
-              const SizedBox(height: 20),
-              FormTextField(
-                // validator: (val) => Validators.validateName(val!),
-                hintText: 'Aadhar card No.',
-                label: 'Enter Aadhar card No.',
-                icon: const Icon(FontAwesomeIcons.idCard),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: DropdownButton<String>(
-                    dropdownColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                    isExpanded: true,
-                    hint: Text('Select Gender'),
-                    value: _selectedGender,
-                    items: [
-                      DropdownMenuItem(
-                        value: 'Male',
-                        child: Text('Male'),
+                      const SizedBox(height: 30),
+                      FormTextField(
+                        validator: (val) => Validators.validateName(val!),
+                        hintText: 'Enter Name',
+                        label: 'Full Name',
+                        keyboardType: TextInputType.text,
+                        controller: authController.nameController,
                       ),
-                      DropdownMenuItem(
-                        value: 'Female',
-                        child: Text('Female'),
+                      const SizedBox(height: 20),
+                      FormTextField(
+                        validator: (val) => Validators.validatePhone(val!),
+                        hintText: 'Enter Phone No.',
+                        label: 'Phone Number',
+                        keyboardType: TextInputType.number,
+                        controller: authController.phoneController,
+                      ),
+                      const SizedBox(height: 20),
+                      FormTextField(
+                        readOnly: true,
+                        validator: (val) => Validators.validateDate(val!),
+                        hintText: 'DD/MM/YYYY',
+                        label: 'Date of Birth',
+                        controller: authController.dobController,
+                        onTap: () async {
+                          String selectedDate =
+                              await DatePicker.pickDate(context);
+                          setState(() {
+                            authController.dobController.text = selectedDate;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      FormTextField(
+                        validator: (val) => Validators.validateAadhar(val!),
+                        hintText: 'Aadhar card No.',
+                        label: 'Enter Aadhar card No.',
+                        keyboardType: TextInputType.number,
+                        controller: authController.aadharController,
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        child: DropdownButtonFormField<String>(
+                          dropdownColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                          isExpanded: true,
+                          hint: Text('Select Gender'),
+                          value: _selectedGender,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'Male',
+                              child: Text('Male'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Female',
+                              child: Text('Female'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedGender = value;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              submitForm();
+                            } else {
+                              showErrorSnackBar(
+                                context,
+                                'Please fill all required fields.',
+                              );
+                            }
+                          },
+                          child: const Text('Submit'),
+                        ),
                       ),
                     ],
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedGender = value;
-                      });
-                    },
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) => DrivingLicence(),
-                      ),
-                    );
-                  },
-                  child: const Text('Submit'),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+        if (_isLoading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CustomLoader(),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

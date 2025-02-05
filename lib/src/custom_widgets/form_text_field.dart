@@ -6,18 +6,22 @@ class FormTextField extends StatelessWidget {
     required this.label,
     required this.hintText,
     this.icon,
-    required this.keyboardType,
+    this.keyboardType,
     this.suffixIcon,
     this.validator,
     this.controller,
     this.obscureText,
     this.onChanged,
+    this.readOnly,
+    this.onTap,
   });
 
   final String label;
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
   final String hintText;
   final Icon? icon;
+  final bool? readOnly;
+  final VoidCallback? onTap;
   final IconButton? suffixIcon;
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
@@ -35,6 +39,8 @@ class FormTextField extends StatelessWidget {
           ),
         Expanded(
           child: TextFormField(
+            onTap: onTap,
+            readOnly: readOnly ?? false,
             obscureText: obscureText ?? false,
             controller: controller,
             validator: validator,
