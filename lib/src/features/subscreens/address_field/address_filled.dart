@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/theme/theme.dart';
 
 class AddressFilled extends StatefulWidget {
   const AddressFilled({super.key});
@@ -44,7 +45,7 @@ class _AddressFilledState extends State<AddressFilled> {
               ),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.map, color: Colors.purple),
+                icon: Icon(FontAwesomeIcons.map, color:theme.primaryColor),
               ),
             ],
           ),
@@ -87,7 +88,7 @@ class _AddressFilledState extends State<AddressFilled> {
               ),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.map, color: Colors.purple),
+                icon: Icon(FontAwesomeIcons.map, color: theme.primaryColor),
               ),
             ],
           ),
