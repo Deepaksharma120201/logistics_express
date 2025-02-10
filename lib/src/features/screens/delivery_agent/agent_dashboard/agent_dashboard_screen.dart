@@ -48,7 +48,8 @@ class _AgentHomeScreenState extends State<AgentHomeScreen> {
         children: [
           _containerButton(context, 'Publish Ride', PublishRide()),
           _containerButton(context, 'Update Ride', UpdateRide()),
-          _containerButton(context, 'See Requested Delivery', SeeRequestedDelivery()),
+          _containerButton(
+              context, 'See Requested Delivery', SeeRequestedDelivery()),
           _containerButton(context, 'Track Delivery', TrackDelivery()),
           _containerButton(context, 'View Payment History', PaymentHistory()),
           _containerButton(context, 'Price Estimation', PriceEstimation()),
