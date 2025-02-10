@@ -47,6 +47,13 @@ class _VehicleRcState extends ConsumerState<VehicleRc> {
               'RCNumber': authController.drivingLicenceController.text.trim(),
             });
 
+            await FirebaseFirestore.instance
+                .collection('user_auth')
+                .doc(user.uid)
+                .update({
+              'isCompleted': true,
+            });
+
             if (context.mounted) {
               Navigator.of(context).push(
                 MaterialPageRoute(

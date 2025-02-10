@@ -31,9 +31,9 @@ class UserModel {
   }
 
   // Create an instance from a Firestore document
-  factory UserModel.fromMap(Map<String, dynamic> map, {String? id}) {
+  factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: id ?? map['id'], // Default to map['id'] if id is null
+      id: map['id'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',
       password: map['Password'] ?? '',
