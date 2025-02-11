@@ -2,7 +2,7 @@ class AgentModel {
   final String id;
   final String name;
   final String phoneNo;
-  final String date;
+  final String dateOfBirth;
   final String aadhar;
   final String gender;
   final String profileImageUrl;
@@ -14,8 +14,8 @@ class AgentModel {
   final String? rcNumber;
 
   const AgentModel({
+    required this.dateOfBirth,
     required this.id,
-    required this.date,
     required this.name,
     required this.phoneNo,
     required this.aadhar,
@@ -34,7 +34,7 @@ class AgentModel {
       "id": id,
       "Name": name,
       "Phone": phoneNo,
-      "Date": date,
+      "Date": dateOfBirth,
       "Aadhar": aadhar,
       "Gender": gender,
       "ProfileImageUrl": profileImageUrl,
@@ -53,7 +53,7 @@ class AgentModel {
       id: map['id'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',
-      date: map['Date'] ?? '',
+      dateOfBirth: map['Date'] ?? '',
       aadhar: map['Aadhar'] ?? '',
       gender: map['Gender'] ?? '',
       profileImageUrl: map['ProfileImageUrl'] ?? '',
