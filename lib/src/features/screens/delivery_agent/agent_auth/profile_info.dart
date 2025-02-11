@@ -2,18 +2,17 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
-import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
-import 'package:logistics_express/src/features/utils/validators.dart';
+import 'package:logistics_express/src/custom_widgets/profile_picker.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/driving_licence.dart';
+import 'package:logistics_express/src/features/utils/validators.dart';
 import 'package:logistics_express/src/models/agent_model.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/cloudinary/cloudinary_service.dart';
 import 'package:logistics_express/src/services/user_services.dart';
+import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
 
 class ProfileInfo extends ConsumerStatefulWidget {
   const ProfileInfo({super.key});
@@ -28,58 +27,6 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
   File? _selectedImage;
   String? _selectedGender;
 
-  void _takePicture() async {
-    final imagePicker = ImagePicker();
-
-    // Show bottom sheet modal to choose image source
-    await showModalBottomSheet(
-      context: context,
-      builder: (ctx) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(FontAwesomeIcons.camera),
-                title: const Text('Take Picture'),
-                onTap: () async {
-                  Navigator.of(ctx).pop();
-                  final pickedImage = await imagePicker.pickImage(
-                    source: ImageSource.camera,
-                    maxWidth: 600,
-                  );
-
-                  if (pickedImage != null) {
-                    setState(() {
-                      _selectedImage = File(pickedImage.path);
-                    });
-                  }
-                },
-              ),
-              ListTile(
-                leading: const Icon(FontAwesomeIcons.images),
-                title: const Text('Choose from Gallery'),
-                onTap: () async {
-                  Navigator.of(ctx).pop();
-                  final pickedImage = await imagePicker.pickImage(
-                    source: ImageSource.gallery,
-                    maxWidth: 600,
-                  );
-
-                  if (pickedImage != null) {
-                    setState(() {
-                      _selectedImage = File(pickedImage.path);
-                    });
-                  }
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final authController = ref.watch(authControllerProvider);
@@ -92,8 +39,8 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
       setState(() => _isLoading = true);
 
       try {
-        String? response = await uploadToCloudinary(context, _selectedImage!);
-        if (response == null && context.mounted) {
+        String? imageUrl = await uploadToCloudinary(context, _selectedImage!);
+        if (imageUrl == null && context.mounted) {
           showErrorSnackBar(
               context, 'Failed to upload image. Please try again.');
           return;
@@ -104,10 +51,10 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
           id: user!.uid,
           name: authController.nameController.text.trim(),
           phoneNo: authController.phoneController.text.trim(),
-          date: authController.dobController.text.trim(),
+          dateOfBirth: authController.dobController.text.trim(),
           aadhar: authController.aadharController.text.trim(),
           gender: _selectedGender!,
-          profileImageUrl: response!,
+          profileImageUrl: imageUrl!,
         );
 
         final userServices = UserServices();
@@ -130,66 +77,28 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
       }
     }
 
-    Widget content = const Icon(
-      FontAwesomeIcons.user,
-      size: 130,
-    );
-
-    if (_selectedImage != null) {
-      content = ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: ClipOval(
-          child: Image.file(
-            _selectedImage!,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-        ),
-      );
-    }
-
     return Stack(
       children: [
         GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             backgroundColor: Theme.of(context).cardColor,
-            appBar: AppBar(
-              title: const Text('Profile Info'),
-            ),
+            appBar: AppBar(title: const Text('Profile Info')),
             body: AbsorbPointer(
               absorbing: _isLoading,
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      Stack(
-                        children: [
-                          Container(
-                            width: 200,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(width: 1, color: Colors.black),
-                            ),
-                            child: content,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 15,
-                            child: IconButton(
-                              onPressed: _takePicture,
-                              icon: Icon(
-                                FontAwesomeIcons.camera,
-                                color: Theme.of(context).shadowColor,
-                              ),
-                              tooltip: 'Edit Image',
-                            ),
-                          ),
-                        ],
+                      ProfilePicker(
+                        onImagePicked: (file) {
+                          setState(() {
+                            _selectedImage = file;
+                          });
+                        },
+                        initialImage: _selectedImage,
                       ),
                       const SizedBox(height: 30),
                       FormTextField(
@@ -231,37 +140,30 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
                         controller: authController.aadharController,
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        child: DropdownButtonFormField<String>(
-                          dropdownColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          isExpanded: true,
-                          hint: Text('Select Gender'),
-                          value: _selectedGender,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
+                      DropdownButtonFormField<String>(
+                        dropdownColor:
+                            Theme.of(context).colorScheme.primaryContainer,
+                        isExpanded: true,
+                        hint: const Text('Select Gender'),
+                        value: _selectedGender,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          items: [
-                            DropdownMenuItem(
-                              value: 'Male',
-                              child: Text('Male'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'Female',
-                              child: Text('Female'),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedGender = value;
-                            });
-                          },
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
+                        items: const [
+                          DropdownMenuItem(value: 'Male', child: Text('Male')),
+                          DropdownMenuItem(
+                              value: 'Female', child: Text('Female')),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedGender = value;
+                          });
+                        },
                       ),
                       const SizedBox(height: 30),
                       Center(
@@ -290,9 +192,7 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
           Positioned.fill(
             child: Container(
               color: Colors.black.withOpacity(0.4),
-              child: const Center(
-                child: CustomLoader(),
-              ),
+              child: const Center(child: CustomLoader()),
             ),
           ),
       ],

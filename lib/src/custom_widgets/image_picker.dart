@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
+import 'image_picker_service.dart';
 
 class TakeImage extends StatefulWidget {
   const TakeImage({
@@ -20,70 +20,21 @@ class TakeImage extends StatefulWidget {
 class _TakeImageState extends State<TakeImage> {
   File? _selectedImage;
 
-  Future<void> _takePicture() async {
-    final imagePicker = ImagePicker();
-
-    await showModalBottomSheet(
-      context: context,
-      builder: (ctx) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(FontAwesomeIcons.camera),
-                title: const Text('Take Picture'),
-                onTap: () async {
-                  Navigator.of(ctx).pop();
-
-                  // Pick image from camera
-                  final pickedImage = await imagePicker.pickImage(
-                    source: ImageSource.camera,
-                    maxWidth: 600,
-                  );
-
-                  if (pickedImage != null) {
-                    final file = File(pickedImage.path);
-                    setState(() {
-                      _selectedImage = file;
-                    });
-                    widget.onImageSelected(file); // Return image
-                  }
-                },
-              ),
-              ListTile(
-                leading: const Icon(FontAwesomeIcons.images),
-                title: const Text('Choose from Gallery'),
-                onTap: () async {
-                  Navigator.of(ctx).pop();
-
-                  // Pick image from gallery
-                  final pickedImage = await imagePicker.pickImage(
-                    source: ImageSource.gallery,
-                    maxWidth: 600,
-                  );
-
-                  if (pickedImage != null) {
-                    final file = File(pickedImage.path);
-                    setState(() {
-                      _selectedImage = file;
-                    });
-                    widget.onImageSelected(file); // Return image
-                  }
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  Future<void> _pickImage() async {
+    final file = await pickImage(context);
+    if (file != null) {
+      setState(() {
+        _selectedImage = file;
+      });
+      widget.onImageSelected(file);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     Widget content = ElevatedButton.icon(
       icon: const Icon(FontAwesomeIcons.image),
-      onPressed: _takePicture,
+      onPressed: _pickImage,
       label: Text(widget.text),
     );
 
@@ -102,7 +53,7 @@ class _TakeImageState extends State<TakeImage> {
           ),
           IconButton(
             icon: const Icon(FontAwesomeIcons.pencil, color: Colors.white),
-            onPressed: _takePicture,
+            onPressed: _pickImage,
             tooltip: 'Edit Image',
           ),
         ],
