@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/edit_profile.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/about.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/contact_support.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/settings.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
@@ -67,21 +71,49 @@ class SideDrawer extends StatelessWidget {
                   CustomListTile(
                     icon: FontAwesomeIcons.penToSquare,
                     text: 'Edit Profile',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfile(),
+                        ),
+                      );
+                    },
                   ),
                   CustomListTile(
                     icon: FontAwesomeIcons.circleInfo,
                     text: 'About',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => About(),
+                        ),
+                      );
+                    },
                   ),
                   CustomListTile(
                       icon: FontAwesomeIcons.headset,
                       text: 'Contact Support',
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContactSupport(),
+                          ),
+                        );
+                      }),
                   CustomListTile(
                       icon: FontAwesomeIcons.gear,
                       text: 'Settings',
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Settings(),
+                          ),
+                        );
+                      }),
                 ],
               ),
             ),
@@ -129,6 +161,7 @@ class SideDrawer extends StatelessWidget {
     );
   }
 }
+
 class CustomListTile extends StatelessWidget {
   final IconData icon;
   final String text;
