@@ -32,11 +32,11 @@ class FormTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (icon != null)
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: icon,
-          ),
+        // if (icon != null)
+        //   Container(
+        //     margin: const EdgeInsets.only(right: 10),
+        //     child: icon,
+        //   ),
         Expanded(
           child: TextFormField(
             onTap: onTap,
