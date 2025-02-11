@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -95,6 +97,14 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                                           await userServices
                                               .createUser(widget.user!);
                                         }
+                                        User? user =
+                                            FirebaseAuth.instance.currentUser;
+                                        await FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(user!.uid)
+                                            .update({
+                                          'id': user.uid,
+                                        });
                                         authController.clearAll();
                                         if (context.mounted) {
                                           showSuccessSnackBar(
