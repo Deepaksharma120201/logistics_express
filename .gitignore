@@ -42,4 +42,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-/android/app/google-services.json:18
+/android/app/google-services.json
+/android/.../main/AndroidManifest.xml
