@@ -45,7 +45,7 @@ class _AddressFilledState extends State<AddressFilled> {
               ),
               IconButton(
                 onPressed: () {},
-                icon: Icon(FontAwesomeIcons.map, color:theme.primaryColor),
+                icon: Icon(FontAwesomeIcons.map, color: theme.primaryColor),
               ),
             ],
           ),
