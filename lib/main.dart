@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logistics_express/map_screen.dart';
+import 'package:logistics_express/src/features/screens/splash_screen.dart';
+// import 'package:logistics_express/src/services/map_services/map_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme,
-      home: MapScreen(),
+      home: SplashScreen(),
     );
   }
 }
