@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/services/map_services/map_screen.dart';
 import 'package:logistics_express/src/theme/theme.dart';
 
 class AddressFilled extends StatefulWidget {
@@ -44,7 +45,14 @@ class _AddressFilledState extends State<AddressFilled> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen(lat: 0.0, lng: 0.0),
+                    ),
+                  );
+                },
                 icon: Icon(FontAwesomeIcons.map, color: theme.primaryColor),
               ),
             ],
@@ -87,7 +95,14 @@ class _AddressFilledState extends State<AddressFilled> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen(lat: 0.0, lng: 0.0),
+                    ),
+                  );
+                },
                 icon: Icon(FontAwesomeIcons.map, color: theme.primaryColor),
               ),
             ],
