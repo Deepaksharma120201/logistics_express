@@ -9,6 +9,7 @@ class NewTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final VoidCallback? onTap;
   final Widget? suffixIcon;
+  final Function(String)? onChanged;
 
   const NewTextField({
     super.key,
@@ -20,6 +21,7 @@ class NewTextField extends StatelessWidget {
     this.validator,
     this.onTap,
     this.suffixIcon,
+    this.onChanged,
   });
 
   @override
@@ -42,6 +44,7 @@ class NewTextField extends StatelessWidget {
           keyboardType: keyboardType,
           validator: validator,
           onTap: onTap,
+          onChanged: onChanged,
           style: const TextStyle(fontSize: 16),
           decoration: InputDecoration(
             hintText: hintText,
@@ -49,8 +52,8 @@ class NewTextField extends StatelessWidget {
             filled: true,
             fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 12,
+              vertical: 10,
             ),
             suffixIcon: suffixIcon,
             enabledBorder: OutlineInputBorder(

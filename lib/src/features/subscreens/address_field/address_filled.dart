@@ -41,7 +41,7 @@ class _AddressFilledState extends ConsumerState<AddressFilled> {
             color: Colors.black87,
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 3),
         AddressTextField(
           controller: authController.sourceAddressController,
           hintText: 'Enter pickup address or select on map',
@@ -56,7 +56,7 @@ class _AddressFilledState extends ConsumerState<AddressFilled> {
             color: Colors.black87,
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 3),
         AddressTextField(
           controller: authController.destinationAddressController,
           hintText: 'Enter destination address or select on map',
