@@ -14,6 +14,11 @@ class AuthController extends ChangeNotifier {
   final TextEditingController drivingLicenceController =
       TextEditingController();
   final TextEditingController vehicleRcController = TextEditingController();
+  final TextEditingController sourceAddressController = TextEditingController();
+  final TextEditingController destinationAddressController =
+      TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController volumeController = TextEditingController();
 
   // Clear all controllers
   void clearAll() {
@@ -26,6 +31,10 @@ class AuthController extends ChangeNotifier {
     dobController.clear();
     drivingLicenceController.clear();
     vehicleRcController.clear();
+    sourceAddressController.clear();
+    destinationAddressController.clear();
+    weightController.clear();
+    volumeController.clear();
     notifyListeners();
   }
 
@@ -40,6 +49,10 @@ class AuthController extends ChangeNotifier {
     dobController.dispose();
     drivingLicenceController.dispose();
     vehicleRcController.dispose();
+    sourceAddressController.dispose();
+    destinationAddressController.dispose();
+    weightController.dispose();
+    volumeController.dispose();
     super.dispose();
   }
 }

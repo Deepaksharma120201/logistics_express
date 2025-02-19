@@ -100,4 +100,12 @@ class Validators {
     }
     return null;
   }
+
+  // Validator for Dropdwon
+  static String? commonValidator(String? value) {
+    if (value == null || value.isEmpty || value == '0') {
+      return 'Please fill this field!';
+    }
+    return null;
+  }
 }

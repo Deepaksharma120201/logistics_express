@@ -8,6 +8,7 @@ Future<Position> determinePosition() async {
   // Test if location services are enabled.
   serviceEnabled = await geolocatorPlatform.isLocationServiceEnabled();
   if (!serviceEnabled) {
+    await geolocatorPlatform.openLocationSettings();
     return Future.error('Location services are disabled.');
   }
 
@@ -15,14 +16,19 @@ Future<Position> determinePosition() async {
   if (permission == LocationPermission.denied) {
     permission = await geolocatorPlatform.requestPermission();
     if (permission == LocationPermission.denied) {
+      await geolocatorPlatform.openAppSettings();
+      await geolocatorPlatform.openLocationSettings();
       return Future.error('Location permissions are denied');
     }
   }
 
   if (permission == LocationPermission.deniedForever) {
     // Permissions are denied forever, handle appropriately.
+    await geolocatorPlatform.openAppSettings();
+    await geolocatorPlatform.openLocationSettings();
     return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.');
+      'Location permissions are permanently denied, we cannot request permissions.',
+    );
   }
 
   // When we reach here, permissions are granted and we can

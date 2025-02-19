@@ -1,23 +1,22 @@
 class GetCoordinatesFromPlaceId {
-  List<Null>? htmlAttributions;
+  List<dynamic>? htmlAttributions;
   Result? result;
   String? status;
 
   GetCoordinatesFromPlaceId({this.htmlAttributions, this.result, this.status});
 
-  GetCoordinatesFromPlaceId.fromJson(Map<String, dynamic> json) {
-    result =
-        json['result'] != null ? new Result.fromJson(json['result']) : null;
-    status = json['status'];
+  factory GetCoordinatesFromPlaceId.fromJson(Map<String, dynamic> json) {
+    return GetCoordinatesFromPlaceId(
+      result: json['result'] != null ? Result.fromJson(json['result']) : null,
+      status: json['status'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.result != null) {
-      data['result'] = this.result!.toJson();
-    }
-    data['status'] = this.status;
-    return data;
+    return {
+      if (result != null) 'result': result!.toJson(),
+      'status': status,
+    };
   }
 }
 
@@ -37,75 +36,66 @@ class Result {
   String? url;
   int? utcOffset;
 
-  Result(
-      {this.addressComponents,
-      this.adrAddress,
-      this.formattedAddress,
-      this.geometry,
-      this.icon,
-      this.iconBackgroundColor,
-      this.iconMaskBaseUri,
-      this.name,
-      this.photos,
-      this.placeId,
-      this.reference,
-      this.types,
-      this.url,
-      this.utcOffset});
+  Result({
+    this.addressComponents,
+    this.adrAddress,
+    this.formattedAddress,
+    this.geometry,
+    this.icon,
+    this.iconBackgroundColor,
+    this.iconMaskBaseUri,
+    this.name,
+    this.photos,
+    this.placeId,
+    this.reference,
+    this.types,
+    this.url,
+    this.utcOffset,
+  });
 
-  Result.fromJson(Map<String, dynamic> json) {
-    if (json['address_components'] != null) {
-      addressComponents = <AddressComponents>[];
-      json['address_components'].forEach((v) {
-        addressComponents!.add(new AddressComponents.fromJson(v));
-      });
-    }
-    adrAddress = json['adr_address'];
-    formattedAddress = json['formatted_address'];
-    geometry = json['geometry'] != null
-        ? new Geometry.fromJson(json['geometry'])
-        : null;
-    icon = json['icon'];
-    iconBackgroundColor = json['icon_background_color'];
-    iconMaskBaseUri = json['icon_mask_base_uri'];
-    name = json['name'];
-    if (json['photos'] != null) {
-      photos = <Photos>[];
-      json['photos'].forEach((v) {
-        photos!.add(new Photos.fromJson(v));
-      });
-    }
-    placeId = json['place_id'];
-    reference = json['reference'];
-    types = json['types'].cast<String>();
-    url = json['url'];
-    utcOffset = json['utc_offset'];
+  factory Result.fromJson(Map<String, dynamic> json) {
+    return Result(
+      addressComponents: (json['address_components'] as List<dynamic>?)
+          ?.map((v) => AddressComponents.fromJson(v))
+          .toList(),
+      adrAddress: json['adr_address'],
+      formattedAddress: json['formatted_address'],
+      geometry:
+          json['geometry'] != null ? Geometry.fromJson(json['geometry']) : null,
+      icon: json['icon'],
+      iconBackgroundColor: json['icon_background_color'],
+      iconMaskBaseUri: json['icon_mask_base_uri'],
+      name: json['name'],
+      photos: (json['photos'] as List<dynamic>?)
+          ?.map((v) => Photos.fromJson(v))
+          .toList(),
+      placeId: json['place_id'],
+      reference: json['reference'],
+      types: (json['types'] as List<dynamic>?)?.cast<String>(),
+      url: json['url'],
+      utcOffset: json['utc_offset'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.addressComponents != null) {
-      data['address_components'] =
-          this.addressComponents!.map((v) => v.toJson()).toList();
-    }
-    data['adr_address'] = this.adrAddress;
-    data['formatted_address'] = this.formattedAddress;
-    if (this.geometry != null) {
-      data['geometry'] = this.geometry!.toJson();
-    }
-    data['icon'] = this.icon;
-    data['icon_background_color'] = this.iconBackgroundColor;
-    data['icon_mask_base_uri'] = this.iconMaskBaseUri;
-    data['name'] = this.name;
-    if (this.photos != null) {
-      data['photos'] = this.photos!.map((v) => v.toJson()).toList();
-    }
-    data['place_id'] = this.placeId;
-    data['reference'] = this.reference;
-    data['types'] = this.types;
-    data['url'] = this.url;
-    data['utc_offset'] = this.utcOffset;
-    return data;
+    return {
+      if (addressComponents != null)
+        'address_components':
+            addressComponents!.map((v) => v.toJson()).toList(),
+      'adr_address': adrAddress,
+      'formatted_address': formattedAddress,
+      if (geometry != null) 'geometry': geometry!.toJson(),
+      'icon': icon,
+      'icon_background_color': iconBackgroundColor,
+      'icon_mask_base_uri': iconMaskBaseUri,
+      'name': name,
+      if (photos != null) 'photos': photos!.map((v) => v.toJson()).toList(),
+      'place_id': placeId,
+      'reference': reference,
+      'types': types,
+      'url': url,
+      'utc_offset': utcOffset,
+    };
   }
 }
 
@@ -116,18 +106,20 @@ class AddressComponents {
 
   AddressComponents({this.longName, this.shortName, this.types});
 
-  AddressComponents.fromJson(Map<String, dynamic> json) {
-    longName = json['long_name'];
-    shortName = json['short_name'];
-    types = json['types'].cast<String>();
+  factory AddressComponents.fromJson(Map<String, dynamic> json) {
+    return AddressComponents(
+      longName: json['long_name'],
+      shortName: json['short_name'],
+      types: (json['types'] as List<dynamic>?)?.cast<String>(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['long_name'] = this.longName;
-    data['short_name'] = this.shortName;
-    data['types'] = this.types;
-    return data;
+    return {
+      'long_name': longName,
+      'short_name': shortName,
+      'types': types,
+    };
   }
 }
 
@@ -137,24 +129,20 @@ class Geometry {
 
   Geometry({this.location, this.viewport});
 
-  Geometry.fromJson(Map<String, dynamic> json) {
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : null;
-    viewport = json['viewport'] != null
-        ? new Viewport.fromJson(json['viewport'])
-        : null;
+  factory Geometry.fromJson(Map<String, dynamic> json) {
+    return Geometry(
+      location:
+          json['location'] != null ? Location.fromJson(json['location']) : null,
+      viewport:
+          json['viewport'] != null ? Viewport.fromJson(json['viewport']) : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
-    }
-    if (this.viewport != null) {
-      data['viewport'] = this.viewport!.toJson();
-    }
-    return data;
+    return {
+      if (location != null) 'location': location!.toJson(),
+      if (viewport != null) 'viewport': viewport!.toJson(),
+    };
   }
 }
 
@@ -164,16 +152,18 @@ class Location {
 
   Location({this.lat, this.lng});
 
-  Location.fromJson(Map<String, dynamic> json) {
-    lat = json['lat'];
-    lng = json['lng'];
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      lat: (json['lat'] as num?)?.toDouble(),
+      lng: (json['lng'] as num?)?.toDouble(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    return data;
+    return {
+      'lat': lat,
+      'lng': lng,
+    };
   }
 }
 
@@ -183,24 +173,22 @@ class Viewport {
 
   Viewport({this.northeast, this.southwest});
 
-  Viewport.fromJson(Map<String, dynamic> json) {
-    northeast = json['northeast'] != null
-        ? new Location.fromJson(json['northeast'])
-        : null;
-    southwest = json['southwest'] != null
-        ? new Location.fromJson(json['southwest'])
-        : null;
+  factory Viewport.fromJson(Map<String, dynamic> json) {
+    return Viewport(
+      northeast: json['northeast'] != null
+          ? Location.fromJson(json['northeast'])
+          : null,
+      southwest: json['southwest'] != null
+          ? Location.fromJson(json['southwest'])
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.northeast != null) {
-      data['northeast'] = this.northeast!.toJson();
-    }
-    if (this.southwest != null) {
-      data['southwest'] = this.southwest!.toJson();
-    }
-    return data;
+    return {
+      if (northeast != null) 'northeast': northeast!.toJson(),
+      if (southwest != null) 'southwest': southwest!.toJson(),
+    };
   }
 }
 
@@ -212,19 +200,22 @@ class Photos {
 
   Photos({this.height, this.htmlAttributions, this.photoReference, this.width});
 
-  Photos.fromJson(Map<String, dynamic> json) {
-    height = json['height'];
-    htmlAttributions = json['html_attributions'].cast<String>();
-    photoReference = json['photo_reference'];
-    width = json['width'];
+  factory Photos.fromJson(Map<String, dynamic> json) {
+    return Photos(
+      height: json['height'],
+      htmlAttributions:
+          (json['html_attributions'] as List<dynamic>?)?.cast<String>(),
+      photoReference: json['photo_reference'],
+      width: json['width'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['height'] = this.height;
-    data['html_attributions'] = this.htmlAttributions;
-    data['photo_reference'] = this.photoReference;
-    data['width'] = this.width;
-    return data;
+    return {
+      'height': height,
+      'html_attributions': htmlAttributions,
+      'photo_reference': photoReference,
+      'width': width,
+    };
   }
 }
