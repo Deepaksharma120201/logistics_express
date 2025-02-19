@@ -1,114 +1,113 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/services/map_services/map_screen.dart';
-import 'package:logistics_express/src/theme/theme.dart';
+import 'package:logistics_express/src/features/subscreens/address_field/auto_search.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 
-class AddressFilled extends StatefulWidget {
+class AddressFilled extends ConsumerStatefulWidget {
   const AddressFilled({super.key});
 
   @override
-  State<AddressFilled> createState() => _AddressFilledState();
+  ConsumerState<AddressFilled> createState() => _AddressFilledState();
 }
 
-class _AddressFilledState extends State<AddressFilled> {
+class _AddressFilledState extends ConsumerState<AddressFilled> {
+  void _selectAddress(TextEditingController controller) async {
+    final selectedAddress = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const AutoSearch(),
+      ),
+    );
+    if (selectedAddress != null) {
+      setState(() {
+        controller.text = selectedAddress;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authController = ref.watch(authControllerProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Pickup Location',
           style: TextStyle(
-            color: Colors.grey[600],
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: Colors.black87,
           ),
         ),
         const SizedBox(height: 5),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              const Icon(FontAwesomeIcons.locationCrosshairs),
-              const SizedBox(width: 6),
-              Expanded(
-                child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter pickup address or select on map',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MapScreen(lat: 0.0, lng: 0.0),
-                    ),
-                  );
-                },
-                icon: Icon(FontAwesomeIcons.map, color: theme.primaryColor),
-              ),
-            ],
-          ),
+        AddressTextField(
+          controller: authController.sourceAddressController,
+          hintText: 'Enter pickup address or select on map',
+          onTap: () => _selectAddress(authController.sourceAddressController),
         ),
         const SizedBox(height: 20),
         Text(
           'Destination',
           style: TextStyle(
-            color: Colors.grey[600],
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: Colors.black87,
           ),
         ),
         const SizedBox(height: 5),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 4,
-                offset: Offset(2, 2),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              const Icon(FontAwesomeIcons.locationDot),
-              const SizedBox(width: 6),
-              Expanded(
-                child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter destination address or select on map',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MapScreen(lat: 0.0, lng: 0.0),
-                    ),
-                  );
-                },
-                icon: Icon(FontAwesomeIcons.map, color: theme.primaryColor),
-              ),
-            ],
-          ),
+        AddressTextField(
+          controller: authController.destinationAddressController,
+          hintText: 'Enter destination address or select on map',
+          onTap: () =>
+              _selectAddress(authController.destinationAddressController),
         ),
       ],
+    );
+  }
+}
+
+class AddressTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hintText;
+  final VoidCallback onTap;
+
+  const AddressTextField({
+    required this.controller,
+    required this.hintText,
+    required this.onTap,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          const Icon(FontAwesomeIcons.locationCrosshairs),
+          const SizedBox(width: 6),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              readOnly: true,
+              onTap: onTap,
+              decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle: const TextStyle(color: Colors.grey),
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

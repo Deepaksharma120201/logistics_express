@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/publish_ride.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/see_requested_delivery.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/track_delivery.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/update_ride.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/payment_history.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/utils/delivery_agent_faq.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar_DA/slide_drawer.dart';

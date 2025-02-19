@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
-import 'package:logistics_express/src/features/utils/text_field.dart';
+import 'package:logistics_express/src/features/utils/new_text_field.dart';
 import 'package:logistics_express/src/features/utils/validators.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
@@ -48,23 +48,23 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                EditProfileField(
+                NewTextField(
                   label: 'Name',
                   controller: _nameController,
                   validator: (val) => Validators.validateName(val!),
                 ),
-                EditProfileField(
+                NewTextField(
                   label: 'Email',
                   controller: _emailController,
                   readOnly: true,
                 ),
-                EditProfileField(
+                NewTextField(
                   label: 'Phone',
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
                   validator: (val) => Validators.validatePhone(val!),
                 ),
-                EditProfileField(
+                NewTextField(
                   hintText: "DD/MM/YYYY",
                   label: 'Date of Birth',
                   controller: _dobController,
