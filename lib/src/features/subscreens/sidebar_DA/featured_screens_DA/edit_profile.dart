@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
 import 'package:logistics_express/src/features/utils/new_text_field.dart';
 import 'package:logistics_express/src/features/utils/validators.dart';
+import '../../../../custom_widgets/profile_picker.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
   const EditProfile({super.key});
@@ -25,6 +27,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
   final TextEditingController _dobController = TextEditingController();
 
   String? _selectedGender;
+  File? _selectedImage;
   void _saveChanges() {}
 
   @override
@@ -38,14 +41,15 @@ class _EditProfileState extends ConsumerState<EditProfile> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey,
-                    child: Icon(Icons.person, size: 50, color: Colors.white),
-                  ),
+                ProfilePicker(
+                  onImagePicked: (file) {
+                    setState(() {
+                      _selectedImage = file;
+                    });
+                  },
+                  initialImage: _selectedImage,
                 ),
                 const SizedBox(height: 20),
                 NewTextField(

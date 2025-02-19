@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/address_field/address_filled.dart';
 
-class UpdateRide extends StatelessWidget {
+import '../../../../custom_widgets/date_picker.dart';
+import '../../../utils/new_text_field.dart';
+import '../../../utils/validators.dart';
+
+class UpdateRide extends StatefulWidget {
   const UpdateRide({super.key});
 
   @override
+  State<UpdateRide> createState() => _UpdateRideState();
+}
+
+class _UpdateRideState extends State<UpdateRide> {
+  final TextEditingController _dobController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
+    final TextEditingController dobController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Ride'),
@@ -18,11 +30,37 @@ class UpdateRide extends StatelessWidget {
           children: [
             const AddressFilled(),
             const SizedBox(height: 30),
-            _buildLabel('Start Date'),
-            _buildContainer(),
-            const SizedBox(height: 30),
-            _buildLabel('End Date'),
-            _buildContainer(),
+            NewTextField(
+              hintText: "DD/MM/YYYY",
+              label: 'Start Date',
+              keyboardType: TextInputType.number,
+              controller: _dobController,
+              readOnly: true,
+              onTap: () async {
+                String selectedDate = await DatePicker.pickDate(context);
+                setState(() {
+                  dobController.text = selectedDate;
+                });
+              },
+              suffixIcon: const Icon(FontAwesomeIcons.calendarDays),
+              validator: (val) => Validators.validateDate(val!),
+            ),
+            const SizedBox(height: 10),
+            NewTextField(
+              hintText: "DD/MM/YYYY",
+              label: 'End Date',
+              controller: _dobController,
+              keyboardType: TextInputType.number,
+              readOnly: true,
+              onTap: () async {
+                String selectedDate = await DatePicker.pickDate(context);
+                setState(() {
+                  dobController.text = selectedDate;
+                });
+              },
+              suffixIcon: const Icon(FontAwesomeIcons.calendarDays),
+              validator: (val) => Validators.validateDate(val!),
+            ),
             const SizedBox(height: 30),
             Center(
               child: ElevatedButton(
@@ -33,37 +71,6 @@ class UpdateRide extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return Text(
-      text,
-      style: TextStyle(
-        color: Colors.grey[600],
-      ),
-    );
-  }
-
-  Widget _buildContainer() {
-    return Container(
-      width: 380,
-      height: 50,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey, width: 1.0),
-        borderRadius: BorderRadius.circular(5.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(0, 2),
-            blurRadius: 5,
-            spreadRadius: 2,
-          )
-        ],
-      ),
-      child: const Text(''),
     );
   }
 }

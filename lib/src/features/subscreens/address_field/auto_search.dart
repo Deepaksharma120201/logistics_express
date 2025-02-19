@@ -6,6 +6,8 @@ import 'package:logistics_express/src/services/map_services/get_places.dart';
 import 'package:logistics_express/src/services/map_services/location_permission.dart';
 import 'package:logistics_express/src/features/subscreens/address_field/map_screen.dart';
 
+import '../../utils/new_text_field.dart';
+
 class AutoSearch extends StatefulWidget {
   const AutoSearch({super.key});
 
@@ -47,11 +49,9 @@ class _AutoSearchState extends State<AutoSearch> {
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             children: [
-              TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
+              NewTextField(
+                label: "Search Location",
+                hintText: 'Type here...',
                 controller: searchLocationController,
                 onChanged: (String value) {
                   ApiServices().getPlaces(value.toString()).then((places) {
@@ -92,15 +92,6 @@ class _AutoSearchState extends State<AutoSearch> {
                     onPressed: () {
                       determinePosition().then((value) {
                         _navigateToMap(value.latitude, value.latitude);
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => MapScreen(
-                        //       lat: value.latitude,
-                        //       lng: value.latitude,
-                        //     ),
-                        //   ),
-                        // );
                       }).onError((error, stackTrace) {
                         showErrorSnackBar(
                           context,
