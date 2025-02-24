@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/about.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/contact_support.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/customer_edit_profile.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/settings.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
-class SideDrawer extends StatelessWidget {
-  const SideDrawer({super.key});
+class CustomerSideDrawer extends StatelessWidget {
+  const CustomerSideDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class SideDrawer extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditProfile(),
+                          builder: (context) => CustomerEditProfile(),
                         ),
                       );
                     },

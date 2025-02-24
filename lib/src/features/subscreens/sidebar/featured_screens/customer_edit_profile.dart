@@ -8,14 +8,15 @@ import 'package:logistics_express/src/custom_widgets/profile_picker.dart';
 import 'package:logistics_express/src/features/utils/new_text_field.dart';
 import 'package:logistics_express/src/features/utils/validators.dart';
 
-class EditProfile extends ConsumerStatefulWidget {
-  const EditProfile({super.key});
+class CustomerEditProfile extends ConsumerStatefulWidget {
+  const CustomerEditProfile({super.key});
 
   @override
-  ConsumerState<EditProfile> createState() => _EditProfileState();
+  ConsumerState<CustomerEditProfile> createState() =>
+      _CustomerEditProfileState();
 }
 
-class _EditProfileState extends ConsumerState<EditProfile> {
+class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
   File? _selectedImage;
   final _formKey = GlobalKey<FormState>();
 
@@ -91,7 +92,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     value: _selectedGender,
                     onChanged: (value) =>
                         setState(() => _selectedGender = value),
-                    validator: (val) => Validators.validateDropdown(val!),
+                    validator: (val) => Validators.commonValidator(val!),
                   ),
                   const SizedBox(height: 20),
                   Center(

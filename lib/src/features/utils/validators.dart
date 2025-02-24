@@ -94,14 +94,6 @@ class Validators {
   }
 
   // Validator for Dropdwon
-  static String? validateDropdown(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please select an option';
-    }
-    return null;
-  }
-
-  // Validator for Dropdwon
   static String? commonValidator(String? value) {
     if (value == null || value.isEmpty || value == '0') {
       return 'Please fill this field!';

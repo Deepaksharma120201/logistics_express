@@ -8,14 +8,14 @@ import 'package:logistics_express/src/features/utils/new_text_field.dart';
 import 'package:logistics_express/src/features/utils/validators.dart';
 import '../../../../custom_widgets/profile_picker.dart';
 
-class EditProfile extends ConsumerStatefulWidget {
-  const EditProfile({super.key});
+class AgentEditProfile extends ConsumerStatefulWidget {
+  const AgentEditProfile({super.key});
 
   @override
-  ConsumerState<EditProfile> createState() => _EditProfileState();
+  ConsumerState<AgentEditProfile> createState() => _AgentEditProfileState();
 }
 
-class _EditProfileState extends ConsumerState<EditProfile> {
+class _AgentEditProfileState extends ConsumerState<AgentEditProfile> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController =
@@ -87,7 +87,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                   items: ['Male', 'Female'],
                   value: _selectedGender,
                   onChanged: (value) => setState(() => _selectedGender = value),
-                  validator: (val) => Validators.validateDropdown(val!),
+                  validator: (val) => Validators.commonValidator(val!),
                 ),
                 const SizedBox(height: 20),
                 Center(

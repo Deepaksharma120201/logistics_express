@@ -19,6 +19,8 @@ class AuthController extends ChangeNotifier {
       TextEditingController();
   final TextEditingController weightController = TextEditingController();
   final TextEditingController volumeController = TextEditingController();
+  final TextEditingController startDateController = TextEditingController();
+  final TextEditingController endDateController = TextEditingController();
 
   // Clear all controllers
   void clearAll() {
@@ -35,6 +37,8 @@ class AuthController extends ChangeNotifier {
     destinationAddressController.clear();
     weightController.clear();
     volumeController.clear();
+    startDateController.clear();
+    endDateController.clear();
     notifyListeners();
   }
 
@@ -53,6 +57,8 @@ class AuthController extends ChangeNotifier {
     destinationAddressController.dispose();
     weightController.dispose();
     volumeController.dispose();
+    startDateController.dispose();
+    endDateController.dispose();
     super.dispose();
   }
 }

@@ -9,7 +9,7 @@ class RequestedRide extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Requested Delivery")),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -24,7 +24,7 @@ class AvailableRides extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Available Rides'),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

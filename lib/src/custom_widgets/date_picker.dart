@@ -7,7 +7,7 @@ class DatePicker {
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime(1900),
-          lastDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 30)),
         ) ??
         DateTime.now();
 

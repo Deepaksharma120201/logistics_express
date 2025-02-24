@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/address_field/auto_search.dart';
+import 'package:logistics_express/src/features/utils/validators.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 
 class AddressFilled extends ConsumerStatefulWidget {
@@ -93,10 +94,11 @@ class AddressTextField extends StatelessWidget {
           const Icon(FontAwesomeIcons.locationCrosshairs),
           const SizedBox(width: 6),
           Expanded(
-            child: TextField(
+            child: TextFormField(
+              validator: (val) => Validators.commonValidator(val!),
               controller: controller,
-              readOnly: true,
-              onTap: onTap,
+              readOnly: false, //do change here when required only write false
+              onTap: () {}, //do change here when required only write onTap
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: const TextStyle(color: Colors.grey),

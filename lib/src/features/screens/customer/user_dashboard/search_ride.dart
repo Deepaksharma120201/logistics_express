@@ -18,7 +18,7 @@ class _SearchRideState extends State<SearchRide> {
       appBar: AppBar(
         title: Text('Search Ride'),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
         child: Column(
