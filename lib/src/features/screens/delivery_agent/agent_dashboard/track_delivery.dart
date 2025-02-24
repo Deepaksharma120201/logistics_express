@@ -29,7 +29,7 @@ class _TrackDeliveryScreenState extends State<TrackDelivery> {
       appBar: AppBar(
         title: const Text('Track Delivery'),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: selectedTabIndex == 0
           ? DeliveryList(rides: activeRides)
           : DeliveryList(rides: completedRides),
@@ -38,7 +38,9 @@ class _TrackDeliveryScreenState extends State<TrackDelivery> {
         //indicatorShape: Border.symmetric(horizontal:BorderSide(style: ),vertical:  ),
         destinations: const [
           NavigationDestination(
-              icon: Icon(FontAwesomeIcons.truck), label: 'Active',),
+            icon: Icon(FontAwesomeIcons.truck),
+            label: 'Active',
+          ),
           NavigationDestination(
               icon: Icon(FontAwesomeIcons.listCheck), label: 'Completed'),
         ],
@@ -46,9 +48,8 @@ class _TrackDeliveryScreenState extends State<TrackDelivery> {
         onDestinationSelected: (index) {
           setState(() {
             selectedTabIndex = index;
-          }
-          );
-          },
+          });
+        },
       ),
     );
   }
@@ -66,26 +67,24 @@ class DeliveryList extends StatelessWidget {
         itemBuilder: (context, index) {
           final delivery = rides[index];
           return Card(
-
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ListTile(
               title: Text('Ride id - ${delivery['rideId']}'),
               subtitle: Text('Ride date - ${delivery['rideDate']}'),
               trailing: const Icon(FontAwesomeIcons.angleRight),
               onTap: () {
-                Navigator.push(context,
+                Navigator.push(
+                  context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        RideInformationScreen(
-                          rideId: delivery['rideId']!,
-                          rideDate: delivery['rideDate']!,
-                        ),
-                  ),);
+                    builder: (context) => RideInformationScreen(
+                      rideId: delivery['rideId']!,
+                      rideDate: delivery['rideDate']!,
+                    ),
+                  ),
+                );
               },
             ),
           );
-        }
-    );
+        });
   }
 }
-

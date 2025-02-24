@@ -35,7 +35,7 @@ class SeeRequestedDelivery extends StatelessWidget {
       appBar: AppBar(
         title: const Text('See Requested Delivery'),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: rides.isNotEmpty
           ? RequestedRides(rides: rides)
           : const Center(

@@ -22,7 +22,7 @@ class _UpdateRideState extends State<UpdateRide> {
       appBar: AppBar(
         title: const Text('Update Ride'),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
         child: Column(

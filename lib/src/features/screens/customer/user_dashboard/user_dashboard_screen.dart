@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/slide_drawer.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/track_delivery_screen.dart';
 import 'package:logistics_express/src/features/utils/customer_faq.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/make_request.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/payment_history.dart';
+
+import '../../../subscreens/sidebar/customer_side_drawer.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -35,7 +36,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ),
         ],
       ),
-      drawer: SideDrawer(),
+      drawer: CustomerSideDrawer(),
       body: GridView(
         padding: EdgeInsets.all(20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

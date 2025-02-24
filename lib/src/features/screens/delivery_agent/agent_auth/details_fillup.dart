@@ -3,8 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/driving_licence.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/profile_info.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/vehicle_rc.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
-// import 'package:logistics_express/src/features/utils/delivery_agent_faq.dart';
+import 'package:logistics_express/src/features/utils/delivery_agent_faq.dart';
 
 class DetailsFillup extends StatelessWidget {
   const DetailsFillup({super.key});
@@ -19,7 +18,7 @@ class DetailsFillup extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (ctx) => EditProfile()),
+                MaterialPageRoute(builder: (ctx) => DeliveryAgentFaq()),
               );
             },
             icon: const Icon(FontAwesomeIcons.circleQuestion),

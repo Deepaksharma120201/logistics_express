@@ -7,7 +7,6 @@ import 'package:logistics_express/src/features/utils/new_text_field.dart';
 import 'package:logistics_express/src/features/utils/validators.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/map_services/api_services.dart';
-
 import '../../../../custom_widgets/custom_dropdown.dart';
 
 class PriceEstimation extends ConsumerStatefulWidget {
@@ -20,8 +19,10 @@ class PriceEstimation extends ConsumerStatefulWidget {
 class _PriceEstimationState extends ConsumerState<PriceEstimation> {
   bool isLoading = false;
   String? _selectedType;
+
   Future<double> getDistance() async {
     try {
+      return 165; //remove this when necessary
       final response = await ApiServices().getDistanceFromPlaces(
         ref.read(authControllerProvider).sourceAddressController.text.trim(),
         ref
@@ -49,10 +50,10 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
   }
 
   void priceEstimate() async {
-    setState(() => isLoading = true);
+    final authController = ref.read(authControllerProvider);
 
+    setState(() => isLoading = true);
     try {
-      final authController = ref.read(authControllerProvider);
       double basePrice = 50.0;
       double weight = double.parse(authController.weightController.text.trim());
       double volume = double.parse(authController.volumeController.text.trim());
@@ -147,11 +148,17 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
                         const SizedBox(height: 10),
                         CustomDropdown(
                           label: "Select Type",
-                          items: [],
+                          items: [
+                            'Furniture',
+                            'Electronics',
+                            'Clothes & Accessories',
+                            'Glass & Fragile Items',
+                            'Food & Medicine'
+                          ],
                           value: _selectedType,
                           onChanged: (value) =>
                               setState(() => _selectedType = value),
-                          validator: (val) => Validators.validateDropdown(val!),
+                          validator: (val) => Validators.commonValidator(val),
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(

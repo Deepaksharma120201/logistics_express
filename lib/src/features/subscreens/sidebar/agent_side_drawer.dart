@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/edit_profile.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/about.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/contact_support.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/settings.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/agent_edit_profile.dart';
+import 'featured_screens/about.dart';
+import 'featured_screens/contact_support.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/settings.dart';
 
-class SideDrawer extends StatelessWidget {
-  const SideDrawer({super.key});
+class AgentSideDrawer extends StatelessWidget {
+  const AgentSideDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class SideDrawer extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditProfile(),
+                          builder: (context) => AgentEditProfile(),
                         ),
                       );
                     },
