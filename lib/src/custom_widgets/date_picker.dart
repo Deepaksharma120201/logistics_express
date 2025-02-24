@@ -10,7 +10,7 @@ class DatePicker {
           lastDate: DateTime.now(),
         ) ??
         DateTime.now();
-
+        
     // Return the formatted date as a string
     return "${pickedDate.day.toString().padLeft(2, '0')}/"
         "${pickedDate.month.toString().padLeft(2, '0')}/"

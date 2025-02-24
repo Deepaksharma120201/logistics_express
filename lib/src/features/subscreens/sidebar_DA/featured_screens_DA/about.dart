@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/privacy_policy.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/Term_Condition.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar_DA/featured_screens_DA/about_us.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/privacy_policy.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/Term_Condition.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/about_us.dart';
 
 class About extends StatelessWidget {
   const About({super.key});
