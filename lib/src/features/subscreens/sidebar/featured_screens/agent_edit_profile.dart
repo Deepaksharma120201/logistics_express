@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
-import 'package:logistics_express/src/features/utils/new_text_field.dart';
-import 'package:logistics_express/src/features/utils/validators.dart';
+import 'package:logistics_express/src/utils/new_text_field.dart';
+import 'package:logistics_express/src/utils/validators.dart';
 import '../../../../custom_widgets/profile_picker.dart';
 
 class AgentEditProfile extends ConsumerStatefulWidget {

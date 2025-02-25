@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import "package:http/http.dart" as http;
-import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
+import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 
 Future<String?> uploadToCloudinary(BuildContext context, File file) async {
   // Retrieve Cloudinary cloud name from environment variables

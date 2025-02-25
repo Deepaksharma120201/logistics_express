@@ -1,5 +1,7 @@
+import 'package:uuid/uuid.dart';
+
 class PublishRideModel {
-  final String? id;
+  final String id;
   final String name;
   final String phoneNo;
   final String startDate;
@@ -9,8 +11,8 @@ class PublishRideModel {
   final String destination;
   final String? startTime;
 
-  const PublishRideModel({
-    this.id,
+  PublishRideModel({
+    String? id,
     required this.name,
     required this.phoneNo,
     required this.startDate,
@@ -19,7 +21,7 @@ class PublishRideModel {
     required this.source,
     required this.destination,
     this.startTime,
-  });
+  }) : id = id ?? const Uuid().v4(); // Assign UUID if not provided
 
   Map<String, dynamic> toMap() {
     return {
@@ -38,7 +40,7 @@ class PublishRideModel {
   // Create an instance from a Firestore document
   factory PublishRideModel.fromMap(Map<String, dynamic> map) {
     return PublishRideModel(
-      id: map['id'] ?? '',
+      id: map['id'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',
       startDate: map['StartDate'] ?? '',
@@ -46,7 +48,7 @@ class PublishRideModel {
       vehicleType: map['VehicleType'] ?? '',
       source: map['Source'] ?? '',
       destination: map['Destination'] ?? '',
-      startTime: map['StartTime'] ?? '',
+      startTime: map['StartTime'],
     );
   }
 }

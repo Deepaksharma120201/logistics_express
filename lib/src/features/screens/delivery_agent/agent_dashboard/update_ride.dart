@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/address_field/address_filled.dart';
 
 import '../../../../custom_widgets/date_picker.dart';
-import '../../../utils/new_text_field.dart';
-import '../../../utils/validators.dart';
+import '../../../../utils/new_text_field.dart';
+import '../../../../utils/validators.dart';
 
 class UpdateRide extends StatefulWidget {
   const UpdateRide({super.key});

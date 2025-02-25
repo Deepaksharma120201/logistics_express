@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/track_delivery_screen.dart';
-import 'package:logistics_express/src/features/utils/customer_faq.dart';
+import 'package:logistics_express/src/utils/customer_faq.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/make_request.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/payment_history.dart';
 

@@ -4,10 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
-import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
+import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
-import 'package:logistics_express/src/features/utils/validators.dart';
+import 'package:logistics_express/src/utils/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/reset_password.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {

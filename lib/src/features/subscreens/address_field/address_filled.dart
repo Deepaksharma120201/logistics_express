@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/address_field/auto_search.dart';
-import 'package:logistics_express/src/features/utils/validators.dart';
+import 'package:logistics_express/src/utils/validators.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 
 class AddressFilled extends ConsumerStatefulWidget {

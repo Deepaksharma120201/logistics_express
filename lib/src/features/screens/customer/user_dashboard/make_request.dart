@@ -10,9 +10,9 @@ import '../../../../custom_widgets/date_picker.dart';
 import '../../../../models/requested_delivery_model.dart';
 import '../../../../services/authentication/auth_controller.dart';
 import '../../../../services/user_services.dart';
-import '../../../utils/firebase_exceptions.dart';
-import '../../../utils/new_text_field.dart';
-import '../../../utils/validators.dart';
+import '../../../../utils/firebase_exceptions.dart';
+import '../../../../utils/new_text_field.dart';
+import '../../../../utils/validators.dart';
 
 class MakeRequest extends ConsumerStatefulWidget {
   const MakeRequest({super.key});
@@ -34,7 +34,6 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
       setState(() => _isLoading = true);
       try {
         User? user = FirebaseAuth.instance.currentUser;
-
         DocumentSnapshot userDoc = await FirebaseFirestore.instance
             .collection('users')
             .doc(user!.uid)
@@ -42,13 +41,11 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
 
         String name = '', phone = '';
         if (userDoc.exists) {
-          // Extract name and phone number
           name = userDoc['Name'] ?? '';
           phone = userDoc['Phone'] ?? '';
         }
 
         RequestedDeliveryModel delivery = RequestedDeliveryModel(
-          id: user.uid,
           name: name,
           phoneNo: phone,
           source: authController.sourceAddressController.text.trim(),

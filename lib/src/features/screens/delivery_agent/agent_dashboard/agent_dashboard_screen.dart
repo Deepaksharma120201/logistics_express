@@ -5,7 +5,7 @@ import 'package:logistics_express/src/features/screens/delivery_agent/agent_dash
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/track_delivery.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/update_ride.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/payment_history.dart';
-import 'package:logistics_express/src/features/utils/delivery_agent_faq.dart';
+import 'package:logistics_express/src/utils/delivery_agent_faq.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/agent_side_drawer.dart';
 

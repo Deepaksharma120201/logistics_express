@@ -44,7 +44,6 @@ class _MapScreenState extends State<MapScreen> {
         );
       }
     } catch (e) {
-      print("Error fetching address: $e");
       setState(() {
         isLoading = false;
       });

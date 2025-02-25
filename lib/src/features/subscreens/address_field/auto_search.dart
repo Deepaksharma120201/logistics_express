@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
+import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/services/map_services/api_services.dart';
 import 'package:logistics_express/src/services/map_services/get_places.dart';
 import 'package:logistics_express/src/services/map_services/location_permission.dart';
 import 'package:logistics_express/src/features/subscreens/address_field/map_screen.dart';
 
-import '../../utils/new_text_field.dart';
+import '../../../utils/new_text_field.dart';
 
 class AutoSearch extends StatefulWidget {
   const AutoSearch({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/theme/theme.dart';
+import 'package:logistics_express/src/utils/theme.dart';
 
 class AvailableRides extends StatelessWidget {
   const AvailableRides({

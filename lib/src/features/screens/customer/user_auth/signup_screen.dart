@@ -5,10 +5,10 @@ import 'package:logistics_express/src/services/authentication/auth_controller.da
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/models/user_model.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
-import 'package:logistics_express/src/features/utils/firebase_exceptions.dart';
+import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
-import 'package:logistics_express/src/features/utils/validators.dart';
+import 'package:logistics_express/src/utils/validators.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/verify_email_screen.dart';
 import '../../../../models/user_auth_model.dart';

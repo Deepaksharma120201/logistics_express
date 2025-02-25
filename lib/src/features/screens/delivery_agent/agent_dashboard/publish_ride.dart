@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,9 +8,9 @@ import '../../../../custom_widgets/custom_loader.dart';
 import '../../../../models/publish_ride_model.dart';
 import '../../../../services/authentication/auth_controller.dart';
 import '../../../../services/user_services.dart';
-import '../../../utils/firebase_exceptions.dart';
-import '../../../utils/new_text_field.dart';
-import '../../../utils/validators.dart';
+import '../../../../utils/firebase_exceptions.dart';
+import '../../../../utils/new_text_field.dart';
+import '../../../../utils/validators.dart';
 
 class PublishRide extends ConsumerStatefulWidget {
   const PublishRide({super.key});
@@ -32,9 +31,7 @@ class _PublishRideState extends ConsumerState<PublishRide> {
     Future<void> publishRide() async {
       setState(() => _isLoading = true);
       try {
-        User? user = FirebaseAuth.instance.currentUser;
         PublishRideModel ride = PublishRideModel(
-          id: user!.uid,
           name: authController.nameController.text.trim(),
           phoneNo: authController.phoneController.text.trim(),
           startDate: authController.startDateController.text.trim(),

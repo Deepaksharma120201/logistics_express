@@ -1,5 +1,7 @@
+import 'package:uuid/uuid.dart';
+
 class RequestedDeliveryModel {
-  final String? id;
+  final String id;
   final String? name;
   final String? phoneNo;
   final String date;
@@ -9,8 +11,8 @@ class RequestedDeliveryModel {
   final String weight;
   final String volume;
 
-  const RequestedDeliveryModel({
-    this.id,
+  RequestedDeliveryModel({
+    String? id,
     this.name,
     this.phoneNo,
     required this.date,
@@ -19,7 +21,7 @@ class RequestedDeliveryModel {
     required this.destination,
     required this.weight,
     required this.volume,
-  });
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
@@ -38,7 +40,7 @@ class RequestedDeliveryModel {
   // Create an instance from a Firestore document
   factory RequestedDeliveryModel.fromMap(Map<String, dynamic> map) {
     return RequestedDeliveryModel(
-      id: map['id'] ?? '',
+      id: map['id'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',
       source: map['Source'] ?? '',

@@ -46,9 +46,12 @@ class UserServices {
   Future<void> publishRide(PublishRideModel ride) async {
     User? currentUser = _firebaseAuth.currentUser;
     if (currentUser != null) {
-      await _fireStore.collection("published-rides").doc(currentUser.uid).set(
-            ride.toMap(),
-          );
+      await _fireStore
+          .collection("published-rides")
+          .doc(currentUser.uid)
+          .collection("rides")
+          .doc(ride.id)
+          .set(ride.toMap());
     } else {
       throw Exception("No authenticated user found.");
     }
@@ -60,6 +63,8 @@ class UserServices {
       await _fireStore
           .collection("requested-deliveries")
           .doc(currentUser.uid)
+          .collection("deliveries")
+          .doc(delivery.id)
           .set(
             delivery.toMap(),
           );
