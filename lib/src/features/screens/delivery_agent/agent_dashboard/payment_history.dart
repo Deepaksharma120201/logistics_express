@@ -41,7 +41,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
       appBar: AppBar(
         title: Text('Payment History'),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemCount: paymentData.length,

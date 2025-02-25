@@ -8,8 +8,8 @@ class RequestedRide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Requested Ride")),
-      backgroundColor: Colors.white,
+      appBar: AppBar(title: const Text("Requested Delivery")),
+      backgroundColor: Theme.of(context).cardColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -23,7 +23,7 @@ class RequestedRide extends StatelessWidget {
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             Text('Requested Date: ${ride['rideDate']}',
                 style:
-                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             Text('User Name: ${ride['userName']}',
                 style:

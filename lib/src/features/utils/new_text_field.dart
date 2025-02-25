@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 
-class EditProfileField extends StatelessWidget {
+class NewTextField extends StatelessWidget {
   final String label;
   final TextEditingController? controller;
   final String? hintText;
-  final bool readOnly;
+  final bool? readOnly;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final VoidCallback? onTap;
   final Widget? suffixIcon;
+  final Function(String)? onChanged;
 
-  const EditProfileField({
+  const NewTextField({
     super.key,
     required this.label,
     this.controller,
     this.hintText,
-    this.readOnly = false,
+    this.readOnly,
     this.keyboardType,
     this.validator,
     this.onTap,
     this.suffixIcon,
+    this.onChanged,
   });
 
   @override
@@ -38,10 +40,11 @@ class EditProfileField extends StatelessWidget {
         const SizedBox(height: 3),
         TextFormField(
           controller: controller,
-          readOnly: readOnly,
+          readOnly: readOnly ?? false,
           keyboardType: keyboardType,
           validator: validator,
           onTap: onTap,
+          onChanged: onChanged,
           style: const TextStyle(fontSize: 16),
           decoration: InputDecoration(
             hintText: hintText,
@@ -49,8 +52,8 @@ class EditProfileField extends StatelessWidget {
             filled: true,
             fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 12,
+              vertical: 10,
             ),
             suffixIcon: suffixIcon,
             enabledBorder: OutlineInputBorder(

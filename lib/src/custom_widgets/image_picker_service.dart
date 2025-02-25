@@ -25,7 +25,9 @@ Future<File?> pickImage(BuildContext context) async {
                 if (pickedImage != null) {
                   selectedFile = File(pickedImage.path);
                 }
-                Navigator.of(ctx).pop();
+                if (context.mounted) {
+                  Navigator.of(ctx).pop();
+                }
               },
             ),
             ListTile(
@@ -39,7 +41,9 @@ Future<File?> pickImage(BuildContext context) async {
                 if (pickedImage != null) {
                   selectedFile = File(pickedImage.path);
                 }
-                Navigator.of(ctx).pop();
+                if (context.mounted) {
+                  Navigator.of(ctx).pop();
+                }
               },
             ),
           ],

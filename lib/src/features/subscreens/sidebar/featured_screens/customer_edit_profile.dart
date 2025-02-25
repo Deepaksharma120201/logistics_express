@@ -1,22 +1,22 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
 import 'package:logistics_express/src/custom_widgets/profile_picker.dart';
-import 'package:logistics_express/src/features/utils/text_field.dart';
+import 'package:logistics_express/src/features/utils/new_text_field.dart';
 import 'package:logistics_express/src/features/utils/validators.dart';
 
-class EditProfile extends ConsumerStatefulWidget {
-  const EditProfile({super.key});
+class CustomerEditProfile extends ConsumerStatefulWidget {
+  const CustomerEditProfile({super.key});
 
   @override
-  ConsumerState<EditProfile> createState() => _EditProfileState();
+  ConsumerState<CustomerEditProfile> createState() =>
+      _CustomerEditProfileState();
 }
 
-class _EditProfileState extends ConsumerState<EditProfile> {
+class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
   File? _selectedImage;
   final _formKey = GlobalKey<FormState>();
 
@@ -54,26 +54,28 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     initialImage: _selectedImage,
                   ),
                   const SizedBox(height: 20),
-                  EditProfileField(
+                  NewTextField(
                     label: 'Name',
                     controller: _nameController,
+                    keyboardType: TextInputType.name,
                     validator: (val) => Validators.validateName(val!),
                   ),
-                  EditProfileField(
+                  NewTextField(
                     label: 'Email',
                     controller: _emailController,
                     readOnly: true,
+                    keyboardType: TextInputType.emailAddress,
                   ),
-                  EditProfileField(
+                  NewTextField(
                     label: 'Phone',
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
                     validator: (val) => Validators.validatePhone(val!),
                   ),
-                  EditProfileField(
+                  NewTextField(
                     hintText: "DD/MM/YYYY",
                     label: 'Date of Birth',
-                    controller: _dobController,
+                    keyboardType: TextInputType.number,
                     readOnly: true,
                     onTap: () async {
                       String selectedDate = await DatePicker.pickDate(context);
@@ -90,7 +92,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     value: _selectedGender,
                     onChanged: (value) =>
                         setState(() => _selectedGender = value),
-                    validator: (val) => Validators.validateDropdown(val!),
+                    validator: (val) => Validators.commonValidator(val!),
                   ),
                   const SizedBox(height: 20),
                   Center(

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/theme/theme.dart';
 
 class CustomDropdown extends StatelessWidget {
   final String label;
@@ -33,7 +31,7 @@ class CustomDropdown extends StatelessWidget {
         ),
         const SizedBox(height: 3),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 1),
           decoration: BoxDecoration(
             color: Colors.grey[200],
             borderRadius: BorderRadius.circular(12),
@@ -56,9 +54,6 @@ class CustomDropdown extends StatelessWidget {
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
             ),
-            style: const TextStyle(fontSize: 16, color: Colors.black87),
-            iconSize: 20,
-            icon: Icon(FontAwesomeIcons.sortDown,color: theme.primaryColor,),
           ),
         ),
         const SizedBox(height: 15),

@@ -27,23 +27,23 @@ class SeeRequestedDelivery extends StatelessWidget {
     }
   ];
 
-   SeeRequestedDelivery({super.key});
+  SeeRequestedDelivery({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('See Requested Ride'),
+        title: const Text('See Requested Delivery'),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       body: rides.isNotEmpty
           ? RequestedRides(rides: rides)
           : const Center(
-        child: Text(
-          "No Available Rides",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-        ),
-      ),
+              child: Text(
+                "No Available Rides",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+            ),
     );
   }
 }
@@ -63,7 +63,10 @@ class RequestedRides extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: ListTile(
             title: Text('From: ${ride['from']} \nTo: ${ride['to']}'),
-            trailing: Text('${ride['rideDate']}',style: TextStyle(fontSize: 15),),
+            trailing: Text(
+              '${ride['rideDate']}',
+              style: TextStyle(fontSize: 15),
+            ),
             onTap: () {
               Navigator.push(
                 context,
