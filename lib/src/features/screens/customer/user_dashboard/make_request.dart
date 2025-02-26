@@ -35,7 +35,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
       try {
         User? user = FirebaseAuth.instance.currentUser;
         DocumentSnapshot userDoc = await FirebaseFirestore.instance
-            .collection('users')
+            .collection('customers')
             .doc(user!.uid)
             .get();
 
@@ -121,14 +121,14 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
                       const SizedBox(height: 20),
                       NewTextField(
                         label: 'Volume',
-                        hintText: 'Enter volume',
+                        hintText: 'Enter volume in cm\u00B3',
                         keyboardType: TextInputType.number,
                         controller: authController.volumeController,
                         validator: (val) => Validators.commonValidator(val),
                       ),
                       const SizedBox(height: 20),
                       CustomDropdown(
-                        label: "Select Type",
+                        label: "Item Type",
                         items: [
                           'Furniture',
                           'Electronics',

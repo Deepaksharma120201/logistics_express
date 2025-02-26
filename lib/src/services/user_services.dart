@@ -10,11 +10,11 @@ class UserServices {
   final _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<void> createUser(UserModel user) async {
+  Future<void> createUser(UserModel customer) async {
     User? currentUser = _firebaseAuth.currentUser;
     if (currentUser != null) {
-      await _fireStore.collection("users").doc(currentUser.uid).set(
-            user.toMap(),
+      await _fireStore.collection("customers").doc(currentUser.uid).set(
+            customer.toMap(),
           );
     } else {
       throw Exception("No authenticated user found.");

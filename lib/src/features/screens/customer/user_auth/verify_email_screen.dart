@@ -100,7 +100,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                                         User? user =
                                             FirebaseAuth.instance.currentUser;
                                         await FirebaseFirestore.instance
-                                            .collection('users')
+                                            .collection('customers')
                                             .doc(user!.uid)
                                             .update({
                                           'id': user.uid,
