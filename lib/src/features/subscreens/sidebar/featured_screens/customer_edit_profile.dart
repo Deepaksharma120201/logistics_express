@@ -7,8 +7,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
 import 'package:logistics_express/src/custom_widgets/profile_picker.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 import 'package:logistics_express/src/utils/new_text_field.dart';
 import 'package:logistics_express/src/utils/validators.dart';
+import '../../../../custom_widgets/custom_loader.dart';
+import '../../../../services/cloudinary/cloudinary_service.dart';
+import '../../../../utils/firebase_exceptions.dart';
 
 class CustomerEditProfile extends ConsumerStatefulWidget {
   const CustomerEditProfile({super.key});
@@ -20,9 +24,12 @@ class CustomerEditProfile extends ConsumerStatefulWidget {
 
 class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
   File? _selectedImage;
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
+  String? _existingProfileUrl;
+
   final CollectionReference firestore =
-  FirebaseFirestore.instance.collection("customers");
+      FirebaseFirestore.instance.collection("customers");
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -30,7 +37,6 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
   final TextEditingController _dobController = TextEditingController();
 
   String? _selectedGender;
-
 
   @override
   void initState() {
@@ -40,59 +46,56 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
 
   Future<void> _fetchCustomerData() async {
     final User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      print('No user logged in');
-      return;
-    }
-
-    final String userId = user.uid;
-    print('User ID: $userId');
 
     try {
-      final docSnapshot = await firestore.doc(userId).get();
+      final docSnapshot = await firestore.doc(user!.uid).get();
       if (docSnapshot.exists) {
         final data = docSnapshot.data() as Map<String, dynamic>;
-        print('Fetched data: $data');
-
         setState(() {
           _nameController.text = data['Name'] ?? '';
           _emailController.text = data['Email'] ?? '';
           _phoneController.text = data['Phone'] ?? '';
-          _dobController.text = data['DateOfBirth'] ?? '';
+          _dobController.text = data['Date'] ?? '';
           _selectedGender = data['Gender'];
+          _existingProfileUrl = data['ProfileImageUrl'];
         });
       } else {
-        print('Document does not exist');
+        showErrorSnackBar(context, 'Document does not exist');
       }
     } catch (e) {
-      print('Error fetching customer data: $e');
+      showErrorSnackBar(context, 'Error fetching customer data: $e');
     }
   }
 
   void _saveChanges() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      final User? user = FirebaseAuth.instance.currentUser;
-      if (user == null) return; // No user logged in
+    setState(() => isLoading = true);
+    final User? user = FirebaseAuth.instance.currentUser;
+    String? response = _existingProfileUrl;
+    ;
+    if (_selectedImage != null) {
+      response = await uploadToCloudinary(context, _selectedImage!);
+    }
+    try {
+      await firestore.doc(user!.uid).update({
+        'Name': _nameController.text,
+        'Phone': _phoneController.text,
+        'Date': _dobController.text,
+        'Gender': _selectedGender,
+        'ProfileImageUrl': response,
+      });
 
-      final String userId = user.uid;
-
-      try {
-        await firestore.doc(userId).update({
-          'Name': _nameController.text,
-          'Phone': _phoneController.text,
-          'DateOfBirth': _dobController.text,
-          'Gender': _selectedGender,
-        });
-
-        // Show a success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile updated successfully!')),
-        );
-      } catch (e) {
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error updating profile: $e')),
-        );
+      showSuccessSnackBar(context, 'Profile updated successfully!');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserHomeScreen(),
+        ),
+      );
+    } catch (e) {
+      showErrorSnackBar(context, 'Error updating profile: $e');
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
       }
     }
   }
@@ -101,81 +104,107 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        backgroundColor: Theme.of(context).cardColor,
-        appBar: AppBar(title: const Text('Edit Profile')),
-        body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  ProfilePicker(
-                    onImagePicked: (file) {
-                      setState(() {
-                        _selectedImage = file;
-                      });
-                    },
-                    initialImage: _selectedImage,
-                  ),
-                  const SizedBox(height: 20),
-                  NewTextField(
-                    label: 'Name',
-                    controller: _nameController,
-                    keyboardType: TextInputType.name,
-                    validator: (val) => Validators.validateName(val!),
-                  ),
-                  NewTextField(
-                    label: 'Email',
-                    controller: _emailController,
-                    readOnly: true,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  NewTextField(
-                    label: 'Phone',
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    validator: (val) => Validators.validatePhone(val!),
-                  ),
-                  NewTextField(
-                    label: 'Date of Birth',
-                    controller: _dobController,
-                    readOnly: true,
-                    hintText: 'DD/MM/YYYY',
-                    onTap: () async {
-                      String selectedDate = await DatePicker.pickDate(context);
-                      setState(() {
-                        _dobController.text = selectedDate;
-                      });
-                    },
-                    suffixIcon: const Icon(FontAwesomeIcons.calendarDays),
-                  ),
-                  CustomDropdown(
-                    label: "Gender",
-                    items: const ['Male', 'Female'],
-                    value: _selectedGender != null && ['Male', 'Female'].contains(_selectedGender)
-                        ? _selectedGender
-                        : null,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedGender = value;
-                      });
-                    },
-                    validator: (val) => Validators.commonValidator(val!),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: _saveChanges,
-                      child: const Text('Save Changes'),
+      child: Stack(
+        children: [
+          Scaffold(
+            backgroundColor: Theme.of(context).cardColor,
+            appBar: AppBar(title: const Text('Edit Profile')),
+            body: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: AbsorbPointer(
+                absorbing: isLoading,
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        ProfilePicker(
+                          onImagePicked: (file) {
+                            setState(() {
+                              _selectedImage = file;
+                            });
+                          },
+                          initialImage: _existingProfileUrl,
+                        ),
+                        const SizedBox(height: 20),
+                        NewTextField(
+                          label: 'Name',
+                          controller: _nameController,
+                          keyboardType: TextInputType.name,
+                          validator: (val) => Validators.validateName(val),
+                        ),
+                        NewTextField(
+                          label: 'Email',
+                          controller: _emailController,
+                          readOnly: true,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        NewTextField(
+                          label: 'Phone',
+                          controller: _phoneController,
+                          keyboardType: TextInputType.phone,
+                          validator: (val) => Validators.validatePhone(val),
+                        ),
+                        NewTextField(
+                          label: 'Date of Birth',
+                          controller: _dobController,
+                          readOnly: true,
+                          hintText: 'DD/MM/YYYY',
+                          onTap: () async {
+                            String selectedDate =
+                                await DatePicker.pickDate(context);
+                            setState(() {
+                              _dobController.text = selectedDate;
+                            });
+                          },
+                          suffixIcon: const Icon(FontAwesomeIcons.calendarDays),
+                        ),
+                        CustomDropdown(
+                          label: "Gender",
+                          items: const ['Male', 'Female'],
+                          value: _selectedGender != null &&
+                                  ['Male', 'Female'].contains(_selectedGender)
+                              ? _selectedGender
+                              : null,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedGender = value;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                _saveChanges();
+                              } else {
+                                showErrorSnackBar(
+                                  context,
+                                  "Please fill all fields!",
+                                );
+                              }
+                            },
+                            child: const Text('Save Changes'),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+          if (isLoading)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withOpacity(0.4),
+                child: const Center(
+                  child: CustomLoader(),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

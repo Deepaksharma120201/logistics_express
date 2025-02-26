@@ -32,17 +32,20 @@ class _SearchRideState extends ConsumerState<SearchRide> {
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
+                String source = authController.sourceAddressController.text
+                    .trim()
+                    .toUpperCase();
+                String destination = authController
+                    .destinationAddressController.text
+                    .trim()
+                    .toUpperCase();
+                authController.clearAll();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AvailableRides(
-                      source: authController.sourceAddressController.text
-                          .trim()
-                          .toUpperCase(),
-                      destination: authController
-                          .destinationAddressController.text
-                          .trim()
-                          .toUpperCase(),
+                      source: source,
+                      destination: destination,
                     ),
                   ),
                 );

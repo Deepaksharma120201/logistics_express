@@ -26,7 +26,7 @@ class UserModel {
       "Phone": phoneNo,
       "Password": password,
       "Gender": gender,
-      "ProfileUrl": profileUrl,
+      "ProfileImageUrl": profileUrl,
     };
   }
 

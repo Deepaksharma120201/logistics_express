@@ -48,7 +48,8 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
 
         User? user = FirebaseAuth.instance.currentUser;
         AgentModel agent = AgentModel(
-          id: user!.uid,
+          email: user!.email,
+          id: user.uid,
           name: authController.nameController.text.trim(),
           phoneNo: authController.phoneController.text.trim(),
           dateOfBirth: authController.dobController.text.trim(),
@@ -56,7 +57,6 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
           gender: _selectedGender!,
           profileImageUrl: imageUrl!,
         );
-
         final userServices = UserServices();
         await userServices.createAgent(agent);
         authController.clearAll();
