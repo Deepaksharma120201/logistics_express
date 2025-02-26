@@ -12,8 +12,10 @@ class AgentModel {
   final String? rcFrontImageUrl;
   final String? rcBackImageUrl;
   final String? rcNumber;
+  final String? email;
 
   const AgentModel({
+    required this.email,
     required this.dateOfBirth,
     required this.id,
     required this.name,
@@ -44,12 +46,14 @@ class AgentModel {
       "RCFrontImageUrl": rcFrontImageUrl,
       "RCBackImageUrl": rcBackImageUrl,
       "RCNumber": rcNumber,
+      "Email": email,
     };
   }
 
   // Create an instance from a Firestore document
   factory AgentModel.fromMap(Map<String, dynamic> map) {
     return AgentModel(
+      email: map['Email'] ?? '',
       id: map['id'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',

@@ -43,7 +43,8 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
       }
     } catch (e) {
       if (context.mounted) {
-        showErrorSnackBar(context, "Error getting distance: $e");
+        final localContext = context;
+        showErrorSnackBar(localContext, "Error getting distance: $e");
       }
     }
     return 0.0;
@@ -69,8 +70,9 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
 
       authController.clearAll();
       if (context.mounted) {
+        final localContext = context;
         showModalBottomSheet(
-          context: context,
+          context: localContext,
           builder: (BuildContext context) {
             return Container(
               width: double.infinity,
@@ -95,7 +97,8 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
       }
     } catch (e) {
       if (context.mounted) {
-        showErrorSnackBar(context, "Error estimating price: $e");
+        final localContext = context;
+        showErrorSnackBar(localContext, "Error estimating price: $e");
       }
     } finally {
       if (mounted) {
