@@ -127,7 +127,7 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
                         AddressFilled(),
                         const SizedBox(height: 20),
                         NewTextField(
-                          validator: (val) => Validators.commonValidator(val),
+                          validator: (val) => Validators.quantityValidator(val),
                           label: 'Weight',
                           controller: ref
                               .watch(authControllerProvider)
@@ -137,7 +137,7 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
                         ),
                         const SizedBox(height: 10),
                         NewTextField(
-                          validator: (val) => Validators.commonValidator(val),
+                          validator: (val) => Validators.quantityValidator(val),
                           label: 'Volume',
                           controller: ref
                               .watch(authControllerProvider)

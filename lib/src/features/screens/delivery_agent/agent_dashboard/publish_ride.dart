@@ -46,6 +46,7 @@ class _PublishRideState extends ConsumerState<PublishRide> {
         authController.clearAll();
 
         if (context.mounted) {
+          showSuccessSnackBar(context, "Ride published successfully!");
           Navigator.of(context).pop();
         }
       } catch (error) {

@@ -91,7 +91,7 @@ class _AutoSearchState extends State<AutoSearch> {
                   child: ElevatedButton(
                     onPressed: () {
                       determinePosition().then((value) {
-                        _navigateToMap(value.latitude, value.latitude);
+                        _navigateToMap(value.latitude, value.longitude);
                       }).onError((error, stackTrace) {
                         showErrorSnackBar(
                           context,

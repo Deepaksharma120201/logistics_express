@@ -35,14 +35,15 @@ class _TrackDeliveryScreenState extends State<TrackDeliveryScreen> {
           : DeliveryList(rides: completedRides),
       bottomNavigationBar: NavigationBar(
         indicatorColor: Theme.of(context).primaryColor,
-        //indicatorShape: Border.symmetric(horizontal:BorderSide(style: ),vertical:  ),
         destinations: const [
           NavigationDestination(
             icon: Icon(FontAwesomeIcons.truck),
             label: 'Active',
           ),
           NavigationDestination(
-              icon: Icon(FontAwesomeIcons.listCheck), label: 'Completed'),
+            icon: Icon(FontAwesomeIcons.listCheck),
+            label: 'Completed',
+          ),
         ],
         selectedIndex: selectedTabIndex,
         onDestinationSelected: (index) {
@@ -58,33 +59,37 @@ class _TrackDeliveryScreenState extends State<TrackDeliveryScreen> {
 class DeliveryList extends StatelessWidget {
   final List<Map<String, String>> rides;
 
-  const DeliveryList({super.key, required this.rides});
+  const DeliveryList({
+    super.key,
+    required this.rides,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: rides.length,
-        itemBuilder: (context, index) {
-          final delivery = rides[index];
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: ListTile(
-              title: Text('Ride id - ${delivery['rideId']}'),
-              subtitle: Text('Ride date - ${delivery['rideDate']}'),
-              trailing: const Icon(FontAwesomeIcons.angleRight),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RideInformationScreen(
-                      rideId: delivery['rideId']!,
-                      rideDate: delivery['rideDate']!,
-                    ),
+      itemCount: rides.length,
+      itemBuilder: (context, index) {
+        final delivery = rides[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: ListTile(
+            title: Text('Ride id - ${delivery['rideId']}'),
+            subtitle: Text('Ride date - ${delivery['rideDate']}'),
+            trailing: const Icon(FontAwesomeIcons.arrowRight),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RideInformationScreen(
+                    rideId: delivery['rideId']!,
+                    rideDate: delivery['rideDate']!,
                   ),
-                );
-              },
-            ),
-          );
-        });
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }

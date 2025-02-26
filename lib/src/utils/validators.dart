@@ -55,8 +55,8 @@ class Validators {
   static String? validateAadhar(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please fill this field!';
-    } else if (!RegExp(r'^\d{4}\s\d{4}\s\d{4}$').hasMatch(value)) {
-      return 'Enter a valid Aadhar number (xxxx xxxx xxxx)';
+    } else if (!RegExp(r'^\d{4}-\d{4}-\d{4}$').hasMatch(value)) {
+      return 'Enter a valid Aadhar number (XXXX-XXXX-XXXX)';
     }
     return null;
   }
@@ -89,6 +89,16 @@ class Validators {
     } else if (!RegExp(r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$')
         .hasMatch(value)) {
       return 'Enter a valid date (DD/MM/YYYY)';
+    }
+    return null;
+  }
+
+  // Validator for Qunatity
+  static String? quantityValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill this field!';
+    } else if (!RegExp(r'^\d+(\.\d+)?$').hasMatch(value)) {
+      return 'Enter a valid number';
     }
     return null;
   }

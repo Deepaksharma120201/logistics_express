@@ -4,7 +4,10 @@ import 'package:logistics_express/src/models/faq_model.dart';
 class FaqListView extends StatelessWidget {
   final List<FAQ> faqList;
 
-  const FaqListView({super.key, required this.faqList});
+  const FaqListView({
+    super.key,
+    required this.faqList,
+  });
 
   @override
   Widget build(BuildContext context) {

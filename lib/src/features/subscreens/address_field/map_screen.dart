@@ -38,10 +38,12 @@ class _MapScreenState extends State<MapScreen> {
           isLoading = false;
         });
 
-        // Update camera position after receiving the location data
-        _mapController?.animateCamera(
-          CameraUpdate.newLatLng(LatLng(defaultLat, defaultLng)),
-        );
+        // Update camera position only if the map is initialized
+        if (_mapController != null && defaultLat != 0.0 && defaultLng != 0.0) {
+          _mapController!.animateCamera(
+            CameraUpdate.newLatLng(LatLng(defaultLat, defaultLng)),
+          );
+        }
       }
     } catch (e) {
       setState(() {
@@ -71,10 +73,12 @@ class _MapScreenState extends State<MapScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // When user selects the address, return it to AutoSearch screen
+              // When user selects the address, return it to previous screen
               Navigator.pop(
                 context,
-                placeFromCoordinates.results![0].formattedAddress,
+                placeFromCoordinates.results?.isNotEmpty == true
+                    ? placeFromCoordinates.results![0].formattedAddress
+                    : "No address found",
               );
             },
             icon: const Icon(FontAwesomeIcons.check),
@@ -93,6 +97,10 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   onMapCreated: (GoogleMapController controller) {
                     _mapController = controller;
+                    // Move camera to given lat/lng when map is ready
+                    _mapController!.animateCamera(
+                      CameraUpdate.newLatLng(LatLng(widget.lat, widget.lng)),
+                    );
                   },
                   onCameraMove: (CameraPosition position) {
                     setState(() {

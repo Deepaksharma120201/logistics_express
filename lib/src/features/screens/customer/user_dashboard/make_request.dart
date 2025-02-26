@@ -61,6 +61,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
         authController.clearAll();
 
         if (context.mounted) {
+          showSuccessSnackBar(context, "Request sent successfully!");
           Navigator.of(context).pop();
         }
       } catch (error) {
@@ -116,7 +117,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
                         hintText: 'Enter weight in Kg',
                         keyboardType: TextInputType.number,
                         controller: authController.weightController,
-                        validator: (val) => Validators.commonValidator(val),
+                        validator: (val) => Validators.quantityValidator(val),
                       ),
                       const SizedBox(height: 20),
                       NewTextField(
@@ -124,7 +125,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
                         hintText: 'Enter volume',
                         keyboardType: TextInputType.number,
                         controller: authController.volumeController,
-                        validator: (val) => Validators.commonValidator(val),
+                        validator: (val) => Validators.quantityValidator(val),
                       ),
                       const SizedBox(height: 20),
                       CustomDropdown(

@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class FirebaseExceptions {
@@ -58,4 +60,10 @@ void showSuccessSnackBar(BuildContext context, String message) {
       duration: const Duration(seconds: 3),
     ),
   );
+}
+
+String shortenUUID(String uuid) {
+  var bytes = utf8.encode(uuid);
+  var digest = sha1.convert(bytes); 
+  return digest.toString().substring(0, 8);
 }
