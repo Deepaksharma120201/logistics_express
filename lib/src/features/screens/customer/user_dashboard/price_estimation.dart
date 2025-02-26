@@ -142,12 +142,12 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
                           controller: ref
                               .watch(authControllerProvider)
                               .volumeController,
-                          hintText: 'Enter volume',
+                          hintText: 'Enter volume in cm\u00B3',
                           keyboardType: TextInputType.number,
                         ),
                         const SizedBox(height: 10),
                         CustomDropdown(
-                          label: "Select Type",
+                          label: "Item Type",
                           items: [
                             'Furniture',
                             'Electronics',
