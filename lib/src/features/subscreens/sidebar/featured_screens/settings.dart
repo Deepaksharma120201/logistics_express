@@ -1,12 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 
 class Settings extends StatelessWidget {
   final AuthService authService = AuthService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   Settings({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final User? user = _auth.currentUser;
+    final String email = user?.email ?? 'No email found';
+
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
@@ -26,8 +31,8 @@ class Settings extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      '523110056@nitkkr.ac.in',
+                    Text(
+                      email,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
