@@ -7,7 +7,7 @@ import 'package:logistics_express/src/features/screens/delivery_agent/agent_dash
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/payment_history.dart';
 import 'package:logistics_express/src/utils/delivery_agent_faq.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/agent_side_drawer.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/customer_side_drawer.dart';
 
 class AgentHomeScreen extends StatefulWidget {
   const AgentHomeScreen({super.key});
@@ -36,7 +36,7 @@ class _AgentHomeScreenState extends State<AgentHomeScreen> {
           ),
         ],
       ),
-      drawer: AgentSideDrawer(),
+      drawer: CustomerSideDrawer(),
       body: GridView(
         padding: EdgeInsets.all(20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
