@@ -5,7 +5,7 @@ import 'package:logistics_express/src/custom_widgets/image_picker_service.dart';
 
 class ProfilePicker extends StatefulWidget {
   final Function(File?) onImagePicked;
-  final File? initialImage;
+  final dynamic initialImage; // URL or null
 
   const ProfilePicker({
     super.key,
@@ -23,7 +23,10 @@ class _ProfilePickerState extends State<ProfilePicker> {
   @override
   void initState() {
     super.initState();
-    _selectedImage = widget.initialImage;
+    // Ensure initialImage is a valid URL before assigning
+    if (widget.initialImage != null && widget.initialImage!.isNotEmpty) {
+      _selectedImage = null; // Will be shown as a network image
+    }
   }
 
   Future<void> _pickImage() async {
@@ -41,18 +44,34 @@ class _ProfilePickerState extends State<ProfilePicker> {
     Widget content = const Icon(
       FontAwesomeIcons.user,
       size: 80,
+      color: Colors.grey,
     );
 
     if (_selectedImage != null) {
-      content = ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: ClipOval(
-          child: Image.file(
-            _selectedImage!,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+      // Show local file image
+      content = ClipOval(
+        child: Image.file(
+          _selectedImage!,
+          fit: BoxFit.cover,
+          width: 140,
+          height: 140,
+        ),
+      );
+    } else if (widget.initialImage != null && widget.initialImage!.isNotEmpty) {
+      // Show network image
+      content = ClipOval(
+        child: Image.network(
+          widget.initialImage!,
+          fit: BoxFit.cover,
+          width: 140,
+          height: 140,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return const Center(child: CircularProgressIndicator());
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return const Icon(Icons.error, size: 80, color: Colors.red);
+          },
         ),
       );
     }

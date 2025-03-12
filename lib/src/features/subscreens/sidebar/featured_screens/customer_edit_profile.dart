@@ -8,6 +8,7 @@ import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
 import 'package:logistics_express/src/custom_widgets/profile_picker.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
+import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/utils/new_text_field.dart';
 import 'package:logistics_express/src/utils/validators.dart';
 import '../../../../custom_widgets/custom_loader.dart';
@@ -27,21 +28,36 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
   String? _existingProfileUrl;
-
-  final CollectionReference firestore =
-      FirebaseFirestore.instance.collection("customers");
+  final AuthService _authService = AuthService();
+  late CollectionReference firestore;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
-
   String? _selectedGender;
 
   @override
   void initState() {
     super.initState();
-    _fetchCustomerData();
+    _initializeUserData();
+  }
+
+  Future<void> _initializeUserData() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    try {
+      final userInfo = await _authService.getUserRole(user!.uid, context);
+      final String role = userInfo['role'];
+
+      setState(() {
+        firestore = FirebaseFirestore.instance
+            .collection(role == 'Customer' ? 'customers' : 'agents');
+      });
+      await _fetchCustomerData();
+    } catch (e) {
+      showErrorSnackBar(context, 'Error initializing user data: $e');
+    }
   }
 
   Future<void> _fetchCustomerData() async {
@@ -63,6 +79,7 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
         showErrorSnackBar(context, 'Document does not exist');
       }
     } catch (e) {
+      print(firestore);
       showErrorSnackBar(context, 'Error fetching customer data: $e');
     }
   }
@@ -71,7 +88,6 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
     setState(() => isLoading = true);
     final User? user = FirebaseAuth.instance.currentUser;
     String? response = _existingProfileUrl;
-    ;
     if (_selectedImage != null) {
       response = await uploadToCloudinary(context, _selectedImage!);
     }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/agent_edit_profile.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/customer_edit_profile.dart';
 import 'featured_screens/about.dart';
 import 'featured_screens/contact_support.dart';
-
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/settings.dart';
 
 class AgentSideDrawer extends StatelessWidget {
@@ -76,7 +75,7 @@ class AgentSideDrawer extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AgentEditProfile(),
+                          builder: (context) => CustomerEditProfile(),
                         ),
                       );
                     },
