@@ -140,7 +140,7 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
                               _selectedImage = file;
                             });
                           },
-                          initialImage: _existingProfileUrl,
+                          // initialImage: _existingProfileUrl,
                         ),
                         const SizedBox(height: 20),
                         NewTextField(
