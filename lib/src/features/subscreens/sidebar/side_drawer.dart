@@ -4,21 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/about.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/contact_support.dart';
-import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/customer_edit_profile.dart';
+import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/edit_profile.dart';
 import 'package:logistics_express/src/features/subscreens/sidebar/featured_screens/settings.dart'
     as custom;
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
-import 'agent_side_drawer.dart';
 
-class CustomerSideDrawer extends StatefulWidget {
-  const CustomerSideDrawer({super.key});
+class SideDrawer extends StatefulWidget {
+  const SideDrawer({super.key});
 
   @override
-  State<CustomerSideDrawer> createState() => _CustomerSideDrawerState();
+  State<SideDrawer> createState() => _SideDrawerState();
 }
 
-class _CustomerSideDrawerState extends State<CustomerSideDrawer> {
+class _SideDrawerState extends State<SideDrawer> {
   final AuthService _authService = AuthService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late CollectionReference _firestore;
@@ -140,7 +139,7 @@ class _CustomerSideDrawerState extends State<CustomerSideDrawer> {
                         CustomListTile(
                           icon: FontAwesomeIcons.penToSquare,
                           text: 'Edit Profile',
-                          onTap: () => _navigateTo(const CustomerEditProfile()),
+                          onTap: () => _navigateTo(const EditProfile()),
                         ),
                         CustomListTile(
                           icon: FontAwesomeIcons.circleInfo,
@@ -200,5 +199,61 @@ class _CustomerSideDrawerState extends State<CustomerSideDrawer> {
 
   void _navigateTo(Widget screen) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+  }
+}
+
+class CustomListTile extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final VoidCallback onTap;
+
+  const CustomListTile({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: theme.colorScheme.onPrimary,
+      ),
+      title: Text(
+        text,
+        style: theme.textTheme.bodyLarge?.copyWith(
+          color: theme.colorScheme.onPrimary,
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
+}
+
+class CustomTextButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const CustomTextButton({
+    super.key,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        color: theme.colorScheme.onPrimary,
+      ),
+    );
   }
 }

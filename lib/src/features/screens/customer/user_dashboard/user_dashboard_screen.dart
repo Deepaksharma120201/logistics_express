@@ -7,7 +7,7 @@ import 'package:logistics_express/src/utils/customer_faq.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/make_request.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/payment_history.dart';
 
-import '../../../subscreens/sidebar/customer_side_drawer.dart';
+import '../../../subscreens/sidebar/side_drawer.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -36,7 +36,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ),
         ],
       ),
-      drawer: CustomerSideDrawer(),
+      drawer: SideDrawer(),
       body: GridView(
         padding: EdgeInsets.all(20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

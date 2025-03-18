@@ -10,6 +10,7 @@
 .svn/
 migrate_working_dir/
 .env
+.dart_tool
 
 # IntelliJ related
 *.iml
@@ -31,6 +32,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.dart_tool
+/android/app/src/main/AndroidManifest.xml
 
 # Symbolication related
 app.*.symbols

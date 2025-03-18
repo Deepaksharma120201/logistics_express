@@ -15,15 +15,14 @@ import '../../../../custom_widgets/custom_loader.dart';
 import '../../../../services/cloudinary/cloudinary_service.dart';
 import '../../../../utils/firebase_exceptions.dart';
 
-class CustomerEditProfile extends ConsumerStatefulWidget {
-  const CustomerEditProfile({super.key});
+class EditProfile extends ConsumerStatefulWidget {
+  const EditProfile({super.key});
 
   @override
-  ConsumerState<CustomerEditProfile> createState() =>
-      _CustomerEditProfileState();
+  ConsumerState<EditProfile> createState() => _EditProfileState();
 }
 
-class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
+class _EditProfileState extends ConsumerState<EditProfile> {
   File? _selectedImage;
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
