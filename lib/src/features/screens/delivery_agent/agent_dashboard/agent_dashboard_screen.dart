@@ -3,7 +3,7 @@ import 'package:logistics_express/src/features/screens/customer/user_dashboard/p
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/publish_ride.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/see_requested_delivery.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/track_delivery.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/update_ride.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/published_ride.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/payment_history.dart';
 import 'package:logistics_express/src/utils/delivery_agent_faq.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,7 +47,7 @@ class _AgentHomeScreenState extends State<AgentHomeScreen> {
         ),
         children: [
           _containerButton(context, 'Publish Ride', PublishRide()),
-          _containerButton(context, 'Update Ride', UpdateRide()),
+          _containerButton(context, 'Update Ride', PublishedRide()),
           _containerButton(
               context, 'See Requested Delivery', SeeRequestedDelivery()),
           _containerButton(context, 'Track Delivery', TrackDelivery()),
