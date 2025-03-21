@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.logistics_express"
-    compileSdk = 34
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
