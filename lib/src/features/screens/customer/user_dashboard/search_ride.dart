@@ -26,7 +26,7 @@ class _SearchRideState extends ConsumerState<SearchRide> {
       ),
       backgroundColor: Theme.of(context).cardColor,
       body: Container(
-        padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+        padding: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
           child: Column(

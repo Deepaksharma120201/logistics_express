@@ -1,18 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 
-class SeeRequestedDelivery extends StatefulWidget {
-  const SeeRequestedDelivery({super.key});
+class SeeRequestedRides extends StatefulWidget {
+  const SeeRequestedRides({super.key});
 
   @override
-  State<SeeRequestedDelivery> createState() => _SeeRequestedDeliveryState();
+  State<SeeRequestedRides> createState() => _SeeRequestedRidesState();
 }
 
-class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
-  List<Map<String, dynamic>> requestedDeliveries = [];
+class _SeeRequestedRidesState extends State<SeeRequestedRides> {
+  List<Map<String, dynamic>> requestedRides = [];
 
   @override
   void initState() {
@@ -31,8 +30,8 @@ class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
         rides.add(doc.data() as Map<String, dynamic>);
       }
       setState(() {
-        requestedDeliveries = rides;
-        requestedDeliveries.sort((a, b) {
+        requestedRides = rides;
+        requestedRides.sort((a, b) {
           List<String> dateA = a["Date"].split("/");
           List<String> dateB = b["Date"].split("/");
 
@@ -56,18 +55,18 @@ class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('See Requested Delivery'),
+        title: const Text('See Requested Rides'),
       ),
       backgroundColor: Theme.of(context).cardColor,
-      body: requestedDeliveries.isNotEmpty
+      body: requestedRides.isNotEmpty
           ? ListView.builder(
-              itemCount: requestedDeliveries.length,
+              itemCount: requestedRides.length,
               itemBuilder: (context, index) {
-                final delivery = requestedDeliveries[index];
+                final rides = requestedRides[index];
                 return InfoDelivery(
-                  delivery: delivery,
-                  rideId: shortenUUID(delivery['id']),
-                  date: delivery['Date'],
+                  rides: rides,
+                  rideId: shortenUUID(rides['id']),
+                  date: rides['Date'],
                 );
               },
             )
@@ -89,28 +88,21 @@ class InfoDelivery extends StatelessWidget {
     super.key,
     required this.date,
     required this.rideId,
-    required this.delivery,
+    required this.rides,
   });
 
   final String date;
-  final Map<String, dynamic> delivery;
+  final Map<String, dynamic> rides;
   final String rideId;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text('Delivery id - $rideId'),
+        title: Text('Ride id - $rideId'),
         subtitle: Text('Date - $date'),
         trailing: const Icon(FontAwesomeIcons.arrowRight),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RequestedRide(delivery: delivery),
-            ),
-          );
-        },
+        onTap: () {},
       ),
     );
   }

@@ -48,8 +48,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         itemBuilder: (context, index) {
           final data = paymentData[index];
           return Card(
-            color:
-                const Color(0xFFEDE7F6), // Light purple background for the card
+            color: const Color(0xFFEDE7F6),
             margin: const EdgeInsets.only(bottom: 16.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
