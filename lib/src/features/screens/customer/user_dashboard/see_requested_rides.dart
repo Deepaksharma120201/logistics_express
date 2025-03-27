@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 
 class SeeRequestedRides extends StatefulWidget {
@@ -12,6 +14,7 @@ class SeeRequestedRides extends StatefulWidget {
 
 class _SeeRequestedRidesState extends State<SeeRequestedRides> {
   List<Map<String, dynamic>> requestedRides = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -21,10 +24,17 @@ class _SeeRequestedRidesState extends State<SeeRequestedRides> {
 
   Future<void> fetchAllDeliveries() async {
     final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+
     List<Map<String, dynamic>> rides = [];
+
     try {
-      QuerySnapshot rideDocs =
-          await fireStore.collectionGroup("deliveries").get();
+      QuerySnapshot rideDocs = await fireStore
+          .collection("requested-deliveries")
+          .doc(user!.uid)
+          .collection("deliveries") // Sub-collection for deliveries
+          .get();
 
       for (var doc in rideDocs.docs) {
         rides.add(doc.data() as Map<String, dynamic>);
@@ -42,12 +52,16 @@ class _SeeRequestedRidesState extends State<SeeRequestedRides> {
 
           return parsedDateA.compareTo(parsedDateB);
         });
+        isLoading = false;
       });
     } catch (e) {
       showErrorSnackBar(
         context,
         "Error fetching rides: $e",
       );
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -58,27 +72,36 @@ class _SeeRequestedRidesState extends State<SeeRequestedRides> {
         title: const Text('See Requested Rides'),
       ),
       backgroundColor: Theme.of(context).cardColor,
-      body: requestedRides.isNotEmpty
-          ? ListView.builder(
-              itemCount: requestedRides.length,
-              itemBuilder: (context, index) {
-                final rides = requestedRides[index];
-                return InfoDelivery(
-                  rides: rides,
-                  rideId: shortenUUID(rides['id']),
-                  date: rides['Date'],
-                );
-              },
-            )
-          : const Center(
-              child: Text(
-                "No request till now!",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+      body: isLoading
+          ? Positioned.fill(
+              child: Container(
+                color: Colors.black.withOpacity(0.4),
+                child: const Center(
+                  child: CustomLoader(),
                 ),
               ),
-            ),
+            )
+          : requestedRides.isNotEmpty
+              ? ListView.builder(
+                  itemCount: requestedRides.length,
+                  itemBuilder: (context, index) {
+                    final rides = requestedRides[index];
+                    return InfoDelivery(
+                      rides: rides,
+                      rideId: shortenUUID(rides['id']),
+                      date: rides['Date'],
+                    );
+                  },
+                )
+              : const Center(
+                  child: Text(
+                    "No request till now!",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
     );
   }
 }

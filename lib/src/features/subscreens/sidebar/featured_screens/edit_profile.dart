@@ -24,7 +24,7 @@ class EditProfile extends ConsumerStatefulWidget {
 
 class _EditProfileState extends ConsumerState<EditProfile> {
   File? _selectedImage;
-  bool isLoading = false;
+  bool isLoading = true;
   final _formKey = GlobalKey<FormState>();
   String? _existingProfileUrl;
   final AuthService _authService = AuthService();
@@ -44,7 +44,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
 
   Future<void> _initializeUserData() async {
     final User? user = FirebaseAuth.instance.currentUser;
-
+    setState(() => isLoading = true);
     try {
       final userInfo = await _authService.getUserRole(user!.uid, context);
       final String role = userInfo['role'];
@@ -56,12 +56,15 @@ class _EditProfileState extends ConsumerState<EditProfile> {
       await _fetchCustomerData();
     } catch (e) {
       showErrorSnackBar(context, 'Error initializing user data: $e');
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
 
   Future<void> _fetchCustomerData() async {
     final User? user = FirebaseAuth.instance.currentUser;
-
     try {
       final docSnapshot = await firestore.doc(user!.uid).get();
       if (docSnapshot.exists) {
@@ -87,6 +90,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
     setState(() => isLoading = true);
     final User? user = FirebaseAuth.instance.currentUser;
     String? response = _existingProfileUrl;
+    
     if (_selectedImage != null) {
       response = await uploadToCloudinary(context, _selectedImage!);
     }

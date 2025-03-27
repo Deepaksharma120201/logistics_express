@@ -113,7 +113,8 @@ class _PublishRideState extends ConsumerState<PublishRide> {
                           });
                         },
                         suffixIcon: const Icon(FontAwesomeIcons.calendarDays),
-                        validator: (val) => Validators.validateDate(val),
+                        validator: (val) => Validators.validateEndDate(
+                            val, authController.startDateController.text),
                       ),
                       const SizedBox(height: 10),
                       NewTextField(
@@ -148,18 +149,20 @@ class _PublishRideState extends ConsumerState<PublishRide> {
                       ),
                       SizedBox(height: 10),
                       Center(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  publishRide();
-                                } else {
-                                  showErrorSnackBar(
-                                    context,
-                                    'Please fill all required fields.',
-                                  );
-                                }
-                              },
-                              child: Text('Publish Ride')))
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              publishRide();
+                            } else {
+                              showErrorSnackBar(
+                                context,
+                                'Please fill all required fields.',
+                              );
+                            }
+                          },
+                          child: Text('Publish Ride'),
+                        ),
+                      )
                     ],
                   ),
                 ),
