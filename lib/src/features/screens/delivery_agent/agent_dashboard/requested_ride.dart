@@ -64,9 +64,30 @@ class RequestedRide extends StatelessWidget {
               'Volume: ${delivery['Volume']} cm\u00B3',
               style: const TextStyle(fontSize: 18),
             ),
+            const SizedBox(height: 24), // Space after cargo info
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Add logic to accept/confirm the ride
+                  showSuccessSnackBar(context, "Ride accepted successfully!");
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Accept Ride'),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
+  void showSuccessSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
 }
+
