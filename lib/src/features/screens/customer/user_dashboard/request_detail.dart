@@ -36,6 +36,7 @@ class _RequestDetailState extends State<RequestDetail> {
           .delete();
 
       showSuccessSnackBar(context, 'Request cancelled successfully!');
+
       Navigator.push(
         context,
         MaterialPageRoute(
