@@ -86,10 +86,30 @@ class Validators {
   static String? validateDate(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please fill this field!';
-    } else if (!RegExp(r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$')
-        .hasMatch(value)) {
-      return 'Enter a valid date (DD/MM/YYYY)';
     }
+    return null;
+  }
+
+  static String? validateEndDate(String? value, String? date) {
+    if (value == null || value.isEmpty || date == null || date.isEmpty) {
+      return 'Please fill this field!';
+    }
+
+    // Convert date strings to DateTime objects
+    List<String> endDateParts = value.split("/");
+    List<String> startDateParts = date.split("/");
+
+    DateTime endDate = DateTime(int.parse(endDateParts[2]),
+        int.parse(endDateParts[1]), int.parse(endDateParts[0]));
+
+    DateTime startDate = DateTime(int.parse(startDateParts[2]),
+        int.parse(startDateParts[1]), int.parse(startDateParts[0]));
+
+    // Check if endDate is before startDate
+    if (endDate.isBefore(startDate)) {
+      return 'End date must be equal to or after the start date!';
+    }
+
     return null;
   }
 

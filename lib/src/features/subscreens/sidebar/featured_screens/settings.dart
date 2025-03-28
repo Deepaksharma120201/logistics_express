@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logistics_express/src/features/screens/home_screen.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
+import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 
 class Settings extends StatelessWidget {
   final AuthService authService = AuthService();
@@ -84,22 +86,28 @@ class Settings extends StatelessWidget {
                                                   child: const Text('Cancel'),
                                                 ),
                                                 TextButton(
-                                                  onPressed: () {
+                                                  onPressed: () async {
                                                     Navigator.of(context).pop();
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      const SnackBar(
-                                                        content: Text(
-                                                          'Account deleted successfully.',
-                                                        ),
-                                                      ),
+                                                    authService
+                                                        .deleteAccount(context);
+                                                    Navigator
+                                                        .pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const HomeScreen()),
+                                                      (route) => false,
+                                                    );
+                                                    showSuccessSnackBar(
+                                                      context,
+                                                      "Account deleted successfully",
                                                     );
                                                   },
                                                   child: const Text(
                                                     'Delete',
                                                     style: TextStyle(
-                                                        color: Colors.red),
+                                                      color: Colors.red,
+                                                    ),
                                                   ),
                                                 ),
                                               ],

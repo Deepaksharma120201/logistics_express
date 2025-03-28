@@ -127,6 +127,27 @@ class AuthService {
       }
     }
   }
+
+  // Delete user Account
+  Future<void> deleteAccount(BuildContext context) async {
+    try {
+      User? user = _firebaseAuth.currentUser;
+      String uid = user!.uid;
+
+      // Delete user data from Firestore
+      await _firestore.collection('agents').doc(uid).delete();
+      await _firestore.collection('customers').doc(uid).delete();
+      await _firestore.collection('user_auth').doc(uid).delete();
+
+      // Delete user from Firebase Authentication
+      await user.delete();
+
+      // Sign out the user after deletion
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      showErrorSnackBar(context, "Error deleting account: $e");
+    }
+  }
 }
 
 // Provider for AuthService

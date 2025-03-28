@@ -6,7 +6,16 @@ import 'package:logistics_express/src/utils/validators.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 
 class AddressFilled extends ConsumerStatefulWidget {
-  const AddressFilled({super.key});
+  const AddressFilled({
+    super.key,
+    this.source,
+    this.destination,
+    this.check = false,
+  });
+
+  final String? source;
+  final String? destination;
+  final bool check;
 
   @override
   ConsumerState<AddressFilled> createState() => _AddressFilledState();
@@ -24,6 +33,17 @@ class _AddressFilledState extends ConsumerState<AddressFilled> {
       setState(() {
         controller.text = selectedAddress;
       });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final authController = ref.read(authControllerProvider);
+
+    if (widget.check) {
+      authController.sourceAddressController.text = widget.source!;
+      authController.destinationAddressController.text = widget.destination!;
     }
   }
 

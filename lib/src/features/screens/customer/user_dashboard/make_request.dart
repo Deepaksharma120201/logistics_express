@@ -93,7 +93,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
                   child: Column(
                     children: [
                       AddressFilled(),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 10),
                       NewTextField(
                         hintText: "DD/MM/YYYY",
                         label: 'Date',
@@ -119,7 +119,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
                         controller: authController.weightController,
                         validator: (val) => Validators.quantityValidator(val),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       NewTextField(
                         label: 'Volume',
                         hintText: 'Enter volume in cm\u00B3',
@@ -127,7 +127,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
                         controller: authController.volumeController,
                         validator: (val) => Validators.quantityValidator(val),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       CustomDropdown(
                         label: "Item Type",
                         items: [

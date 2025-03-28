@@ -15,17 +15,16 @@ import '../../../../custom_widgets/custom_loader.dart';
 import '../../../../services/cloudinary/cloudinary_service.dart';
 import '../../../../utils/firebase_exceptions.dart';
 
-class CustomerEditProfile extends ConsumerStatefulWidget {
-  const CustomerEditProfile({super.key});
+class EditProfile extends ConsumerStatefulWidget {
+  const EditProfile({super.key});
 
   @override
-  ConsumerState<CustomerEditProfile> createState() =>
-      _CustomerEditProfileState();
+  ConsumerState<EditProfile> createState() => _EditProfileState();
 }
 
-class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
+class _EditProfileState extends ConsumerState<EditProfile> {
   File? _selectedImage;
-  bool isLoading = false;
+  bool isLoading = true;
   final _formKey = GlobalKey<FormState>();
   String? _existingProfileUrl;
   final AuthService _authService = AuthService();
@@ -45,7 +44,7 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
 
   Future<void> _initializeUserData() async {
     final User? user = FirebaseAuth.instance.currentUser;
-
+    setState(() => isLoading = true);
     try {
       final userInfo = await _authService.getUserRole(user!.uid, context);
       final String role = userInfo['role'];
@@ -57,12 +56,15 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
       await _fetchCustomerData();
     } catch (e) {
       showErrorSnackBar(context, 'Error initializing user data: $e');
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
 
   Future<void> _fetchCustomerData() async {
     final User? user = FirebaseAuth.instance.currentUser;
-
     try {
       final docSnapshot = await firestore.doc(user!.uid).get();
       if (docSnapshot.exists) {
@@ -88,6 +90,7 @@ class _CustomerEditProfileState extends ConsumerState<CustomerEditProfile> {
     setState(() => isLoading = true);
     final User? user = FirebaseAuth.instance.currentUser;
     String? response = _existingProfileUrl;
+    
     if (_selectedImage != null) {
       response = await uploadToCloudinary(context, _selectedImage!);
     }

@@ -33,11 +33,29 @@ class _AvailableRidesState extends State<AvailableRides> {
   Future<void> fetchAllRides() async {
     final FirebaseFirestore fireStore = FirebaseFirestore.instance;
     List<Map<String, dynamic>> rides = [];
+
     try {
       QuerySnapshot rideDocs = await fireStore.collectionGroup("rides").get();
+      DateTime today = DateTime.now();
+      DateTime todayOnly =
+          DateTime(today.year, today.month, today.day); // Remove time
+
       for (var doc in rideDocs.docs) {
-        rides.add(doc.data() as Map<String, dynamic>);
+        Map<String, dynamic> rideData = doc.data() as Map<String, dynamic>;
+
+        List<String> dateParts = rideData["StartDate"].split("/");
+        DateTime rideStartDate = DateTime(
+          int.parse(dateParts[2]), // Year
+          int.parse(dateParts[1]), // Month
+          int.parse(dateParts[0]), // Day
+        );
+
+        if (rideStartDate.isAfter(todayOnly) ||
+            rideStartDate.isAtSameMomentAs(todayOnly)) {
+          rides.add(rideData);
+        }
       }
+
       setState(() {
         availableRides = rides;
         availableRides.sort((a, b) {
@@ -51,7 +69,6 @@ class _AvailableRidesState extends State<AvailableRides> {
 
           return parsedDateA.compareTo(parsedDateB);
         });
-
         isLoading = false;
       });
     } catch (e) {
@@ -72,7 +89,6 @@ class _AvailableRidesState extends State<AvailableRides> {
       backgroundColor: Theme.of(context).cardColor,
       body: Column(
         children: [
-          // Display the source and destination
           Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             decoration: BoxDecoration(
@@ -111,11 +127,15 @@ class _AvailableRidesState extends State<AvailableRides> {
               ],
             ),
           ),
-
           Expanded(
             child: isLoading
-                ? Center(
-                    child: CustomLoader(),
+                ? Positioned.fill(
+                    child: Container(
+                      color: Colors.black.withOpacity(0.4),
+                      child: const Center(
+                        child: CustomLoader(),
+                      ),
+                    ),
                   )
                 : availableRides.isNotEmpty
                     ? ListView.builder(
