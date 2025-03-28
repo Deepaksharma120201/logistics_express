@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/ride_information_screen_of_SR.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
 
@@ -182,7 +183,13 @@ class InfoRides extends StatelessWidget {
         title: Text('Ride id - $rideId'),
         subtitle: Text('Date - $date'),
         trailing: const Icon(FontAwesomeIcons.arrowRight),
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>RideInformationSR(
+            rideId: rideId,
+            rideDate:date,
+          )
+          ));
+        },
       ),
     );
   }
