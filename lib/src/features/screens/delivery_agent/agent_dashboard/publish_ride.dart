@@ -43,7 +43,6 @@ class _PublishRideState extends ConsumerState<PublishRide> {
 
         final userServices = UserServices();
         await userServices.publishRide(ride);
-        authController.clearAll();
 
         if (context.mounted) {
           showSuccessSnackBar(context, "Ride published successfully!");

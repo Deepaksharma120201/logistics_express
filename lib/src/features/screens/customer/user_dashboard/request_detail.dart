@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
+import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 
 class RequestDetail extends StatefulWidget {
   final Map<String, dynamic> ride;
@@ -17,6 +21,35 @@ class RequestDetail extends StatefulWidget {
 
 class _RequestDetailState extends State<RequestDetail> {
   bool isLoading = false;
+
+  Future<void> _cancelRequest() async {
+    setState(() => isLoading = true);
+
+    try {
+      final User? user = FirebaseAuth.instance.currentUser;
+
+      await FirebaseFirestore.instance
+          .collection('requested-deliveries')
+          .doc(user!.uid)
+          .collection('deliveries')
+          .doc(widget.ride['id'])
+          .delete();
+
+      showSuccessSnackBar(context, 'Request cancelled successfully!');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserHomeScreen(),
+        ),
+      );
+    } catch (e) {
+      showErrorSnackBar(context, 'Error cancelling request: $e');
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +128,9 @@ class _RequestDetailState extends State<RequestDetail> {
                 if (widget.ride['IsPending'])
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _cancelRequest();
+                      },
                       child: const Text('Cancel request'),
                     ),
                   )

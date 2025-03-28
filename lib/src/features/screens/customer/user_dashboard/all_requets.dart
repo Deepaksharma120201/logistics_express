@@ -2,20 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/request_detail.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 
-class SeeRequestedRides extends StatefulWidget {
-  const SeeRequestedRides({super.key});
+class AllRequets extends StatefulWidget {
+  const AllRequets({super.key});
   @override
-  State<SeeRequestedRides> createState() {
-    return SeeRequestedRidesState();
+  State<AllRequets> createState() {
+    return AllRequetsState();
   }
 }
 
-class SeeRequestedRidesState extends State<SeeRequestedRides> {
+class AllRequetsState extends State<AllRequets> {
   int selectedTabIndex = 0;
-  bool isLoading = false;
+  bool isLoading = true;
 
   List<Map<String, dynamic>> pendingRequest = [];
   List<Map<String, dynamic>> activeRequest = [];
@@ -81,41 +82,56 @@ class SeeRequestedRidesState extends State<SeeRequestedRides> {
     final bool isListEmpty =
         selectedTabIndex == 0 ? pendingRequest.isEmpty : activeRequest.isEmpty;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Requests'),
-      ),
-      backgroundColor: Theme.of(context).cardColor,
-      body: isListEmpty
-          ? Center(
-              child: Text(
-                "No requested rides",
-                style: Theme.of(context).textTheme.headlineMedium,
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text('All Requests'),
+          ),
+          backgroundColor: Theme.of(context).cardColor,
+          body: isLoading
+              ? Positioned.fill(
+                  child: Container(
+                    color: Colors.black.withOpacity(0.4),
+                    child: const Center(
+                      child: CustomLoader(),
+                    ),
+                  ),
+                )
+              : isListEmpty
+                  ? Center(
+                      child: Text(
+                        "No requested rides",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    )
+                  : RequestList(
+                      request: selectedTabIndex == 0
+                          ? pendingRequest
+                          : activeRequest,
+                      selectedTabIndex: selectedTabIndex,
+                    ),
+          bottomNavigationBar: NavigationBar(
+            indicatorColor: Theme.of(context).primaryColor,
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(FontAwesomeIcons.clock),
+                label: 'Pending',
               ),
-            )
-          : RequestList(
-              request: selectedTabIndex == 0 ? pendingRequest : activeRequest,
-              selectedTabIndex: selectedTabIndex,
-            ),
-      bottomNavigationBar: NavigationBar(
-        indicatorColor: Theme.of(context).primaryColor,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(FontAwesomeIcons.clock),
-            label: 'Pending',
+              NavigationDestination(
+                icon: Icon(FontAwesomeIcons.check),
+                label: 'Accepted',
+              ),
+            ],
+            selectedIndex: selectedTabIndex,
+            onDestinationSelected: (index) {
+              setState(() {
+                selectedTabIndex = index;
+              });
+            },
           ),
-          NavigationDestination(
-            icon: Icon(FontAwesomeIcons.check),
-            label: 'Accepted',
-          ),
-        ],
-        selectedIndex: selectedTabIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            selectedTabIndex = index;
-          });
-        },
-      ),
+        ),
+      ],
     );
   }
 }
