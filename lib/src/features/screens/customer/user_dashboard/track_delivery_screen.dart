@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logistics_express/src/features/screens/customer/user_dashboard/ride_information_screen_of_TDS.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/ride_info_track_delivery.dart';
 
 class TrackDeliveryScreen extends StatefulWidget {
   const TrackDeliveryScreen({super.key});

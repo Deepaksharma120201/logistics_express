@@ -10,6 +10,7 @@ class RequestedDeliveryModel {
   final String destination;
   final String weight;
   final String volume;
+  final bool? isPending;
 
   RequestedDeliveryModel({
     String? id,
@@ -21,6 +22,7 @@ class RequestedDeliveryModel {
     required this.destination,
     required this.weight,
     required this.volume,
+    this.isPending = false,
   }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
@@ -33,7 +35,8 @@ class RequestedDeliveryModel {
       "Source": source,
       "Destination": destination,
       "Weight": weight,
-      "Volume": volume
+      "Volume": volume,
+      'IsPending': isPending,
     };
   }
 
@@ -49,6 +52,7 @@ class RequestedDeliveryModel {
       weight: map['Weight'] ?? '',
       volume: map['Volume'] ?? '',
       itemType: map['ItemType'] ?? '',
+      isPending: map['IsPending'],
     );
   }
 }

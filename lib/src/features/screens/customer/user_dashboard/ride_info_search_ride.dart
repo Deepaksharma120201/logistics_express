@@ -4,8 +4,11 @@ class RideInformationSR extends StatelessWidget {
   final String rideId;
   final String rideDate;
 
-  const RideInformationSR(
-      {super.key, required this.rideId, required this.rideDate});
+  const RideInformationSR({
+    super.key,
+    required this.rideId,
+    required this.rideDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,12 @@ class RideInformationSR extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            Center(child: ElevatedButton(onPressed: (){}, child: Text('Send Request'))),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text('Send Request'),
+              ),
+            ),
           ],
         ),
       ),

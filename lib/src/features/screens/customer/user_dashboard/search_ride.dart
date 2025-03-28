@@ -37,13 +37,10 @@ class _SearchRideState extends ConsumerState<SearchRide> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    String source = authController.sourceAddressController.text
-                        .trim()
-                        .toUpperCase();
-                    String destination = authController
-                        .destinationAddressController.text
-                        .trim()
-                        .toUpperCase();
+                    String source =
+                        authController.sourceAddressController.text.trim();
+                    String destination =
+                        authController.destinationAddressController.text.trim();
                     authController.clearAll();
                     Navigator.push(
                       context,

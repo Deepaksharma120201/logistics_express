@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/utils/theme.dart';
 
 class RequestedRide extends StatefulWidget {
   final Map<String, dynamic> delivery;
@@ -20,8 +21,6 @@ class _RequestedRideState extends State<RequestedRide> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-    final colorScheme = theme.colorScheme;
 
     return Stack(
       children: [
@@ -39,60 +38,55 @@ class _RequestedRideState extends State<RequestedRide> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  color: colorScheme.surface,
+                  color: theme.colorScheme.surface,
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildSectionTitle(
-                            "Delivery Details", textTheme, colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.locationDot,
-                            "From: ${widget.delivery['Source']}",
-                            textTheme,
-                            colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.mapPin,
-                            "To: ${widget.delivery['Destination']}",
-                            textTheme,
-                            colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.calendarDays,
-                            "Date: ${widget.delivery['Date']}",
-                            textTheme,
-                            colorScheme),
+                        CustomSectionTitle(
+                          title: "Delivery Details",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.locationDot,
+                          text: "From: ${widget.delivery['Source']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.mapPin,
+                          text: "To: ${widget.delivery['Destination']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.calendarDays,
+                          text: "Date: ${widget.delivery['Date']}",
+                        ),
                         const Divider(thickness: 1, height: 20),
-                        _buildSectionTitle(
-                            "Customer Info", textTheme, colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.user,
-                            "Name: ${widget.delivery['Name']}",
-                            textTheme,
-                            colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.phone,
-                            "Phone: ${widget.delivery['Phone']}",
-                            textTheme,
-                            colorScheme),
+                        CustomSectionTitle(
+                          title: "Customer Info",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.user,
+                          text: "Name: ${widget.delivery['Name']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.phone,
+                          text: "Phone: ${widget.delivery['Phone']}",
+                        ),
                         const Divider(thickness: 1, height: 20),
-                        _buildSectionTitle(
-                            "Cargo Information", textTheme, colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.box,
-                            "Type: ${widget.delivery['ItemType']}",
-                            textTheme,
-                            colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.weightHanging,
-                            "Weight: ${widget.delivery['Weight']} kg",
-                            textTheme,
-                            colorScheme),
-                        _buildInfoRow(
-                            FontAwesomeIcons.cube,
-                            "Volume: ${widget.delivery['Volume']} cm³",
-                            textTheme,
-                            colorScheme),
+                        CustomSectionTitle(
+                          title: "Cargo Information",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.box,
+                          text: "Type: ${widget.delivery['ItemType']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.weightHanging,
+                          text: "Weight: ${widget.delivery['Weight']} kg",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.cube,
+                          text: "Volume: ${widget.delivery['Volume']} cm³",
+                        ),
                       ],
                     ),
                   ),
@@ -101,7 +95,7 @@ class _RequestedRideState extends State<RequestedRide> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {},
-                    child: Text('Accept Delivery'),
+                    child: const Text('Accept Delivery'),
                   ),
                 )
               ],
@@ -120,33 +114,54 @@ class _RequestedRideState extends State<RequestedRide> {
       ],
     );
   }
+}
 
-  Widget _buildSectionTitle(
-      String title, TextTheme textTheme, ColorScheme colorScheme) {
+class CustomSectionTitle extends StatelessWidget {
+  final String title;
+
+  const CustomSectionTitle({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Text(
         title,
-        style: textTheme.headlineMedium?.copyWith(color: colorScheme.primary),
+        style: theme.textTheme.headlineMedium
+            ?.copyWith(color: theme.colorScheme.primary),
       ),
     );
   }
+}
 
-  Widget _buildInfoRow(IconData icon, String text, TextTheme textTheme,
-      ColorScheme colorScheme) {
+class CustomInfoRow extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const CustomInfoRow({
+    super.key,
+    required this.icon,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8), // Increased padding
       child: Row(
         children: [
-          Icon(icon, size: 22, color: colorScheme.primary),
+          Icon(icon, size: 22, color: theme.colorScheme.primary),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: textTheme.bodyLarge?.copyWith(
+              style: theme.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: colorScheme.onSurface,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),

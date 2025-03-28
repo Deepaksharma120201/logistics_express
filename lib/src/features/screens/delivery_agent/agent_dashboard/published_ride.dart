@@ -31,7 +31,6 @@ class _PublishedRideScreenState extends State<PublishedRide> {
     User? user = auth.currentUser;
 
     List<Map<String, dynamic>> rides = [];
-
     setState(() => isLoading = true);
 
     try {

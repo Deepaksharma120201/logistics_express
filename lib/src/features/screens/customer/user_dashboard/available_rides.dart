@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
-import 'package:logistics_express/src/features/screens/customer/user_dashboard/ride_information_screen_of_SR.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/ride_info_search_ride.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
 
@@ -102,24 +103,13 @@ class _AvailableRidesState extends State<AvailableRides> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "FROM : ${widget.source}",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                      CustomInfoRow(
+                        icon: FontAwesomeIcons.locationDot,
+                        text: "From : ${widget.source}",
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "TO : ${widget.destination}",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                      CustomInfoRow(
+                        icon: FontAwesomeIcons.mapPin,
+                        text: "To : ${widget.destination}",
                       ),
                     ],
                   ),
@@ -148,15 +138,11 @@ class _AvailableRidesState extends State<AvailableRides> {
                           );
                         },
                       )
-                    : const Center(
+                    : Center(
                         child: Text(
-                          'No Available Rides, You can make a request for a ride',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
-                          ),
+                          'No Available Rides, You can make a request for a ride',
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       ),
           ),
@@ -184,11 +170,15 @@ class InfoRides extends StatelessWidget {
         subtitle: Text('Date - $date'),
         trailing: const Icon(FontAwesomeIcons.arrowRight),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>RideInformationSR(
-            rideId: rideId,
-            rideDate:date,
-          )
-          ));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RideInformationSR(
+                rideId: rideId,
+                rideDate: date,
+              ),
+            ),
+          );
         },
       ),
     );

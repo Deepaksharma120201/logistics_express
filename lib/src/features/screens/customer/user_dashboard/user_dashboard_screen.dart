@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/price_estimation.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/search_ride.dart';
-// import 'package:logistics_express/src/features/screens/customer/user_dashboard/see_requested_rides.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/track_delivery_screen.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/see_requested_rides.dart';
 import 'package:logistics_express/src/utils/customer_faq.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/make_request.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/payment_history.dart';
@@ -49,7 +49,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         children: [
           _containerButton(context, 'Search Ride', SearchRide()),
           _containerButton(context, 'Make Request', MakeRequest()),
-          _containerButton(context, 'See Requested Rides', SearchRide()),
+          _containerButton(context, 'All Requests', SeeRequestedRides()),
           _containerButton(context, 'Track Delivery', TrackDeliveryScreen()),
           _containerButton(context, 'View Payment History', PaymentHistory()),
           _containerButton(context, 'Price Estimation', PriceEstimation()),

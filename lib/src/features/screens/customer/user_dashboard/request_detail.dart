@@ -1,105 +1,118 @@
 import 'package:flutter/material.dart';
-import 'package:logistics_express/src/utils/new_text_field.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
 
-class RequestDetail extends StatelessWidget {
-  final Map<String, dynamic> rideData;
-  final bool isPending;
+class RequestDetail extends StatefulWidget {
+  final Map<String, dynamic> ride;
 
   const RequestDetail({
     super.key,
-    required this.rideData,
-    required this.isPending,
+    required this.ride,
   });
 
   @override
+  State<RequestDetail> createState() => _RequestDetailState();
+}
+
+class _RequestDetailState extends State<RequestDetail> {
+  bool isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
-    // Extract values from rideData safely.
-    final String source = rideData['source']?.toString() ?? '';
-    final String destination = rideData['destination']?.toString() ?? '';
-    final String date = rideData['Date']?.toString() ?? '';
-    final String weight = rideData['weight']?.toString() ?? '';
-    final String volume = rideData['volume']?.toString() ?? '';
-    final String itemType = rideData['itemType']?.toString() ?? '';
+    final theme = Theme.of(context);
 
-    // Create controllers for display.
-    final sourceController = TextEditingController(text: source);
-    final destinationController = TextEditingController(text: destination);
-    final dateController = TextEditingController(text: date);
-    final weightController = TextEditingController(text: weight);
-    final volumeController = TextEditingController(text: volume);
-    final itemTypeController = TextEditingController(text: itemType);
-
-    return Scaffold(
-      appBar: AppBar(title: const Text("Request Detail")),
-      backgroundColor: Theme.of(context).cardColor,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            NewTextField(
-              label: 'Source',
-              controller: sourceController,
-              readOnly: true,
-            ),
-            NewTextField(
-              label: 'Destination',
-              controller: destinationController,
-              readOnly: true,
-            ),
-            NewTextField(
-              label: 'Date',
-              controller: dateController,
-              readOnly: true,
-            ),
-            NewTextField(
-              label: 'Weight (kg)',
-              controller: weightController,
-              readOnly: true,
-              keyboardType: TextInputType.number,
-            ),
-            NewTextField(
-              label: 'Volume (cm³)',
-              controller: volumeController,
-              readOnly: true,
-              keyboardType: TextInputType.number,
-            ),
-            NewTextField(
-              label: 'Item Type',
-              controller: itemTypeController,
-              readOnly: true,
-            ),
-            if (isPending)
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      backgroundColor: Colors.redAccent,
-                    ),
-                    onPressed: () {
-                      // Add cancel logic here.
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Request cancelled')),
-                      );
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Cancel Request',
-                      style: TextStyle(fontSize: 16),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text("Request Detail"),
+          ),
+          backgroundColor: theme.cardColor,
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              children: [
+                Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  color: theme.colorScheme.surface,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomSectionTitle(
+                          title: "Requested Ride Details",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.locationDot,
+                          text: "From: ${widget.ride['Source']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.mapPin,
+                          text: "To: ${widget.ride['Destination']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.calendarDays,
+                          text: "Date: ${widget.ride['Date']}",
+                        ),
+                        const Divider(thickness: 1, height: 20),
+                        CustomSectionTitle(
+                          title: "Customer Info",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.user,
+                          text: "Name: ${widget.ride['Name']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.phone,
+                          text: "Phone: ${widget.ride['Phone']}",
+                        ),
+                        const Divider(thickness: 1, height: 20),
+                        CustomSectionTitle(
+                          title: "Cargo Information",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.box,
+                          text: "Type: ${widget.ride['ItemType']}",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.weightHanging,
+                          text: "Weight: ${widget.ride['Weight']} kg",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.cube,
+                          text: "Volume: ${widget.ride['Volume']} cm³",
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-          ],
+                const SizedBox(height: 30),
+                if (widget.ride['IsPending'])
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Cancel request'),
+                    ),
+                  )
+              ],
+            ),
+          ),
         ),
-      ),
+        if (isLoading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CustomLoader(),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
