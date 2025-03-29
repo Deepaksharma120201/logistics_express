@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 class PublishRideModel {
@@ -9,6 +10,7 @@ class PublishRideModel {
   final String vehicleType;
   final String source;
   final String destination;
+  final List<GeoPoint>? route;
   final String? startTime;
 
   PublishRideModel({
@@ -20,6 +22,7 @@ class PublishRideModel {
     required this.vehicleType,
     required this.source,
     required this.destination,
+    this.route,
     this.startTime,
   }) : id = id ?? const Uuid().v4(); // Assign UUID if not provided
 
@@ -33,6 +36,7 @@ class PublishRideModel {
       "VehicleType": vehicleType,
       "Source": source,
       "Destination": destination,
+      "Route": route,
       "StartTime": startTime,
     };
   }
@@ -48,6 +52,7 @@ class PublishRideModel {
       vehicleType: map['VehicleType'] ?? '',
       source: map['Source'] ?? '',
       destination: map['Destination'] ?? '',
+      route: List<GeoPoint>.from(map['Route'] ?? []),
       startTime: map['StartTime'],
     );
   }

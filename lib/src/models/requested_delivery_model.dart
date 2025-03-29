@@ -22,7 +22,7 @@ class RequestedDeliveryModel {
     required this.destination,
     required this.weight,
     required this.volume,
-    this.isPending = false,
+    this.isPending = true,
   }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {

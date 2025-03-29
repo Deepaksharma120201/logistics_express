@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logistics_express/src/custom_widgets/handling_controller.dart';
 
-class CustomDropdown extends StatelessWidget {
+class CustomDropdown extends ConsumerWidget {
   final String label;
   final List<String> items;
   final String? value;
@@ -17,7 +19,7 @@ class CustomDropdown extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,12 +50,19 @@ class CustomDropdown extends StatelessWidget {
                       ),
                     ))
                 .toList(),
-            onChanged: onChanged,
+            onChanged: (newValue) {
+              onChanged?.call(newValue);
+              Future.delayed(const Duration(milliseconds: 100), () {
+                ref.read(dropdownStateProvider.notifier).setDropdownOpen(false);
+              });
+            },
             validator: validator,
             decoration: const InputDecoration(
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
             ),
+            onTap: () =>
+                ref.read(dropdownStateProvider.notifier).setDropdownOpen(true),
           ),
         ),
         const SizedBox(height: 15),

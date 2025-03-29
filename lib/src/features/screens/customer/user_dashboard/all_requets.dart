@@ -61,6 +61,7 @@ class AllRequetsState extends State<AllRequets> {
         isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       showErrorSnackBar(context, "Error fetching rides: $e");
       setState(() {
         isLoading = false;
@@ -89,28 +90,18 @@ class AllRequetsState extends State<AllRequets> {
             title: const Text('All Requests'),
           ),
           backgroundColor: Theme.of(context).cardColor,
-          body: isLoading
-              ? Positioned.fill(
-                  child: Container(
-                    color: Colors.black.withOpacity(0.4),
-                    child: const Center(
-                      child: CustomLoader(),
-                    ),
+          body: isListEmpty
+              ? Center(
+                  child: Text(
+                    "No requested rides",
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 )
-              : isListEmpty
-                  ? Center(
-                      child: Text(
-                        "No requested rides",
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                    )
-                  : RequestList(
-                      request: selectedTabIndex == 0
-                          ? pendingRequest
-                          : activeRequest,
-                      selectedTabIndex: selectedTabIndex,
-                    ),
+              : RequestList(
+                  request:
+                      selectedTabIndex == 0 ? pendingRequest : activeRequest,
+                  selectedTabIndex: selectedTabIndex,
+                ),
           bottomNavigationBar: NavigationBar(
             indicatorColor: Theme.of(context).primaryColor,
             destinations: const [
@@ -131,6 +122,15 @@ class AllRequetsState extends State<AllRequets> {
             },
           ),
         ),
+        if (isLoading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CustomLoader(),
+              ),
+            ),
+          ),
       ],
     );
   }

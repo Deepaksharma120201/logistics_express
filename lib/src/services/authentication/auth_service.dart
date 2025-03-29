@@ -145,7 +145,9 @@ class AuthService {
       // Sign out the user after deletion
       await FirebaseAuth.instance.signOut();
     } catch (e) {
-      showErrorSnackBar(context, "Error deleting account: $e");
+      if (context.mounted) {
+        showErrorSnackBar(context, "Error deleting account: $e");
+      }
     }
   }
 }

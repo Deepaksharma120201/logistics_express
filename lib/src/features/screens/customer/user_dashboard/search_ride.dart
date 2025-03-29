@@ -41,7 +41,6 @@ class _SearchRideState extends ConsumerState<SearchRide> {
                         authController.sourceAddressController.text.trim();
                     String destination =
                         authController.destinationAddressController.text.trim();
-                    authController.clearAll();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

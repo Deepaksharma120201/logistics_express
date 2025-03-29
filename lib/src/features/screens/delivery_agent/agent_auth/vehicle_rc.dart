@@ -33,7 +33,9 @@ class _VehicleRcState extends ConsumerState<VehicleRc> {
       try {
         if (_frontImage != null && _backImage != null) {
           setState(() => _isLoading = true);
+
           String? response1 = await uploadToCloudinary(context, _frontImage!);
+          if (!context.mounted) return;
           String? response2 = await uploadToCloudinary(context, _backImage!);
 
           if (response1 != null && response2 != null) {

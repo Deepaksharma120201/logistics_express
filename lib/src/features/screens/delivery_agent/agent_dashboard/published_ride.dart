@@ -63,7 +63,9 @@ class _PublishedRideScreenState extends State<PublishedRide> {
       });
     } catch (e) {
       setState(() => isLoading = false);
-      showErrorSnackBar(context, "Error fetching rides: $e");
+      if (mounted) {
+        showErrorSnackBar(context, "Error fetching rides: $e");
+      }
     }
   }
 

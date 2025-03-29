@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
@@ -34,7 +35,7 @@ class _RequestDetailState extends State<RequestDetail> {
           .collection('deliveries')
           .doc(widget.ride['id'])
           .delete();
-
+      if (!mounted) return;
       showSuccessSnackBar(context, 'Request cancelled successfully!');
 
       Navigator.push(
@@ -130,7 +131,17 @@ class _RequestDetailState extends State<RequestDetail> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        _cancelRequest();
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialog(
+                              title: 'Are you sure?',
+                              message:
+                                  'Do you want to cancel the current request?',
+                              onConfirm: () => _cancelRequest(),
+                            );
+                          },
+                        );
                       },
                       child: const Text('Cancel request'),
                     ),

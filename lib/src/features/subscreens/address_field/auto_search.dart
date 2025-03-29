@@ -34,6 +34,7 @@ class _AutoSearchState extends State<AutoSearch> {
       setState(() {
         searchLocationController.text = selectedAddress;
       });
+      if (!mounted) return;
       Navigator.pop(context, selectedAddress);
     }
   }
@@ -93,10 +94,9 @@ class _AutoSearchState extends State<AutoSearch> {
                       determinePosition().then((value) {
                         _navigateToMap(value.latitude, value.longitude);
                       }).onError((error, stackTrace) {
+                        if (!context.mounted) return;
                         showErrorSnackBar(
-                          context,
-                          "Location Error: ${error.toString()}",
-                        );
+                            context, "Location Error: ${error.toString()}");
                       });
                     },
                     child: Row(

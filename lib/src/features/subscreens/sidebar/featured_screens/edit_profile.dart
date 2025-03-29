@@ -55,6 +55,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
       });
       await _fetchCustomerData();
     } catch (e) {
+      if (!mounted) return;
       showErrorSnackBar(context, 'Error initializing user data: $e');
     } finally {
       if (mounted) {
@@ -78,10 +79,11 @@ class _EditProfileState extends ConsumerState<EditProfile> {
           _existingProfileUrl = data['ProfileImageUrl'];
         });
       } else {
+        if (!mounted) return;
         showErrorSnackBar(context, 'Document does not exist');
       }
     } catch (e) {
-      print(firestore);
+      if (!mounted) return;
       showErrorSnackBar(context, 'Error fetching customer data: $e');
     }
   }
@@ -90,7 +92,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
     setState(() => isLoading = true);
     final User? user = FirebaseAuth.instance.currentUser;
     String? response = _existingProfileUrl;
-    
+
     if (_selectedImage != null) {
       response = await uploadToCloudinary(context, _selectedImage!);
     }
@@ -102,7 +104,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
         'Gender': _selectedGender,
         'ProfileImageUrl': response,
       });
-
+      if (!mounted) return;
       showSuccessSnackBar(context, 'Profile updated successfully!');
       Navigator.push(
         context,
@@ -111,6 +113,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
         ),
       );
     } catch (e) {
+      if (!mounted) return;
       showErrorSnackBar(context, 'Error updating profile: $e');
     } finally {
       if (mounted) {
@@ -171,7 +174,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                           hintText: 'DD/MM/YYYY',
                           onTap: () async {
                             String selectedDate =
-                                await DatePicker.pickDate(context);
+                                await DatePicker.pickDate(context, ref);
                             setState(() {
                               _dobController.text = selectedDate;
                             });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logistics_express/src/custom_widgets/handling_controller.dart';
 import 'package:logistics_express/src/features/screens/splash_screen.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/utils/theme.dart';
@@ -39,8 +40,12 @@ class ClearControllerObserver extends NavigatorObserver {
   @override
   void didPop(Route route, Route? previousRoute) {
     super.didPop(route, previousRoute);
+
+    if (ref.read(datePickerStateProvider) || ref.read(dropdownStateProvider)) {
+      return;
+    }
+
     final authController = ref.read(authControllerProvider);
-    authController.sourceAddressController.clear();
-    authController.destinationAddressController.clear();
+    authController.clearAll();
   }
 }

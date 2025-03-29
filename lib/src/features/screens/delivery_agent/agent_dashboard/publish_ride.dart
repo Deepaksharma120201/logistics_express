@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/date_picker.dart';
 import 'package:logistics_express/src/features/subscreens/address_field/address_filled.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
+import 'package:logistics_express/src/services/map_services/api_services.dart';
 import '../../../../custom_widgets/custom_loader.dart';
 import '../../../../models/publish_ride_model.dart';
 import '../../../../services/authentication/auth_controller.dart';
@@ -30,6 +32,11 @@ class _PublishRideState extends ConsumerState<PublishRide> {
 
     Future<void> publishRide() async {
       setState(() => _isLoading = true);
+      String source = authController.sourceAddressController.text.trim();
+      String destination =
+          authController.destinationAddressController.text.trim();
+      List<GeoPoint> route = [];
+      // route = await ApiServices().getIntermediateCities(source, destination);
       try {
         PublishRideModel ride = PublishRideModel(
           name: authController.nameController.text.trim(),
@@ -39,6 +46,7 @@ class _PublishRideState extends ConsumerState<PublishRide> {
           vehicleType: _dropdownValue!,
           source: authController.sourceAddressController.text.trim(),
           destination: authController.destinationAddressController.text.trim(),
+          route: route,
         );
 
         final userServices = UserServices();
@@ -87,7 +95,7 @@ class _PublishRideState extends ConsumerState<PublishRide> {
                         readOnly: true,
                         onTap: () async {
                           String selectedDate =
-                              await DatePicker.pickDate(context);
+                              await DatePicker.pickDate(context, ref);
                           setState(() {
                             authController.startDateController.text =
                                 selectedDate;
@@ -105,7 +113,7 @@ class _PublishRideState extends ConsumerState<PublishRide> {
                         readOnly: true,
                         onTap: () async {
                           String selectedDate =
-                              await DatePicker.pickDate(context);
+                              await DatePicker.pickDate(context, ref);
                           setState(() {
                             authController.endDateController.text =
                                 selectedDate;

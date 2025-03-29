@@ -102,7 +102,7 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
                         readOnly: true,
                         onTap: () async {
                           String selectedDate =
-                              await DatePicker.pickDate(context);
+                              await DatePicker.pickDate(context, ref);
                           setState(() {
                             authController.startDateController.text =
                                 selectedDate;

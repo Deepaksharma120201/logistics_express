@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/ride_info_search_ride.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
+import 'package:logistics_express/src/services/map_services/api_services.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
 
@@ -23,7 +25,7 @@ class AvailableRides extends StatefulWidget {
 
 class _AvailableRidesState extends State<AvailableRides> {
   List<Map<String, dynamic>> availableRides = [];
-  bool isLoading = true;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -31,56 +33,92 @@ class _AvailableRidesState extends State<AvailableRides> {
     fetchAllRides();
   }
 
+  // Fetch rides that match source, destination & date within a range
   Future<void> fetchAllRides() async {
-    final FirebaseFirestore fireStore = FirebaseFirestore.instance;
-    List<Map<String, dynamic>> rides = [];
-
     try {
-      QuerySnapshot rideDocs = await fireStore.collectionGroup("rides").get();
+      setState(() => isLoading = true);
+
+      Map<String, double>? sourceCoords =
+          await ApiServices().getLatLngFromAddress(widget.source);
+      Map<String, double>? destCoords =
+          await ApiServices().getLatLngFromAddress(widget.destination);
+
+      double sourceLat = sourceCoords!['lat']!;
+      double sourceLng = sourceCoords['lng']!;
+      double destLat = destCoords!['lat']!;
+      double destLng = destCoords['lng']!;
+
+      // Fetch only upcoming rides from Firestore (Filter by date)
       DateTime today = DateTime.now();
-      DateTime todayOnly =
-          DateTime(today.year, today.month, today.day); // Remove time
+      DateTime todayOnly = DateTime(today.year, today.month, today.day);
 
-      for (var doc in rideDocs.docs) {
-        Map<String, dynamic> rideData = doc.data() as Map<String, dynamic>;
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collectionGroup("rides").get();
 
-        List<String> dateParts = rideData["StartDate"].split("/");
-        DateTime rideStartDate = DateTime(
-          int.parse(dateParts[2]), // Year
-          int.parse(dateParts[1]), // Month
-          int.parse(dateParts[0]), // Day
-        );
+      List<Map<String, dynamic>> matchingRides = [];
+      for (var doc in snapshot.docs) {
+        Map<String, dynamic> ride = doc.data() as Map<String, dynamic>;
 
-        if (rideStartDate.isAfter(todayOnly) ||
-            rideStartDate.isAtSameMomentAs(todayOnly)) {
-          rides.add(rideData);
+        if (parseDate(ride["StartDate"]).isBefore(todayOnly)) continue;
+
+        List<dynamic>? route = ride['Route'];
+        if (route == null || route.isEmpty) continue;
+        bool sourceMatch = false, destMatch = false;
+
+        for (var city in route) {
+          double cityLat = city.latitude;
+          double cityLng = city.longitude;
+
+          if (!sourceMatch &&
+              isWithinDistance(sourceLat, sourceLng, cityLat, cityLng, 20)) {
+            sourceMatch = true;
+          }
+          if (!destMatch &&
+              isWithinDistance(destLat, destLng, cityLat, cityLng, 20)) {
+            destMatch = true;
+          }
+          if (sourceMatch && destMatch) break;
+        }
+
+        if (sourceMatch && destMatch) {
+          matchingRides.add(ride);
         }
       }
 
+      // Sort rides by StartDate (ascending order)
+      matchingRides.sort((a, b) {
+        DateTime dateA = parseDate(a["StartDate"]);
+        DateTime dateB = parseDate(b["StartDate"]);
+        return dateA.compareTo(dateB);
+      });
+
       setState(() {
-        availableRides = rides;
-        availableRides.sort((a, b) {
-          List<String> dateA = a["StartDate"].split("/");
-          List<String> dateB = b["StartDate"].split("/");
-
-          DateTime parsedDateA = DateTime(
-              int.parse(dateA[2]), int.parse(dateA[1]), int.parse(dateA[0]));
-          DateTime parsedDateB = DateTime(
-              int.parse(dateB[2]), int.parse(dateB[1]), int.parse(dateB[0]));
-
-          return parsedDateA.compareTo(parsedDateB);
-        });
+        availableRides = matchingRides;
         isLoading = false;
       });
     } catch (e) {
-      showErrorSnackBar(
-        context,
-        "Error fetching rides: $e",
-      );
-      setState(() {
-        isLoading = false;
-      });
+      if (!mounted) return;
+      showErrorSnackBar(context, "Error fetching rides: $e");
+      setState(() => isLoading = false);
     }
+  }
+
+  // Parses date string (DD/MM/YYYY)
+  DateTime parseDate(String dateStr) {
+    List<String> parts = dateStr.split("/");
+    return DateTime(
+      int.parse(parts[2]),
+      int.parse(parts[1]),
+      int.parse(parts[0]),
+    );
+  }
+
+  // Check if two locations are within maxDistance (in km)
+  bool isWithinDistance(double lat1, double lng1, double lat2, double lng2,
+      double maxDistanceKm) {
+    return true; // Remove when needed
+    double distance = Geolocator.distanceBetween(lat1, lng1, lat2, lng2) / 1000;
+    return distance <= maxDistanceKm;
   }
 
   @override

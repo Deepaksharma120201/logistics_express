@@ -125,7 +125,7 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
                         controller: authController.dobController,
                         onTap: () async {
                           String selectedDate =
-                              await DatePicker.pickDate(context);
+                              await DatePicker.pickDate(context, ref);
                           setState(() {
                             authController.dobController.text = selectedDate;
                           });

@@ -24,7 +24,7 @@ class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
 
   Future<void> fetchAllDeliveries() async {
     final FirebaseFirestore fireStore = FirebaseFirestore.instance;
-    
+
     List<Map<String, dynamic>> rides = [];
 
     try {
@@ -44,8 +44,9 @@ class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
           int.parse(dateParts[0]), // Day
         );
 
-        if (rideStartDate.isAfter(todayOnly) ||
-            rideStartDate.isAtSameMomentAs(todayOnly)) {
+        if (rideData['IsPending'] &&
+            (rideStartDate.isAfter(todayOnly) ||
+                rideStartDate.isAtSameMomentAs(todayOnly))) {
           rides.add(rideData);
         }
       }
@@ -66,10 +67,9 @@ class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
         isLoading = false;
       });
     } catch (e) {
-      showErrorSnackBar(
-        context,
-        "Error fetching rides: $e",
-      );
+      if (mounted) {
+        showErrorSnackBar(context, "Error fetching rides: $e");
+      }
       setState(() {
         isLoading = false;
       });
@@ -78,21 +78,14 @@ class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('See Requested Delivery'),
-      ),
-      backgroundColor: Theme.of(context).cardColor,
-      body: isLoading
-          ? Positioned.fill(
-              child: Container(
-                color: Colors.black.withOpacity(0.4),
-                child: const Center(
-                  child: CustomLoader(),
-                ),
-              ),
-            )
-          : requestedDeliveries.isNotEmpty
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text('See Requested Delivery'),
+          ),
+          backgroundColor: Theme.of(context).cardColor,
+          body: requestedDeliveries.isNotEmpty
               ? ListView.builder(
                   itemCount: requestedDeliveries.length,
                   itemBuilder: (context, index) {
@@ -113,6 +106,17 @@ class _SeeRequestedDeliveryState extends State<SeeRequestedDelivery> {
                     ),
                   ),
                 ),
+        ),
+        if (isLoading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CustomLoader(),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

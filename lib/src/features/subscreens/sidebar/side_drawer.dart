@@ -47,6 +47,7 @@ class _SideDrawerState extends State<SideDrawer> {
 
       await _fetchUserData();
     } catch (e) {
+      if (!mounted) return;
       showErrorSnackBar(context, "Error initializing user data: $e");
     }
   }
@@ -65,10 +66,14 @@ class _SideDrawerState extends State<SideDrawer> {
           isLoading = false;
         });
       } else {
-        showErrorSnackBar(context, 'User document not found.');
+        if (mounted) {
+          showErrorSnackBar(context, 'User document not found.');
+        }
       }
     } catch (e) {
-      showErrorSnackBar(context, "Error fetching user data: $e");
+      if (mounted) {
+        showErrorSnackBar(context, "Error fetching user data: $e");
+      }
     }
   }
 

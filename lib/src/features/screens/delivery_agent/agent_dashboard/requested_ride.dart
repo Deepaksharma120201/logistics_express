@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/agent_dashboard_screen.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
 
@@ -34,12 +36,17 @@ class _RequestedRideState extends State<RequestedRide> {
         await docRef.update({'IsPending': false});
       }
 
-      if (context.mounted) {
+      if (mounted) {
         showSuccessSnackBar(context, "Delivery accepted successfully!");
-        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AgentHomeScreen(),
+          ),
+        );
       }
     } catch (error) {
-      if (context.mounted) {
+      if (mounted) {
         showErrorSnackBar(context, "Something went wrong! please Try letter.");
       }
     } finally {
@@ -125,7 +132,19 @@ class _RequestedRideState extends State<RequestedRide> {
                 const SizedBox(height: 30),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () => acceptDelivery(),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomDialog(
+                            title: 'Are you sure?',
+                            message:
+                                'Do you want to accept the current delivery?',
+                            onConfirm: () => acceptDelivery(),
+                          );
+                        },
+                      );
+                    },
                     child: const Text('Accept Delivery'),
                   ),
                 )
