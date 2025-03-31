@@ -99,6 +99,7 @@ class _AvailableRidesState extends State<AvailableRides> {
     } catch (e) {
       if (!mounted) return;
       showErrorSnackBar(context, "Error fetching rides: $e");
+    } finally {
       setState(() => isLoading = false);
     }
   }
@@ -170,10 +171,7 @@ class _AvailableRidesState extends State<AvailableRides> {
                         itemCount: availableRides.length,
                         itemBuilder: (context, index) {
                           final ride = availableRides[index];
-                          return InfoRides(
-                            rideId: shortenUUID(ride['id']),
-                            date: ride['StartDate'],
-                          );
+                          return InfoRides(ride: ride);
                         },
                       )
                     : Center(
@@ -193,27 +191,24 @@ class _AvailableRidesState extends State<AvailableRides> {
 class InfoRides extends StatelessWidget {
   const InfoRides({
     super.key,
-    required this.date,
-    required this.rideId,
+    required this.ride,
   });
 
-  final String date;
-  final String rideId;
+  final Map<String, dynamic> ride;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text('Ride id - $rideId'),
-        subtitle: Text('Date - $date'),
+        title: Text('Ride id - ${shortenUUID(ride["id"])}'),
+        subtitle: Text('Date - ${ride["StartDate"]}'),
         trailing: const Icon(FontAwesomeIcons.arrowRight),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => RideInformationSR(
-                rideId: rideId,
-                rideDate: date,
+                ride: ride,
               ),
             ),
           );
