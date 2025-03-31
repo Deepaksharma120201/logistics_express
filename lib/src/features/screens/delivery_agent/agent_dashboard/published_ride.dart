@@ -10,14 +10,13 @@ class PublishedRide extends StatefulWidget {
   const PublishedRide({super.key});
 
   @override
-  State<PublishedRide> createState() {
-    return _PublishedRideScreenState();
-  }
+  State<PublishedRide> createState() => _PublishedRideScreenState();
 }
 
 class _PublishedRideScreenState extends State<PublishedRide> {
   List<Map<String, dynamic>> publishedRides = [];
   bool isLoading = false;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -26,19 +25,31 @@ class _PublishedRideScreenState extends State<PublishedRide> {
   }
 
   Future<void> fetchAllRides() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
     final FirebaseFirestore fireStore = FirebaseFirestore.instance;
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
 
     List<Map<String, dynamic>> rides = [];
-    setState(() => isLoading = true);
 
     try {
       QuerySnapshot rideDocs = await fireStore
           .collection("published-rides")
           .doc(user!.uid)
-          .collection("rides") // Sub-collection for deliveries
+          .collection("rides")
           .get();
+
+      if (rideDocs.docs.isEmpty) {
+        setState(() {
+          isLoading = false;
+          errorMessage = "No published rides available.";
+        });
+        return;
+      }
 
       for (var doc in rideDocs.docs) {
         rides.add(doc.data() as Map<String, dynamic>);
@@ -62,7 +73,10 @@ class _PublishedRideScreenState extends State<PublishedRide> {
         isLoading = false;
       });
     } catch (e) {
-      setState(() => isLoading = false);
+      setState(() {
+        isLoading = false;
+        errorMessage = "Error fetching rides: $e";
+      });
       if (mounted) {
         showErrorSnackBar(context, "Error fetching rides: $e");
       }
@@ -71,20 +85,18 @@ class _PublishedRideScreenState extends State<PublishedRide> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          appBar: AppBar(
-            title: const Text('Published Ride'),
-          ),
-          backgroundColor: Theme.of(context).cardColor,
-          body: isLoading
-              ? Positioned.fill(
-                  child: Container(
-                    color: Colors.black.withOpacity(0.4),
-                    child: const Center(
-                      child: CustomLoader(),
-                    ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Published Ride'),
+      ),
+      backgroundColor: Theme.of(context).cardColor,
+      body: isLoading
+          ? const Center(child: CustomLoader())
+          : errorMessage != null
+              ? Center(
+                  child: Text(
+                    errorMessage!,
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                 )
               : ListView.builder(
@@ -98,8 +110,6 @@ class _PublishedRideScreenState extends State<PublishedRide> {
                     );
                   },
                 ),
-        ),
-      ],
     );
   }
 }
@@ -119,8 +129,10 @@ class InfoRides extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: ListTile(
-        title: Text('Ride id - $rideId'),
+        title: Text('Ride ID - $rideId',
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text('Date - $date'),
         trailing: const Icon(FontAwesomeIcons.arrowRight),
         onTap: () {

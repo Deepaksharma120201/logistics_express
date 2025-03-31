@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
+import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
+import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
+import 'package:logistics_express/src/utils/validators.dart';
+import '../../../../utils/new_text_field.dart';
 
-class RideInformationSR extends StatelessWidget {
+class RideInformationSR extends StatefulWidget {
   final Map<String, dynamic> ride;
 
   const RideInformationSR({
@@ -12,14 +16,118 @@ class RideInformationSR extends StatelessWidget {
     required this.ride,
   });
 
-  Future<void> sendRequest() async {}
+  @override
+  State<RideInformationSR> createState() => _RideInformationSRState();
+}
+
+class _RideInformationSRState extends State<RideInformationSR> {
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController volumeController = TextEditingController();
+  String? _selectedType;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void showRequestBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 10),
+                Text("Enter Package Details",
+                    style: Theme.of(context).textTheme.headlineSmall),
+                const SizedBox(height: 15),
+                NewTextField(
+                  label: 'Weight',
+                  hintText: 'Enter weight in Kg',
+                  keyboardType: TextInputType.number,
+                  controller: weightController,
+                  validator: (val) => Validators.quantityValidator(val),
+                ),
+                const SizedBox(height: 10),
+                NewTextField(
+                  label: 'Volume',
+                  hintText: 'Enter volume in cm\u00B3',
+                  keyboardType: TextInputType.number,
+                  controller: volumeController,
+                  validator: (val) => Validators.quantityValidator(val),
+                ),
+                const SizedBox(height: 10),
+                CustomDropdown(
+                  label: "Item Type",
+                  items: [
+                    'Furniture',
+                    'Electronics',
+                    'Clothes & Accessories',
+                    'Glass & Fragile Items',
+                    'Food & Medicine'
+                  ],
+                  value: _selectedType,
+                  onChanged: (value) => setState(() => _selectedType = value),
+                  validator: (val) => Validators.commonValidator(val),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pop(context);
+                      showConfirmationDialog();
+                    }
+                  },
+                  child: const Text("Submit"),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          title: 'Are you sure?',
+          message: 'Do you want to send the request?',
+          onConfirm: () {
+            Navigator.pop(context);
+            sendRequest();
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> sendRequest() async {
+    String weight = weightController.text;
+    String volume = volumeController.text;
+    String itemType = _selectedType ?? "Unknown";
+
+    // print("Request Sent: Weight - $weight, Volume - $volume, Type - $itemType");
+
+    showSuccessSnackBar(context, "Request sent successfully!");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Ride Details"),
-      ),
+      appBar: AppBar(title: const Text("Ride Details")),
       backgroundColor: theme.cardColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(4.0),
@@ -36,40 +144,36 @@ class RideInformationSR extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomSectionTitle(
-                      title: "Current Ride Details",
-                    ),
+                    CustomSectionTitle(title: "Current Ride Details"),
                     CustomInfoRow(
                       icon: FontAwesomeIcons.locationDot,
-                      text: "From: ${ride['Source']}",
+                      text: "From: ${widget.ride['Source']}",
                     ),
                     CustomInfoRow(
                       icon: FontAwesomeIcons.mapPin,
-                      text: "To: ${ride['Destination']}",
+                      text: "To: ${widget.ride['Destination']}",
                     ),
                     CustomInfoRow(
                       icon: FontAwesomeIcons.calendarDays,
-                      text: "Start Date: ${ride['StartDate']}",
+                      text: "Start Date: ${widget.ride['StartDate']}",
                     ),
                     CustomInfoRow(
                       icon: FontAwesomeIcons.calendarDays,
-                      text: "End Date: ${ride['EndDate']}",
+                      text: "End Date: ${widget.ride['EndDate']}",
                     ),
                     const Divider(thickness: 1, height: 20),
-                    CustomSectionTitle(
-                      title: "Delivery Agent Details",
-                    ),
+                    CustomSectionTitle(title: "Delivery Agent Details"),
                     CustomInfoRow(
                       icon: FontAwesomeIcons.user,
-                      text: "Name: ${ride['Name']}",
+                      text: "Name: ${widget.ride['Name']}",
                     ),
                     CustomInfoRow(
                       icon: FontAwesomeIcons.phone,
-                      text: "Phone: ${ride['Phone']}",
+                      text: "Phone: ${widget.ride['Phone']}",
                     ),
                     CustomInfoRow(
                       icon: FontAwesomeIcons.truck,
-                      text: "Vehicle Type: ${ride['VehicleType']}",
+                      text: "Vehicle Type: ${widget.ride['VehicleType']}",
                     ),
                   ],
                 ),
@@ -78,21 +182,10 @@ class RideInformationSR extends StatelessWidget {
             const SizedBox(height: 30),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CustomDialog(
-                        title: 'Are you sure?',
-                        message: 'Do you want to send the request?',
-                        onConfirm: () => sendRequest(),
-                      );
-                    },
-                  );
-                },
+                onPressed: showRequestBottomSheet,
                 child: const Text('Send request'),
               ),
-            )
+            ),
           ],
         ),
       ),
