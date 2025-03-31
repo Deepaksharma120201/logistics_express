@@ -6,15 +6,15 @@ import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/request_detail.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 
-class AllRequets extends StatefulWidget {
-  const AllRequets({super.key});
+class AllRequests extends StatefulWidget {
+  const AllRequests({super.key});
   @override
-  State<AllRequets> createState() {
-    return AllRequetsState();
+  State<AllRequests> createState() {
+    return AllRequestsState();
   }
 }
 
-class AllRequetsState extends State<AllRequets> {
+class AllRequestsState extends State<AllRequests> {
   int selectedTabIndex = 0;
   bool isLoading = true;
 
