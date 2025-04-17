@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,11 +33,13 @@ class _PublishRideState extends ConsumerState<PublishRide> {
 
     Future<void> publishRide() async {
       setState(() => _isLoading = true);
+      User? user = FirebaseAuth.instance.currentUser;
+
       String source = authController.sourceAddressController.text.trim();
       String destination =
           authController.destinationAddressController.text.trim();
       List<GeoPoint> route = [];
-      // route = await ApiServices().getIntermediateCities(source, destination);
+      route = await ApiServices().getIntermediateCities(source, destination);
       try {
         PublishRideModel ride = PublishRideModel(
           name: authController.nameController.text.trim(),
@@ -47,6 +50,7 @@ class _PublishRideState extends ConsumerState<PublishRide> {
           source: authController.sourceAddressController.text.trim(),
           destination: authController.destinationAddressController.text.trim(),
           route: route,
+          agentId: user!.uid,
         );
 
         final userServices = UserServices();

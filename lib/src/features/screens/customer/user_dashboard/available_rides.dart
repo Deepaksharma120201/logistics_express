@@ -166,7 +166,11 @@ class _AvailableRidesState extends State<AvailableRides> {
                         itemCount: availableRides.length,
                         itemBuilder: (context, index) {
                           final ride = availableRides[index];
-                          return InfoRides(ride: ride);
+                          return InfoRides(
+                            ride: ride,
+                            source: widget.source,
+                            destination: widget.destination,
+                          );
                         },
                       )
                     : Center(
@@ -187,9 +191,13 @@ class InfoRides extends StatelessWidget {
   const InfoRides({
     super.key,
     required this.ride,
+    required this.source,
+    required this.destination,
   });
 
   final Map<String, dynamic> ride;
+  final String source;
+  final String destination;
 
   @override
   Widget build(BuildContext context) {
@@ -204,6 +212,8 @@ class InfoRides extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => RideInformationSR(
                 ride: ride,
+                source: source,
+                destination: destination,
               ),
             ),
           );

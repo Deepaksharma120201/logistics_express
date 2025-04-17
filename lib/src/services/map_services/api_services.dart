@@ -66,7 +66,7 @@ class ApiServices {
         var route = data['routes'][0];
 
         if (route.containsKey('legs')) {
-          int count = 0; // Counter to track intervals
+          int count = 0;
 
           for (var leg in route['legs']) {
             for (var step in leg['steps']) {
@@ -81,17 +81,15 @@ class ApiServices {
             }
           }
         }
-        // print("Optimized Waypoints: $waypoints");
         return waypoints;
       }
     } else {
       // print("Error: ${response.body}");
     }
-
     return [];
   }
 
-  /// Convert location name to lat/lng using Google Geocoding API
+  // Convert location name to lat/lng using Google Geocoding API
   Future<Map<String, double>?> getLatLngFromAddress(String address) async {
     final String url =
         "https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey";

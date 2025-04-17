@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 
 class PublishRideModel {
   final String id;
+  final String agentId;
   final String name;
   final String phoneNo;
   final String startDate;
@@ -15,6 +16,7 @@ class PublishRideModel {
 
   PublishRideModel({
     String? id,
+    required this.agentId,
     required this.name,
     required this.phoneNo,
     required this.startDate,
@@ -29,6 +31,7 @@ class PublishRideModel {
   Map<String, dynamic> toMap() {
     return {
       "id": id,
+      "AgentId": agentId,
       "Name": name,
       "Phone": phoneNo,
       "StartDate": startDate,
@@ -45,6 +48,7 @@ class PublishRideModel {
   factory PublishRideModel.fromMap(Map<String, dynamic> map) {
     return PublishRideModel(
       id: map['id'],
+      agentId: map['AgentId'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',
       startDate: map['StartDate'] ?? '',

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logistics_express/src/models/agent_model.dart';
 import 'package:logistics_express/src/models/publish_ride_model.dart';
 import 'package:logistics_express/src/models/requested_delivery_model.dart';
+import 'package:logistics_express/src/models/specific_request_model.dart';
+import 'package:logistics_express/src/models/specific_ride_model.dart';
 import 'package:logistics_express/src/models/user_auth_model.dart';
 import '../models/user_model.dart';
 
@@ -57,6 +59,16 @@ class UserServices {
     }
   }
 
+  Future<void> publishSpecificRide(
+      SpecificRideModel ride, String agentId) async {
+    await _fireStore
+        .collection("published-rides")
+        .doc(agentId)
+        .collection("specific-rides")
+        .doc(ride.id)
+        .set(ride.toMap());
+  }
+
   Future<void> requestedDelivery(RequestedDeliveryModel delivery) async {
     User? currentUser = _firebaseAuth.currentUser;
     if (currentUser != null) {
@@ -64,6 +76,22 @@ class UserServices {
           .collection("requested-deliveries")
           .doc(currentUser.uid)
           .collection("deliveries")
+          .doc(delivery.id)
+          .set(
+            delivery.toMap(),
+          );
+    } else {
+      throw Exception("No authenticated user found.");
+    }
+  }
+
+  Future<void> specificRequestedDelivery(SpecificRequestModel delivery) async {
+    User? currentUser = _firebaseAuth.currentUser;
+    if (currentUser != null) {
+      await _fireStore
+          .collection("requested-deliveries")
+          .doc(currentUser.uid)
+          .collection("specfic-requests")
           .doc(delivery.id)
           .set(
             delivery.toMap(),

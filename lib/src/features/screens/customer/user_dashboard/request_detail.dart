@@ -92,11 +92,20 @@ class _RequestDetailState extends State<RequestDetail> {
                         ),
                         CustomInfoRow(
                           icon: FontAwesomeIcons.calendarDays,
-                          text: "Date: ${widget.ride['Date']}",
+                          text: widget.ride['EndDate'] != null
+                              ? "Start Date: ${widget.ride['Date']}"
+                              : "Date: ${widget.ride['Date']}",
                         ),
+                        if (widget.ride['EndDate'] != null)
+                          CustomInfoRow(
+                            icon: FontAwesomeIcons.calendarDays,
+                            text: "End Date: ${widget.ride['EndDate']}",
+                          ),
                         const Divider(thickness: 1, height: 20),
                         CustomSectionTitle(
-                          title: "Customer Info",
+                          title: widget.ride['EndDate'] != null
+                              ? "Delivery Agent Details"
+                              : "Customer Details",
                         ),
                         CustomInfoRow(
                           icon: FontAwesomeIcons.user,
@@ -106,6 +115,11 @@ class _RequestDetailState extends State<RequestDetail> {
                           icon: FontAwesomeIcons.phone,
                           text: "Phone: ${widget.ride['Phone']}",
                         ),
+                        if (widget.ride['EndDate'] != null)
+                          CustomInfoRow(
+                            icon: FontAwesomeIcons.truck,
+                            text: "Vehicle Type: ${widget.ride['VehicleType']}",
+                          ),
                         const Divider(thickness: 1, height: 20),
                         CustomSectionTitle(
                           title: "Cargo Information",

@@ -41,7 +41,18 @@ class AllRequestsState extends State<AllRequests> {
           .collection("deliveries") // Sub-collection for deliveries
           .get();
 
+      QuerySnapshot rideDocsSpecific = await fireStore
+          .collection("requested-deliveries")
+          .doc(user.uid)
+          .collection("specfic-requests") // Sub-collection for deliveries
+          .get();
+
       for (var doc in rideDocs.docs) {
+        Map<String, dynamic> rideData = doc.data() as Map<String, dynamic>;
+        rides.add(rideData);
+      }
+
+      for (var doc in rideDocsSpecific.docs) {
         Map<String, dynamic> rideData = doc.data() as Map<String, dynamic>;
         rides.add(rideData);
       }
@@ -62,7 +73,6 @@ class AllRequestsState extends State<AllRequests> {
       });
     } catch (e) {
       if (!mounted) return;
-      showErrorSnackBar(context, "Error fetching rides: $e");
       setState(() {
         isLoading = false;
       });
@@ -100,7 +110,6 @@ class AllRequestsState extends State<AllRequests> {
               : RequestList(
                   request:
                       selectedTabIndex == 0 ? pendingRequest : activeRequest,
-                  selectedTabIndex: selectedTabIndex,
                 ),
           bottomNavigationBar: NavigationBar(
             indicatorColor: Theme.of(context).primaryColor,
@@ -138,23 +147,28 @@ class AllRequestsState extends State<AllRequests> {
 
 class RequestList extends StatelessWidget {
   final List<Map<String, dynamic>> request;
-  final int selectedTabIndex;
 
   const RequestList({
     super.key,
     required this.request,
-    required this.selectedTabIndex,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       itemCount: request.length,
       itemBuilder: (context, index) {
         final type = request[index];
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: ListTile(
+            leading: Icon(
+              FontAwesomeIcons.bullseye,
+              color: type['EndDate'] != null
+                  ? Colors.green[600]
+                  : Colors.redAccent,
+            ),
             title: Text('Ride id - ${shortenUUID(type['id'])}'),
             subtitle: Text('Request Date - ${type['Date']}'),
             trailing: const Icon(FontAwesomeIcons.arrowRight),
