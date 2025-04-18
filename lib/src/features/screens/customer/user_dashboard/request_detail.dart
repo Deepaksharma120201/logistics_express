@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/upi_payment_screen.dart';
 import 'package:logistics_express/src/features/screens/customer/user_dashboard/user_dashboard_screen.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
@@ -158,6 +159,24 @@ class _RequestDetailState extends State<RequestDetail> {
                         );
                       },
                       child: const Text('Cancel request'),
+                    ),
+                  ),
+                if (!widget.ride['IsPending'])
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpiPaymentScreen(
+                              amount: '1',
+                              name: widget.ride['Name'],
+                              upi: 'shilpajindal2002@okhdfcbank',
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text('Make payment'),
                     ),
                   )
               ],
