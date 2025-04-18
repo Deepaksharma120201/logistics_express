@@ -13,6 +13,7 @@ class AgentModel {
   final String? rcBackImageUrl;
   final String? rcNumber;
   final String? email;
+  final String? upi;
 
   const AgentModel({
     required this.email,
@@ -21,6 +22,7 @@ class AgentModel {
     required this.name,
     required this.phoneNo,
     required this.aadhar,
+    required this.upi,
     required this.gender,
     required this.profileImageUrl,
     this.dlBackImageUrl = "",
@@ -47,6 +49,7 @@ class AgentModel {
       "RCBackImageUrl": rcBackImageUrl,
       "RCNumber": rcNumber,
       "Email": email,
+      "UPI": upi,
     };
   }
 
@@ -59,6 +62,7 @@ class AgentModel {
       phoneNo: map['Phone'] ?? '',
       dateOfBirth: map['Date'] ?? '',
       aadhar: map['Aadhar'] ?? '',
+      upi: map['UPI'] ?? '',
       gender: map['Gender'] ?? '',
       profileImageUrl: map['ProfileImageUrl'] ?? '',
       dlFrontImageUrl: map['DLFrontImageUrl'] ?? '',

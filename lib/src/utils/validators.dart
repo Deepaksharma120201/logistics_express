@@ -130,4 +130,13 @@ class Validators {
     }
     return null;
   }
+
+  static String? validateUpiId(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill this field!';
+    } else if (!RegExp(r'^[\w.-]+@[\w]{2,}$').hasMatch(value)) {
+      return 'Enter a valid UPI ID (e.g., username@bank)';
+    }
+    return null;
+  }
 }

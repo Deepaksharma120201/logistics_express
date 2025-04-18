@@ -56,6 +56,7 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
           aadhar: authController.aadharController.text.trim(),
           gender: _selectedGender!,
           profileImageUrl: imageUrl!,
+          upi: authController.upiController.text.trim(),
         );
         final userServices = UserServices();
         await userServices.createAgent(agent);
@@ -138,6 +139,14 @@ class _ProfileInfoState extends ConsumerState<ProfileInfo> {
                         label: 'Enter Aadhar card No.',
                         keyboardType: TextInputType.number,
                         controller: authController.aadharController,
+                      ),
+                      const SizedBox(height: 20),
+                      FormTextField(
+                        validator: (val) => Validators.validateUpiId(val!),
+                        hintText: 'UPI ID',
+                        label: 'Enter UPI ID.',
+                        keyboardType: TextInputType.text,
+                        controller: authController.upiController,
                       ),
                       const SizedBox(height: 20),
                       DropdownButtonFormField<String>(
