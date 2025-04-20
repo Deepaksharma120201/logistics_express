@@ -1,101 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
 
-class RideInformationScreen extends StatelessWidget {
-  final String rideId;
-  final String rideDate;
+class RideInformationScreen extends StatefulWidget {
+  final Map<String, dynamic> ride;
 
   const RideInformationScreen({
     super.key,
-    required this.rideId,
-    required this.rideDate,
+    required this.ride,
   });
 
   @override
+  State<RideInformationScreen> createState() => _RideInformationScreenState();
+}
+
+class _RideInformationScreenState extends State<RideInformationScreen> {
+  bool isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).cardColor,
-      appBar: AppBar(
-        title: const Text('Ride Information'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Order id: $rideId',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+    final theme = Theme.of(context);
+
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text("Ride Details"),
+          ),
+          backgroundColor: theme.cardColor,
+          body: Column(
+            children: [
+              Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                color: theme.colorScheme.surface,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomSectionTitle(
+                        title: "Ride Details",
                       ),
-                ),
-                Text(
-                  'Order date: $rideDate',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'From: Kurukshetra',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      CustomInfoRow(
+                        icon: FontAwesomeIcons.locationDot,
+                        text: "From: ${widget.ride['Source']}",
+                      ),
+                      CustomInfoRow(
+                        icon: FontAwesomeIcons.mapPin,
+                        text: "To: ${widget.ride['Destination']}",
+                      ),
+                      CustomInfoRow(
+                        icon: FontAwesomeIcons.calendarDays,
+                        text: "Start Date: ${widget.ride['Date']}",
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'To: Delhi',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+              ),
+              const SizedBox(
+                height: 60,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Track Ride'),
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Status: In transit/Completed',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Driver Information:',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Driver Name: Akash',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Driver Contact: 9440123456',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ],
+              )
+            ],
+          ),
         ),
-      ),
+        if (isLoading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CustomLoader(),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
