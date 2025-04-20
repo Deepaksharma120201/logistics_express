@@ -51,6 +51,8 @@ dependencies:
   uuid: ^4.5.1
   crypto: ^3.0.6
   upi_india: ^3.0.1
+  flutter_upi_india: ^0.0.6
+  onesignal_flutter: ^5.3.0
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'package:logistics_express/src/features/screens/customer/user_auth/login_
 // import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/details_fillup.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/agent_dashboard_screen.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -127,7 +128,11 @@ class HomeScreen extends ConsumerWidget {
               left: MediaQuery.of(context).size.width * 0.15,
               bottom: screenHeight * 0.5,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await sendNotificationToCustomer(
+                    "256d4c48-fbe0-4603-9127-4975368edb7a",
+                    "John Doe",
+                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -36,6 +36,24 @@ class _RequestDetailState extends State<RequestDetail> {
           .collection('deliveries')
           .doc(widget.ride['id'])
           .delete();
+      final querySnapshot1 = await FirebaseFirestore.instance
+          .collectionGroup('specific-rides')
+          .where("id", isEqualTo: widget.ride['id'])
+          .get();
+
+      for (final doc in querySnapshot1.docs) {
+        await doc.reference.delete();
+      }
+
+      final querySnapshot2 = await FirebaseFirestore.instance
+          .collectionGroup('specfic-requests')
+          .where("id", isEqualTo: widget.ride['id'])
+          .get();
+
+      for (var doc in querySnapshot2.docs) {
+        await doc.reference.delete();
+      }
+
       if (!mounted) return;
       showSuccessSnackBar(context, 'Request cancelled successfully!');
 
@@ -104,17 +122,24 @@ class _RequestDetailState extends State<RequestDetail> {
                           ),
                         const Divider(thickness: 1, height: 20),
                         CustomSectionTitle(
-                          title: widget.ride['EndDate'] != null
+                          title: widget.ride['EndDate'] != null ||
+                                  !widget.ride['IsPending']
                               ? "Delivery Agent Details"
                               : "Customer Details",
                         ),
                         CustomInfoRow(
                           icon: FontAwesomeIcons.user,
-                          text: "Name: ${widget.ride['Name']}",
+                          text: widget.ride['EndDate'] != null ||
+                                  !widget.ride['IsPending']
+                              ? "Name: ${widget.ride['AgentName']}"
+                              : "Name: ${widget.ride['Name']}",
                         ),
                         CustomInfoRow(
                           icon: FontAwesomeIcons.phone,
-                          text: "Phone: ${widget.ride['Phone']}",
+                          text: widget.ride['EndDate'] != null ||
+                                  !widget.ride['IsPending']
+                              ? "Phone: ${widget.ride['AgentPhone']}"
+                              : "Phone: ${widget.ride['Phone']}",
                         ),
                         if (widget.ride['EndDate'] != null)
                           CustomInfoRow(
@@ -136,6 +161,10 @@ class _RequestDetailState extends State<RequestDetail> {
                         CustomInfoRow(
                           icon: FontAwesomeIcons.cube,
                           text: "Volume: ${widget.ride['Volume']} cm³",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.indianRupeeSign,
+                          text: "Estimated Price: ${widget.ride['Amount']} /-",
                         ),
                       ],
                     ),
@@ -168,10 +197,10 @@ class _RequestDetailState extends State<RequestDetail> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => UpiPaymentScreen(
-                              amount: '1',
-                              name: widget.ride['Name'],
-                              upi: 'shilpajindal2002@okhdfcbank',
+                            builder: (context) => PaymentScreen(
+                              amount: widget.ride['Amount'],
+                              upiAddress: widget.ride['UpiId'],
+                              name: widget.ride['AgentName'],
                             ),
                           ),
                         );
