@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
@@ -26,14 +27,47 @@ class _RequestedRideState extends State<RequestedRide> {
   Future<void> acceptDelivery() async {
     setState(() => isLoading = true);
     try {
-      QuerySnapshot querySnapshot = await fireStore
+      User? user = FirebaseAuth.instance.currentUser;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('agents')
+          .doc(user!.uid)
+          .get();
+
+      QuerySnapshot querySnapshot1 = await fireStore
           .collectionGroup("deliveries")
           .where("id", isEqualTo: widget.delivery['id'])
           .get();
 
-      if (querySnapshot.docs.isNotEmpty) {
-        DocumentReference docRef = querySnapshot.docs.first.reference;
+      QuerySnapshot querySnapshot2 = await fireStore
+          .collection("published-rides")
+          .doc(user.uid)
+          .collection('specific-rides')
+          .where("id", isEqualTo: widget.delivery['id'])
+          .get();
+
+      QuerySnapshot querySnapshot3 = await fireStore
+          .collectionGroup('specfic-requests')
+          .where("id", isEqualTo: widget.delivery['id'])
+          .get();
+
+      if (querySnapshot1.docs.isNotEmpty) {
+        DocumentReference docRef = querySnapshot1.docs.first.reference;
+        await docRef.update({
+          'IsPending': false,
+          'AgentName': userDoc['Name'],
+          'AgentPhone': userDoc['Phone'],
+          'UpiId': userDoc['UPI']
+        });
+      }
+
+      if (querySnapshot2.docs.isNotEmpty) {
+        DocumentReference docRef = querySnapshot2.docs.first.reference;
         await docRef.update({'IsPending': false});
+      }
+
+      if (querySnapshot3.docs.isNotEmpty) {
+        DocumentReference docRef = querySnapshot3.docs.first.reference;
+        await docRef.update({'IsPending': false, 'UpiId': userDoc['UPI']});
       }
 
       if (mounted) {
@@ -47,7 +81,7 @@ class _RequestedRideState extends State<RequestedRide> {
       }
     } catch (error) {
       if (mounted) {
-        showErrorSnackBar(context, "Something went wrong! please Try letter.");
+        showErrorSnackBar(context, error.toString());
       }
     } finally {
       if (mounted) {
@@ -124,6 +158,11 @@ class _RequestedRideState extends State<RequestedRide> {
                         CustomInfoRow(
                           icon: FontAwesomeIcons.cube,
                           text: "Volume: ${widget.delivery['Volume']} cm³",
+                        ),
+                        CustomInfoRow(
+                          icon: FontAwesomeIcons.indianRupeeSign,
+                          text:
+                              "Estimated Price: ${widget.delivery['Amount']} /-",
                         ),
                       ],
                     ),

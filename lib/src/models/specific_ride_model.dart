@@ -9,6 +9,7 @@ class SpecificRideModel {
   final String source;
   final String weight;
   final String volume;
+  String? amount;
   final String itemType;
   final String destination;
   final bool? isPending;
@@ -23,6 +24,7 @@ class SpecificRideModel {
     required this.destination,
     required this.weight,
     required this.volume,
+    required this.amount,
     required this.itemType,
     this.isPending = true,
   }) : id = id ?? const Uuid().v4(); // Assign UUID if not provided
@@ -32,7 +34,7 @@ class SpecificRideModel {
       "id": id,
       "Name": customerName,
       "Phone": customerPhoneNo,
-      "SDate": startDate,
+      "Date": startDate,
       "EndDate": endDate,
       "Source": source,
       "Destination": destination,
@@ -40,6 +42,7 @@ class SpecificRideModel {
       "Weight": weight,
       'IsPending': isPending,
       "Volume": volume,
+      "Amount": amount,
     };
   }
 
@@ -57,6 +60,7 @@ class SpecificRideModel {
       volume: map['Volume'] ?? '',
       isPending: map['IsPending'],
       itemType: map['ItemType'] ?? '',
+      amount: map['Amount'] ?? '',
     );
   }
 }

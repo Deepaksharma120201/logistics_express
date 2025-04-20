@@ -7,9 +7,11 @@ import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dropdown.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
-import 'package:logistics_express/src/models/specific_request_model.dart';
+import 'package:logistics_express/src/models/requested_delivery_model.dart';
 import 'package:logistics_express/src/models/specific_ride_model.dart';
+import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/services/user_services.dart';
+import 'package:logistics_express/src/utils/estimate_price.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
 import 'package:logistics_express/src/utils/validators.dart';
@@ -33,6 +35,7 @@ class RideInformationSR extends ConsumerStatefulWidget {
 
 class _RideInformationSRState extends ConsumerState<RideInformationSR> {
   String? _selectedType;
+  double amount = 0.0;
   TextEditingController weightController = TextEditingController();
   TextEditingController volumeController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -41,7 +44,7 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
   Future<void> sendRequest() async {
     setState(() => _isLoading = true);
     try {
-      SpecificRequestModel delivery = SpecificRequestModel(
+      RequestedDeliveryModel delivery = RequestedDeliveryModel(
         agentName: widget.ride['Name'],
         agentPhoneNo: widget.ride['Phone'],
         source: widget.source,
@@ -52,7 +55,10 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         volume: volumeController.text.trim(),
         itemType: _selectedType!,
         vehicleType: widget.ride['VehicleType'],
+        amount: amount.toString(),
       );
+      final userServices = UserServices();
+      await userServices.specificRequestedDelivery(delivery);
 
       User? user = FirebaseAuth.instance.currentUser;
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
@@ -67,6 +73,7 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
       }
 
       SpecificRideModel newRide = SpecificRideModel(
+        id: delivery.id,
         customerName: name,
         customerPhoneNo: phone,
         source: widget.source,
@@ -76,10 +83,9 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         weight: weightController.text.trim(),
         volume: volumeController.text.trim(),
         itemType: _selectedType!,
+        amount: amount.toString(),
       );
 
-      final userServices = UserServices();
-      await userServices.specificRequestedDelivery(delivery);
       await userServices.publishSpecificRide(newRide, widget.ride["AgentId"]);
 
       if (mounted) {
@@ -97,12 +103,12 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
     }
   }
 
-  void showConfirmationDialog() {
+  void showConfirmationDialog(double amount) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return CustomDialog(
-          title: 'Are you sure?',
+          title: 'Estimated Amount: $amount',
           message: 'Do you want to send the request?',
           onConfirm: () {
             Navigator.pop(context);
@@ -113,79 +119,90 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
     );
   }
 
-  void showRequestBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-          ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 10),
-                Text("Enter Package Details",
-                    style: Theme.of(context).textTheme.headlineSmall),
-                const SizedBox(height: 15),
-                NewTextField(
-                  label: 'Weight',
-                  hintText: 'Enter weight in Kg',
-                  keyboardType: TextInputType.number,
-                  controller: weightController,
-                  validator: (val) => Validators.quantityValidator(val),
-                ),
-                const SizedBox(height: 10),
-                NewTextField(
-                  label: 'Volume',
-                  hintText: 'Enter volume in cm\u00B3',
-                  keyboardType: TextInputType.number,
-                  controller: volumeController,
-                  validator: (val) => Validators.quantityValidator(val),
-                ),
-                const SizedBox(height: 10),
-                CustomDropdown(
-                  label: "Item Type",
-                  items: [
-                    'Furniture',
-                    'Electronics',
-                    'Clothes & Accessories',
-                    'Glass & Fragile Items',
-                    'Food & Medicine'
-                  ],
-                  value: _selectedType,
-                  onChanged: (value) => setState(() => _selectedType = value),
-                  validator: (val) => Validators.commonValidator(val),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pop(context);
-                      showConfirmationDialog();
-                    }
-                  },
-                  child: const Text("Submit"),
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final authController = ref.read(authControllerProvider);
+
+    void showRequestBottomSheet() {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 10),
+                  Text("Enter Package Details",
+                      style: Theme.of(context).textTheme.headlineSmall),
+                  const SizedBox(height: 15),
+                  NewTextField(
+                    label: 'Weight',
+                    hintText: 'Enter weight in Kg',
+                    keyboardType: TextInputType.number,
+                    controller: weightController,
+                    validator: (val) => Validators.quantityValidator(val),
+                  ),
+                  const SizedBox(height: 10),
+                  NewTextField(
+                    label: 'Volume',
+                    hintText: 'Enter volume in cm\u00B3',
+                    keyboardType: TextInputType.number,
+                    controller: volumeController,
+                    validator: (val) => Validators.quantityValidator(val),
+                  ),
+                  const SizedBox(height: 10),
+                  CustomDropdown(
+                    label: "Item Type",
+                    items: [
+                      'Furniture',
+                      'Electronics',
+                      'Clothes & Accessories',
+                      'Glass & Fragile Items',
+                      'Food & Medicine'
+                    ],
+                    value: _selectedType,
+                    onChanged: (value) => setState(() => _selectedType = value),
+                    validator: (val) => Validators.commonValidator(val),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        authController.weightController.text =
+                            weightController.text.trim();
+                        authController.volumeController.text =
+                            volumeController.text.trim();
+                        authController.sourceAddressController.text =
+                            widget.source;
+                        authController.destinationAddressController.text =
+                            widget.destination;
+
+                        amount = await estimatePrice(ref);
+                        showConfirmationDialog(amount);
+                      }
+                    },
+                    child: const Text("Submit"),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
+
     return Stack(
       children: [
         Scaffold(

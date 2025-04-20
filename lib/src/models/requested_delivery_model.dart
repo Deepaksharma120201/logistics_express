@@ -4,55 +4,78 @@ class RequestedDeliveryModel {
   final String id;
   final String? name;
   final String? phoneNo;
-  final String date;
+  final String startDate;
+  final String? endDate;
   final String itemType;
   final String source;
   final String destination;
   final String weight;
   final String volume;
+  String? amount;
   final bool? isPending;
+  final String? agentName;
+  final String? agentPhoneNo;
+  final String? vehicleType;
+  final String? upiId;
 
   RequestedDeliveryModel({
     String? id,
     this.name,
     this.phoneNo,
-    required this.date,
+    required this.startDate,
+    this.endDate,
     required this.itemType,
     required this.source,
     required this.destination,
     required this.weight,
     required this.volume,
+    this.amount,
     this.isPending = true,
+    this.agentName,
+    this.agentPhoneNo,
+    this.vehicleType,
+    this.upiId,
   }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
-      "Name": name,
-      "Phone": phoneNo,
-      "Date": date,
-      "ItemType": itemType,
-      "Source": source,
-      "Destination": destination,
-      "Weight": weight,
-      "Volume": volume,
+      'id': id,
+      'Name': name,
+      'Phone': phoneNo,
+      'Date': startDate,
+      'EndDate': endDate,
+      'ItemType': itemType,
+      'Source': source,
+      'Destination': destination,
+      'Weight': weight,
+      'Volume': volume,
+      'Amount': amount,
       'IsPending': isPending,
+      'AgentName': agentName,
+      'AgentPhone': agentPhoneNo,
+      'VehicleType': vehicleType,
+      'UpiId': upiId,
     };
   }
 
-  // Create an instance from a Firestore document
   factory RequestedDeliveryModel.fromMap(Map<String, dynamic> map) {
     return RequestedDeliveryModel(
-      id: map['id'],
-      name: map['Name'] ?? '',
-      phoneNo: map['Phone'] ?? '',
+      id: map['id'] ?? const Uuid().v4(),
+      name: map['Name'],
+      phoneNo: map['Phone'],
+      startDate: map['Date'] ?? '',
+      endDate: map['EndDate'],
+      itemType: map['ItemType'] ?? '',
       source: map['Source'] ?? '',
       destination: map['Destination'] ?? '',
-      date: map['Date'] ?? '',
       weight: map['Weight'] ?? '',
       volume: map['Volume'] ?? '',
-      itemType: map['ItemType'] ?? '',
+      amount: map['Amount'],
       isPending: map['IsPending'],
+      agentName: map['AgentName'],
+      agentPhoneNo: map['AgentPhone'],
+      vehicleType: map['VehicleType'],
+      upiId: map['UpiId'],
     );
   }
 }
