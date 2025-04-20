@@ -5,15 +5,11 @@ import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/vehicle_rc.dart';
 import 'package:logistics_express/src/utils/delivery_agent_faq.dart';
 
-import '../../../../services/authentication/auth_service.dart';
-
 class DetailsFillup extends StatelessWidget {
   const DetailsFillup({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AuthService authService = AuthService();
-
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
@@ -41,13 +37,6 @@ class DetailsFillup extends StatelessWidget {
           containerButton(context, 'Profile Info', ProfileInfo()),
           containerButton(context, 'Driving Licence', DrivingLicence()),
           containerButton(context, 'Vehicle RC', VehicleRc()),
-          TextButton(
-            onPressed: () => authService.signOut(context),
-            child: const Text(
-              'LOGOUT',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
         ],
       ),
     );

@@ -15,12 +15,27 @@ class _TrackDeliveryScreenState extends State<TrackDeliveryScreen> {
   int selectedTabIndex = 0;
 
   final List<Map<String, String>> activeRides = [
-    {'rideId': '1234', 'rideDate': '10/12/2024'},
-    {'rideId': '1235', 'rideDate': '11/12/2024'},
+    {
+      'rideId': '1234',
+      'Date': '10/12/2024',
+      'Source': 'New York',
+      'Destination': 'Boston',
+    },
+    {
+      'rideId': '1235',
+      'Date': '11/12/2024',
+      'Source': 'Chicago',
+      'Destination': 'Detroit',
+    },
   ];
 
   final List<Map<String, String>> completedRides = [
-    {'rideId': '1221', 'rideDate': '05/12/2024'},
+    {
+      'rideId': '1221',
+      'rideDate': '05/12/2024',
+      'Source': 'Los Angeles',
+      'Destination': 'San Francisco',
+    },
   ];
 
   @override
@@ -74,15 +89,14 @@ class DeliveryList extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: ListTile(
             title: Text('Ride id - ${delivery['rideId']}'),
-            subtitle: Text('Ride date - ${delivery['rideDate']}'),
+            subtitle: Text('Ride date - ${delivery['Date']}'),
             trailing: const Icon(FontAwesomeIcons.arrowRight),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => RideInformationScreen(
-                    rideId: delivery['rideId']!,
-                    rideDate: delivery['rideDate']!,
+                    ride: rides[index],
                   ),
                 ),
               );

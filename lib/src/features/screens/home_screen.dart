@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/features/screens/customer/user_auth/login_screen.dart';
-// import 'package:logistics_express/src/features/screens/delivery_agent/agent_auth/details_fillup.dart';
-import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/agent_dashboard_screen.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/services/notification/notify.dart';
 
@@ -127,41 +125,27 @@ class HomeScreen extends ConsumerWidget {
             Positioned(
               left: MediaQuery.of(context).size.width * 0.15,
               bottom: screenHeight * 0.5,
-              child: GestureDetector(
-                onTap: () async {
-                  await sendNotificationToCustomer(
-                    "256d4c48-fbe0-4603-9127-4975368edb7a",
-                    "John Doe",
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AgentHomeScreen(),
+              child: Container(
+                height: 200,
+                width: 270,
+                padding: const EdgeInsets.fromLTRB(12, 18, 12, 0),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(35)),
+                ),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      "assets/images/bothU&D.png",
+                      width: 250,
+                      height: 115,
                     ),
-                  );
-                },
-                child: Container(
-                  height: 200,
-                  width: 270,
-                  padding: const EdgeInsets.fromLTRB(12, 18, 12, 0),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(35)),
-                  ),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        "assets/images/bothU&D.png",
-                        width: 250,
-                        height: 115,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text("Transport services for"),
-                      const Text("quick delivery of your goods."),
-                    ],
-                  ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text("Transport services for"),
+                    const Text("quick delivery of your goods."),
+                  ],
                 ),
               ),
             ),
