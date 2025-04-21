@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/agent_dashboard_screen.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
 
@@ -68,6 +69,20 @@ class _RequestedRideState extends State<RequestedRide> {
       if (querySnapshot3.docs.isNotEmpty) {
         DocumentReference docRef = querySnapshot3.docs.first.reference;
         await docRef.update({'IsPending': false, 'UpiId': userDoc['UPI']});
+      }
+
+      final querySnapshot4 = await FirebaseFirestore.instance
+          .collection('user_auth')
+          .where("id", isEqualTo: widget.delivery['uId'])
+          .get();
+
+      if (querySnapshot4.docs.isNotEmpty) {
+        final sId = querySnapshot1.docs.first['SId'];
+        sendNotification(
+          sId,
+          '$userDoc["Name"], accept your delivery request',
+          'Delivery Accepted',
+        );
       }
 
       if (mounted) {

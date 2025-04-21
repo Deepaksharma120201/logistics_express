@@ -10,6 +10,7 @@ import 'package:logistics_express/src/features/screens/delivery_agent/agent_dash
 import 'package:logistics_express/src/models/requested_delivery_model.dart';
 import 'package:logistics_express/src/models/specific_ride_model.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 import 'package:logistics_express/src/services/user_services.dart';
 import 'package:logistics_express/src/utils/estimate_price.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
@@ -43,6 +44,7 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
 
   Future<void> sendRequest() async {
     setState(() => _isLoading = true);
+    User? user = FirebaseAuth.instance.currentUser;
     try {
       RequestedDeliveryModel delivery = RequestedDeliveryModel(
         agentName: widget.ride['Name'],
@@ -56,15 +58,29 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         itemType: _selectedType!,
         vehicleType: widget.ride['VehicleType'],
         amount: amount.toString(),
+        uId: user!.uid,
       );
       final userServices = UserServices();
       await userServices.specificRequestedDelivery(delivery);
 
-      User? user = FirebaseAuth.instance.currentUser;
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('customers')
-          .doc(user!.uid)
+          .doc(user.uid)
           .get();
+
+      final querySnapshot1 = await FirebaseFirestore.instance
+          .collection('user_auth')
+          .where("id", isEqualTo: widget.ride['uId'])
+          .get();
+
+      if (querySnapshot1.docs.isNotEmpty) {
+        final sId = querySnapshot1.docs.first['SId'];
+        sendNotification(
+          sId,
+          '$userDoc["Name"],send you a delivery request',
+          'New Request',
+        );
+      }
 
       String name = '', phone = '';
       if (userDoc.exists) {
@@ -84,6 +100,7 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         volume: volumeController.text.trim(),
         itemType: _selectedType!,
         amount: amount.toString(),
+        uId: user.uid,
       );
 
       await userServices.publishSpecificRide(newRide, widget.ride["AgentId"]);

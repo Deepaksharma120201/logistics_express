@@ -50,7 +50,7 @@ class _PublishRideState extends ConsumerState<PublishRide> {
           source: authController.sourceAddressController.text.trim(),
           destination: authController.destinationAddressController.text.trim(),
           route: route,
-          agentId: user!.uid,
+          uId: user!.uid,
         );
 
         final userServices = UserServices();

@@ -5,6 +5,7 @@ import 'package:logistics_express/src/features/screens/customer/user_auth/login_
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 import 'package:logistics_express/src/utils/validators.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
@@ -135,6 +136,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                           final userAuthDetails = UserAuthModel(
                                             email: email,
                                             role: role!,
+                                            sId: await getSubscriptionId() ?? '',
                                           );
                                           try {
                                             String? response = await authService

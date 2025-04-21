@@ -10,8 +10,9 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
   OneSignal.initialize("ba8e538d-d5ec-4ef8-b5b1-b840d2949122");
-  OneSignal.Notifications.requestPermission(true);
+  OneSignal.Notifications.requestPermission(false);
 
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
