@@ -68,18 +68,22 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
           .doc(user.uid)
           .get();
 
-      final querySnapshot1 = await FirebaseFirestore.instance
+      final docSnapshot = await FirebaseFirestore.instance
           .collection('user_auth')
-          .where("id", isEqualTo: widget.ride['uId'])
+          .doc(widget.ride['uId'])
           .get();
 
-      if (querySnapshot1.docs.isNotEmpty) {
-        final sId = querySnapshot1.docs.first['SId'];
-        sendNotification(
-          sId,
-          '$userDoc["Name"],send you a delivery request',
-          'New Request',
-        );
+      if (docSnapshot.exists) {
+        final userData = docSnapshot.data();
+        final sId = userData?['SId'];
+
+        if (sId != null) {
+          sendNotification(
+            sId,
+            'sent you a delivery request',
+            'New Request',
+          );
+        }
       }
 
       String name = '', phone = '';

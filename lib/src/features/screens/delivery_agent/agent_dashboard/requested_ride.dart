@@ -71,16 +71,17 @@ class _RequestedRideState extends State<RequestedRide> {
         await docRef.update({'IsPending': false, 'UpiId': userDoc['UPI']});
       }
 
-      final querySnapshot4 = await FirebaseFirestore.instance
+      final docSnapshot = await FirebaseFirestore.instance
           .collection('user_auth')
-          .where("id", isEqualTo: widget.delivery['uId'])
+          .doc(widget.delivery['uId'])
           .get();
 
-      if (querySnapshot4.docs.isNotEmpty) {
-        final sId = querySnapshot1.docs.first['SId'];
+      if (docSnapshot.exists) {
+        final userDoc2 = docSnapshot.data()!;
+        final sId = userDoc2['SId'];
         sendNotification(
           sId,
-          '$userDoc["Name"], accept your delivery request',
+          '${userDoc["Name"]} accepted your delivery request',
           'Delivery Accepted',
         );
       }
@@ -95,6 +96,7 @@ class _RequestedRideState extends State<RequestedRide> {
         );
       }
     } catch (error) {
+      debugPrint(error.toString());
       if (mounted) {
         showErrorSnackBar(context, error.toString());
       }
