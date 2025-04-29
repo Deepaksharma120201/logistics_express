@@ -36,6 +36,14 @@ class ApiServices {
     }
   }
 
+  Future<Predictions?> getFirstPlacePrediction(String placeName) async {
+    final places = await getPlaces(placeName);
+    if (places.predictions.isNotEmpty) {
+      return places.predictions.first;
+    }
+    return null;
+  }
+
   Future<GetDistanceFromPlaces> getDistanceFromPlaces(
       String source, String des) async {
     Uri url = Uri.parse(

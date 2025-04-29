@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/features/screens/customer/user_dashboard/gps_tracking_after_ride_details.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/requested_ride.dart';
 
 class RideInformationScreen extends StatefulWidget {
@@ -69,8 +70,21 @@ class _RideInformationScreenState extends State<RideInformationScreen> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {},
                   child: const Text('Track Ride'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LiveGPSTracking(
+                          source: widget.ride['Source']!,
+                          destination: widget.ride['Destination']!,
+                          isDelivered: widget.ride['IsDelivered'] as bool,
+                          deliveryId: widget.ride['id'] as String,
+                        ),
+                      ),
+                    );
+
+                  },
                 ),
               )
             ],
