@@ -1,33 +1,39 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-Future<void> sendNotificationToCustomer(
-    String playerId, String customerName) async {
-  final url = Uri.parse('https://onesignal.com/api/v1/notifications');
+Future<void> sendNotification(
+    String subscriptionId, String message, String status) async {
+    String appId = dotenv.env['ONESIGNAL_APP_ID']!;
+    String appKey = dotenv.env['ONESIGNAL_API_KEY']!;
 
+  final url = Uri.parse('https://api.onesignal.com/notifications/');
   final response = await http.post(
     url,
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Basic hqosfts7xerxeli4k453ong2o'
+      'Authorization': 'Key $appKey',
     },
     body: jsonEncode({
-      'app_id': 'ba8e538d-d5ec-4ef8-b5b1-b840d2949122',
-      'include_player_ids': "256d4c48-fbe0-4603-9127-4975368edb7a",
-      'headings': {'en': 'Delivery Accepted'},
-      'contents': {'en': '$customerName, your delivery has been accepted!'},
+      'app_id': appId,
+      'include_player_ids': [subscriptionId],
+      'headings': {'en': status},
+      'contents': {'en': message},
     }),
   );
 
   if (response.statusCode == 200) {
-    print('Notification sent successfully: ${response.body}');
+    debugPrint('Notification sent successfully: ${response.body}');
   } else {
-    print(
-        'Failed to send notification: ${response.statusCode}, ${response.body}');
+    debugPrint(
+      'Failed to send notification: ${response.statusCode}, ${response.body}',
+    );
   }
 }
 
-// Future<void> getAndSavePlayerId() async {
-//   final playerid = OneSignal.User.pushSubscription.id;
-//   print("The devices state : $playerid");
-// }
+Future<String?> getSubscriptionId() async {
+  final sId = OneSignal.User.pushSubscription.id;
+  return sId;
+}

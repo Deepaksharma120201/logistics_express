@@ -22,7 +22,6 @@ class _PriceEstimationState extends ConsumerState<PriceEstimation> {
 
   Future<double> getDistance() async {
     try {
-      return 165; //remove this when necessary
       final response = await ApiServices().getDistanceFromPlaces(
         ref.read(authControllerProvider).sourceAddressController.text.trim(),
         ref

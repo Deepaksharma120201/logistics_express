@@ -5,6 +5,7 @@ import 'package:logistics_express/src/services/authentication/auth_controller.da
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/models/user_model.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
@@ -129,7 +130,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                     val,
                                     authController.passwordController.text,
                                   ),
-                                  icon: const Icon(FontAwesomeIcons.fingerprint),
+                                  icon:
+                                      const Icon(FontAwesomeIcons.fingerprint),
                                   keyboardType: TextInputType.visiblePassword,
                                   controller:
                                       authController.confirmPasswordController,
@@ -162,6 +164,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                                 UserAuthModel(
                                               email: email,
                                               role: role!,
+                                              sId: await getSubscriptionId() ??
+                                                  "",
                                             );
                                             final userDetails = UserModel(
                                               name: name,

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,6 +8,7 @@ import 'package:logistics_express/src/services/authentication/auth_controller.da
 import 'package:logistics_express/src/services/authentication/auth_gate.dart';
 import 'package:logistics_express/src/services/authentication/auth_service.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/custom_widgets/form_header.dart';
 import 'package:logistics_express/src/custom_widgets/form_text_field.dart';
@@ -31,6 +34,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final authController = ref.watch(authControllerProvider);
     final authService = ref.watch(authServiceProvider);
     final role = ref.watch(roleProvider);
+
+    void updateSId() async {
+      String id = await getSubscriptionId() ?? '';
+      debugPrint("The devices state : $id");
+      
+      User? user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance
+          .collection('user_auth')
+          .doc(user!.uid)
+          .update({'SId': id});
+    }
 
     return SafeArea(
       child: GestureDetector(
@@ -151,6 +165,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                                   authController.clearAll();
                                                   if (response == role &&
                                                       role == 'Customer') {
+                                                    updateSId();
                                                     Navigator
                                                         .pushAndRemoveUntil(
                                                       context,
@@ -163,6 +178,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                                   } else if (response == role &&
                                                       role ==
                                                           'Delivery Agent') {
+                                                    updateSId();
                                                     Navigator
                                                         .pushAndRemoveUntil(
                                                       context,
@@ -173,7 +189,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                                       (route) => false,
                                                     );
                                                   } else {
-                                                    // Handle unexpected response values
                                                     showErrorSnackBar(
                                                       context,
                                                       'Unknown Role: $response',

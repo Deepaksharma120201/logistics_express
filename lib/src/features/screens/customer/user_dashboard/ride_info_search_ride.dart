@@ -10,6 +10,7 @@ import 'package:logistics_express/src/features/screens/delivery_agent/agent_dash
 import 'package:logistics_express/src/models/requested_delivery_model.dart';
 import 'package:logistics_express/src/models/specific_ride_model.dart';
 import 'package:logistics_express/src/services/authentication/auth_controller.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 import 'package:logistics_express/src/services/user_services.dart';
 import 'package:logistics_express/src/utils/estimate_price.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
@@ -43,24 +44,8 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
 
   Future<void> sendRequest() async {
     setState(() => _isLoading = true);
+    User? user = FirebaseAuth.instance.currentUser;
     try {
-      RequestedDeliveryModel delivery = RequestedDeliveryModel(
-        agentName: widget.ride['Name'],
-        agentPhoneNo: widget.ride['Phone'],
-        source: widget.source,
-        destination: widget.destination,
-        startDate: widget.ride['StartDate'],
-        endDate: widget.ride['EndDate'],
-        weight: weightController.text.trim(),
-        volume: volumeController.text.trim(),
-        itemType: _selectedType!,
-        vehicleType: widget.ride['VehicleType'],
-        amount: amount.toString(),
-      );
-      final userServices = UserServices();
-      await userServices.specificRequestedDelivery(delivery);
-
-      User? user = FirebaseAuth.instance.currentUser;
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('customers')
           .doc(user!.uid)
@@ -71,6 +56,30 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         name = userDoc['Name'] ?? '';
         phone = userDoc['Phone'] ?? '';
       }
+
+      RequestedDeliveryModel delivery = RequestedDeliveryModel(
+        agentName: widget.ride['Name'],
+        agentPhoneNo: widget.ride['Phone'],
+        name: name,
+        phoneNo: phone,
+        source: widget.source,
+        destination: widget.destination,
+        startDate: widget.ride['StartDate'],
+        endDate: widget.ride['EndDate'],
+        weight: weightController.text.trim(),
+        volume: volumeController.text.trim(),
+        itemType: _selectedType!,
+        vehicleType: widget.ride['VehicleType'],
+        amount: amount.toString(),
+        uId: user.uid,
+      );
+      final userServices = UserServices();
+      await userServices.specificRequestedDelivery(delivery);
+
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('user_auth')
+          .doc(widget.ride['uId'])
+          .get();
 
       SpecificRideModel newRide = SpecificRideModel(
         id: delivery.id,
@@ -84,9 +93,23 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         volume: volumeController.text.trim(),
         itemType: _selectedType!,
         amount: amount.toString(),
+        uId: user.uid,
       );
 
-      await userServices.publishSpecificRide(newRide, widget.ride["AgentId"]);
+      await userServices.publishSpecificRide(newRide, widget.ride["uId"]);
+
+      if (docSnapshot.exists) {
+        final userData = docSnapshot.data();
+        final sId = userData?['SId'];
+
+        if (sId != null) {
+          sendNotification(
+            sId,
+            '$name sent you a delivery request',
+            'New Request',
+          );
+        }
+      }
 
       if (mounted) {
         showSuccessSnackBar(context, "Request sent successfully!");

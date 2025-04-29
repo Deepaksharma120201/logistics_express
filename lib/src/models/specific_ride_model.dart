@@ -13,9 +13,11 @@ class SpecificRideModel {
   final String itemType;
   final String destination;
   final bool? isPending;
+  final String uId;
 
   SpecificRideModel({
     String? id,
+    required this.uId,
     required this.customerName,
     required this.customerPhoneNo,
     required this.startDate,
@@ -32,6 +34,7 @@ class SpecificRideModel {
   Map<String, dynamic> toMap() {
     return {
       "id": id,
+      "uId": uId,
       "Name": customerName,
       "Phone": customerPhoneNo,
       "Date": startDate,
@@ -50,6 +53,7 @@ class SpecificRideModel {
   factory SpecificRideModel.fromMap(Map<String, dynamic> map) {
     return SpecificRideModel(
       id: map['id'],
+      uId: map['uId'] ?? '',
       customerName: map['Name'] ?? '',
       customerPhoneNo: map['Phone'] ?? '',
       startDate: map['Date'] ?? '',

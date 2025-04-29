@@ -21,6 +21,7 @@ class RequestedDeliveryModel {
   final String? vehicleType;
   final String? upiId;
   final GeoPoint? driverLocation;
+  final String uId;
 
   RequestedDeliveryModel({
     String? id,
@@ -28,6 +29,7 @@ class RequestedDeliveryModel {
     this.name,
     this.phoneNo,
     required this.startDate,
+    required this.uId,
     this.endDate,
     required this.itemType,
     required this.source,
@@ -48,6 +50,7 @@ class RequestedDeliveryModel {
     return {
       'id': id,
       'Did':dId,
+      'uId': uId,
       'Name': name,
       'Phone': phoneNo,
       'Date': startDate,
@@ -72,6 +75,7 @@ class RequestedDeliveryModel {
     return RequestedDeliveryModel(
       id: map['id'] ?? const Uuid().v4(),
       dId: map['Did'],
+      uId: map['uId'] ?? '',
       name: map['Name'],
       phoneNo: map['Phone'],
       startDate: map['Date'] ?? '',

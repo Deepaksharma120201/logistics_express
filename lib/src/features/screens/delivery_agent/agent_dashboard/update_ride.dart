@@ -48,7 +48,7 @@ class _UpdateRideState extends ConsumerState<UpdateRide> {
         String destination =
             authController.destinationAddressController.text.trim();
         List<GeoPoint> route = [];
-        // route = await ApiServices().getIntermediateCities(source, destination);
+        route = await ApiServices().getIntermediateCities(source, destination);
 
         await FirebaseFirestore.instance
             .collection("published-rides")

@@ -2,10 +2,12 @@ class UserAuthModel {
   final String? id;
   final String role;
   final String email;
+  final String sId;
   final bool isCompleted;
 
-  const UserAuthModel({
+  const UserAuthModel( {
     this.id,
+    required this.sId,
     required this.role,
     required this.email,
     this.isCompleted = false,
@@ -16,6 +18,7 @@ class UserAuthModel {
       "Email": email,
       "role": role,
       "isCompleted": isCompleted,
+      "SId": sId,
     };
   }
 
@@ -25,6 +28,7 @@ class UserAuthModel {
       role: map['role'] ?? '',
       email: map['Email'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
+      sId: map['SId'] ?? '',
     );
   }
 }

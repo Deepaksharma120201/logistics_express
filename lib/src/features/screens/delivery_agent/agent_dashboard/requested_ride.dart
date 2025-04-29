@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logistics_express/src/custom_widgets/custom_dialog.dart';
 import 'package:logistics_express/src/custom_widgets/custom_loader.dart';
 import 'package:logistics_express/src/features/screens/delivery_agent/agent_dashboard/agent_dashboard_screen.dart';
+import 'package:logistics_express/src/services/notification/notify.dart';
 import 'package:logistics_express/src/utils/firebase_exceptions.dart';
 import 'package:logistics_express/src/utils/theme.dart';
 
@@ -71,6 +72,21 @@ class _RequestedRideState extends State<RequestedRide> {
         await docRef.update({'IsPending': false, 'UpiId': userDoc['UPI']});
       }
 
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('user_auth')
+          .doc(widget.delivery['uId'])
+          .get();
+
+      if (docSnapshot.exists) {
+        final userDoc2 = docSnapshot.data()!;
+        final sId = userDoc2['SId'];
+        sendNotification(
+          sId,
+          '${userDoc["Name"]} accepted your delivery request',
+          'Delivery Accepted',
+        );
+      }
+
       if (mounted) {
         showSuccessSnackBar(context, "Delivery accepted successfully!");
         Navigator.push(
@@ -81,6 +97,7 @@ class _RequestedRideState extends State<RequestedRide> {
         );
       }
     } catch (error) {
+      debugPrint(error.toString());
       if (mounted) {
         showErrorSnackBar(context, error.toString());
       }

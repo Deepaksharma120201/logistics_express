@@ -79,7 +79,8 @@ class _MakeRequestState extends ConsumerState<MakeRequest> {
           weight: authController.weightController.text.trim(),
           volume: authController.volumeController.text.trim(),
           itemType: _selectedType!,
-          amount: '',
+          amount: '', 
+          uId: user.uid,
         );
 
         double estimatedAmount = await estimatePrice(ref);

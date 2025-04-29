@@ -3,7 +3,6 @@ import 'package:uuid/uuid.dart';
 
 class PublishRideModel {
   final String id;
-  final String agentId;
   final String name;
   final String phoneNo;
   final String startDate;
@@ -13,10 +12,11 @@ class PublishRideModel {
   final String destination;
   final List<GeoPoint>? route;
   final String? startTime;
+  final String uId;
 
   PublishRideModel({
     String? id,
-    required this.agentId,
+    required this.uId,
     required this.name,
     required this.phoneNo,
     required this.startDate,
@@ -31,7 +31,6 @@ class PublishRideModel {
   Map<String, dynamic> toMap() {
     return {
       "id": id,
-      "AgentId": agentId,
       "Name": name,
       "Phone": phoneNo,
       "StartDate": startDate,
@@ -41,14 +40,15 @@ class PublishRideModel {
       "Destination": destination,
       "Route": route,
       "StartTime": startTime,
+      'uId': uId,
     };
   }
 
   // Create an instance from a Firestore document
   factory PublishRideModel.fromMap(Map<String, dynamic> map) {
     return PublishRideModel(
+      uId: map['uId'] ?? '',
       id: map['id'],
-      agentId: map['AgentId'],
       name: map['Name'] ?? '',
       phoneNo: map['Phone'] ?? '',
       startDate: map['StartDate'] ?? '',

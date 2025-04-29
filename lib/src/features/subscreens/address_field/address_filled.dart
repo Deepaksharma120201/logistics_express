@@ -117,8 +117,8 @@ class AddressTextField extends StatelessWidget {
             child: TextFormField(
               validator: (val) => Validators.commonValidator(val!),
               controller: controller,
-              readOnly: false, //do change here when required only write false
-              onTap: () {}, //do change here when required only write onTap
+              readOnly: true, //do change here when required only write false
+              onTap: onTap, //do change here when required only write onTap
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: const TextStyle(color: Colors.grey),
