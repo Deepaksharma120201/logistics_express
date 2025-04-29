@@ -34,6 +34,7 @@ class _LiveLocationState extends State<LiveLocation> {
     super.dispose();
   }
 
+
   Future<void> _startTracking() async {
     try {
       // 1. Ensure location services are enabled
