@@ -9,12 +9,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  OneSignal.initialize("ba8e538d-d5ec-4ef8-b5b1-b840d2949122");
+  String appId = dotenv.env['ONESIGNAL_APP_ID']!;
+  OneSignal.initialize(appId);
   OneSignal.Notifications.requestPermission(false);
 
-  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
 
   runApp(
@@ -30,7 +31,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      navigatorObservers: [ClearControllerObserver(ref)],
+      // navigatorObservers: [ClearControllerObserver(ref)],
       debugShowCheckedModeBanner: false,
       theme: theme,
       home: SplashScreen(),
@@ -38,19 +39,19 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-class ClearControllerObserver extends NavigatorObserver {
-  final WidgetRef ref;
-  ClearControllerObserver(this.ref);
+// class ClearControllerObserver extends NavigatorObserver {
+//   final WidgetRef ref;
+//   ClearControllerObserver(this.ref);
 
-  @override
-  void didPop(Route route, Route? previousRoute) {
-    super.didPop(route, previousRoute);
+//   @override
+//   void didPop(Route route, Route? previousRoute) {
+//     super.didPop(route, previousRoute);
 
-    if (ref.read(datePickerStateProvider) || ref.read(dropdownStateProvider)) {
-      return;
-    }
+//     if (ref.read(datePickerStateProvider) || ref.read(dropdownStateProvider)) {
+//       return;
+//     }
 
-    final authController = ref.read(authControllerProvider);
-    authController.clearAll();
-  }
-}
+//     final authController = ref.read(authControllerProvider);
+//     authController.clearAll();
+//   }
+// }

@@ -46,9 +46,22 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
     setState(() => _isLoading = true);
     User? user = FirebaseAuth.instance.currentUser;
     try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('customers')
+          .doc(user!.uid)
+          .get();
+
+      String name = '', phone = '';
+      if (userDoc.exists) {
+        name = userDoc['Name'] ?? '';
+        phone = userDoc['Phone'] ?? '';
+      }
+
       RequestedDeliveryModel delivery = RequestedDeliveryModel(
         agentName: widget.ride['Name'],
         agentPhoneNo: widget.ride['Phone'],
+        name: name,
+        phoneNo: phone,
         source: widget.source,
         destination: widget.destination,
         startDate: widget.ride['StartDate'],
@@ -58,39 +71,15 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         itemType: _selectedType!,
         vehicleType: widget.ride['VehicleType'],
         amount: amount.toString(),
-        uId: user!.uid,
+        uId: user.uid,
       );
       final userServices = UserServices();
       await userServices.specificRequestedDelivery(delivery);
-
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('customers')
-          .doc(user.uid)
-          .get();
 
       final docSnapshot = await FirebaseFirestore.instance
           .collection('user_auth')
           .doc(widget.ride['uId'])
           .get();
-
-      if (docSnapshot.exists) {
-        final userData = docSnapshot.data();
-        final sId = userData?['SId'];
-
-        if (sId != null) {
-          sendNotification(
-            sId,
-            'sent you a delivery request',
-            'New Request',
-          );
-        }
-      }
-
-      String name = '', phone = '';
-      if (userDoc.exists) {
-        name = userDoc['Name'] ?? '';
-        phone = userDoc['Phone'] ?? '';
-      }
 
       SpecificRideModel newRide = SpecificRideModel(
         id: delivery.id,
@@ -107,7 +96,20 @@ class _RideInformationSRState extends ConsumerState<RideInformationSR> {
         uId: user.uid,
       );
 
-      await userServices.publishSpecificRide(newRide, widget.ride["AgentId"]);
+      await userServices.publishSpecificRide(newRide, widget.ride["uId"]);
+
+      if (docSnapshot.exists) {
+        final userData = docSnapshot.data();
+        final sId = userData?['SId'];
+
+        if (sId != null) {
+          sendNotification(
+            sId,
+            '$name sent you a delivery request',
+            'New Request',
+          );
+        }
+      }
 
       if (mounted) {
         showSuccessSnackBar(context, "Request sent successfully!");

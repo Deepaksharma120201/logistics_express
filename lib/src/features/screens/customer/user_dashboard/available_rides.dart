@@ -117,7 +117,6 @@ class _AvailableRidesState extends State<AvailableRides> {
   // Check if two locations are within maxDistance (in km)
   bool isWithinDistance(double lat1, double lng1, double lat2, double lng2,
       double maxDistanceKm) {
-    return true; //Remove when needed
     double distance = Geolocator.distanceBetween(lat1, lng1, lat2, lng2) / 1000;
     return distance <= maxDistanceKm;
   }
@@ -160,7 +159,7 @@ class _AvailableRidesState extends State<AvailableRides> {
             child: isLoading
                 ? const Center(
                     child: CustomLoader(),
-                  ) // ✅ Correct
+                  )
                 : availableRides.isNotEmpty
                     ? ListView.builder(
                         itemCount: availableRides.length,
